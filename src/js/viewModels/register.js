@@ -369,7 +369,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'appUtils', 'ojs/oj
                     }   
                     
                     $.ajax({
-                        //url: 'http://169.197.183.168:8050/jpStaffEmailExist',
+                        //url: 'http://169.197.183.168:8090/jpStaffEmailExist',
                         url: '/jpStaffEmailExist',
                         method: 'POST',
                         data: JSON.stringify({ email: self.email() }),
@@ -472,7 +472,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'appUtils', 'ojs/oj
                             let loaderPopup = document.getElementById("loader");
                             loaderPopup.open();
                             $.ajax({
-                                //url: "http://169.197.183.168:8050/jpStaffAdd",
+                                //url: "http://169.197.183.168:8090/jpStaffAdd",
                                 url: "/jpStaffAdd",
                                 type: 'POST',
                                 data: JSON.stringify({

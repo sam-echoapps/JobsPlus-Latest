@@ -37,7 +37,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
 
                 const getProfile = ()=>{
                     $.ajax({                   
-                    //url: "http://169.197.183.168:8050/jpEditStaffDetails",
+                    //url: "http://169.197.183.168:8090/jpEditStaffDetails",
                     url: "/jpEditStaffDetails",
                         type: 'POST',
                         data: JSON.stringify({
@@ -52,7 +52,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
 
                 const getReferenceStatus = ()=>{
                     $.ajax({
-                        //url:"http://169.197.183.168:8050/getRefererStatus",
+                        //url:"http://169.197.183.168:8090/getRefererStatus",
                         url:"/getRefererStatus",
                         type: 'POST',
                         data: JSON.stringify({
@@ -118,7 +118,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                         let loaderPopup = document.getElementById("loader");
                         loaderPopup.open();
                         $.ajax({
-                            //url: "http://169.197.183.168:8050/ReferenceVerification",
+                            //url: "http://169.197.183.168:8090/ReferenceVerification",
                             url: "/ReferenceVerification",
                             type: 'POST',
                             data: JSON.stringify({

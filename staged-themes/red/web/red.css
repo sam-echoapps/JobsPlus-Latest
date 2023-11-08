@@ -14339,7 +14339,7 @@ html[dir="rtl"] .oj-inputtext.oj-focus .oj-inputtext-clearicon-conditional .oj-i
 .oj-inputpassword-nocomp {
   box-sizing: border-box;
   padding: 0 5px;
-  padding-bottom: calc(1px - 1px + 0px); }
+  padding-bottom: calc(1px - 1px + 0px); }
 
 .oj-inputtext-nocomp,
 .oj-inputpassword-nocomp {
@@ -14482,7 +14482,7 @@ oj-input-number:not(.oj-complete) {
   -webkit-tap-highlight-color: transparent;
   border-width: 0px;
   padding: 0 5px;
-  padding-bottom: calc(1px - 1px + 0px); }
+  padding-bottom: calc(1px - 1px + 0px); }
   html[dir="rtl"] .oj-inputnumber-input {
     text-align: right; }
   .oj-inputnumber-input:-ms-input-placeholder {
@@ -15687,7 +15687,7 @@ oj-combobox:not(.oj-complete) {
   background-color: #fcfcfd;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
-  padding-bottom: calc(1px - 1px + 0px);
+  padding-bottom: calc(1px - 1px + 0px);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -16212,7 +16212,7 @@ oj-searchselect:not(.oj-complete) {
   background-color: #fcfcfd;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
-  padding-bottom: calc(1px - 1px + 0px); }
+  padding-bottom: calc(1px - 1px + 0px); }
   @media screen and (max-width: 767.9px) {
     .oj-searchselect-input {
       -webkit-text-size-adjust: 115%; } }
@@ -17120,7 +17120,7 @@ oj-input-search:not(.oj-complete) {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
   height: 2.28571rem;
-  padding-bottom: calc(1px - 1px + 0px);
+  padding-bottom: calc(1px - 1px + 0px);
   width: 100%;
   outline: 0;
   overflow: hidden;

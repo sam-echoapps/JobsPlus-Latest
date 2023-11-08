@@ -571,7 +571,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
                         starRate : self.starRate(),
                         ratingNote : self.rating_note(),
                         loggedUser : sessionStorage.getItem("userName"),
-                        action_by : 'QuickHCM360 Team'
+                        action_by : 'JobsPlus Team'
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -640,7 +640,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
                         postedShiftId : sessionStorage.getItem("postedShiftId"),
                         clientId : sessionStorage.getItem("clientId"),
                         file_path : filePath,
-                        action_by : 'QuickHCM360 Team'
+                        action_by : 'JobsPlus Team'
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -918,7 +918,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
            docprint.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"');
            docprint.document.write('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
            docprint.document.write('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">');
-           docprint.document.write('<head><title>QuickHCM360</title>');
+           docprint.document.write('<head><title>JobsPlus</title>');
            docprint.document.write('<style type="text/css">body{ margin:50px;');
            docprint.document.write('font-family:verdana,Arial;color:#000;');
            docprint.document.write('font-family:Verdana, Geneva, sans-serif; font-size:12px;}');

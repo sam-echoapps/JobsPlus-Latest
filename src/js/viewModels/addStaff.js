@@ -1895,7 +1895,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 return false;
             } 
             $.ajax({
-                //url: 'http://169.197.183.168:8050/jpStaffEmailExist',
+                //url: 'http://169.197.183.168:8090/jpStaffEmailExist',
                  url: '/jpStaffEmailExist',
                 method: 'POST',
                 data: JSON.stringify({ email: inputText }),
