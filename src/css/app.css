@@ -10,7 +10,7 @@
 }
 
 .demo-icon-1place{
-  content: url("images/company.png");
+  content: url("images/jobsplus.png");
   width: 83px;
   height: 49px;
   padding: 1%;
@@ -1657,7 +1657,7 @@ max-width: 20rem;
     background-color: transparent;
   }
   .logo-print{
-    content: url("images/company.png");
+    content: url("images/jobsplus.png");
     display: block;
     margin: 0 auto;
     padding-right: 20px; 
