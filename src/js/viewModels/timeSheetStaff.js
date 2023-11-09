@@ -913,7 +913,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             return `${hours}h ${minutes}m`;
           } else if (minutes === 0) {
             // If minutes are zero, return only the hours
-            return `${hours}h`;
+            return `${hours}h ${minutes}m`;
           } else {
             // If both hours and minutes are nonzero, return both
             return `${hours}h ${minutes}m`;

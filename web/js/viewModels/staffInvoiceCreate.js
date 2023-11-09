@@ -59,6 +59,19 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.invoiceDate = ko.observable(); 
             self.dueDate = ko.observable(); 
             self.invoiceId = ko.observable(); 
+            self.choiceList = ko.observableArray([]);
+            self.choiceList.push(
+                {'value' : 'Addition', 'label' : 'Addition'},
+                {'value' : 'Deduction', 'label' : 'Deduction'},
+            );
+            self.choiceListDP = new ArrayDataProvider(self.choiceList, {keyAttributes: 'value'});
+            self.adjustTime = ko.observable();  
+            self.adjustTimeFormatted = ko.observable();
+            self.adjustmentType = ko.observable();
+            self.hourlyPayRate = ko.observable();
+            self.LastAdjustedTime = ko.observable();
+            self.LastAdjustedTimeFormatted = ko.observable();
+            self.LastAdjustmentedType = ko.observable();
 
 
             self.connected = function () {
@@ -100,6 +113,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     document.getElementById('mainView').style.display='block';
                     document.getElementById('contentView').style.display='block';
                     document.getElementById('invoiceDateSec').style.display='block';
+                    document.getElementById('invoiceAdjustmentSec').style.display='block';
                     console.log(result[0])
                     console.log(result[1])
                     console.log(result[3])
@@ -130,7 +144,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                                 rateString = parts2[0];
                             }
                         }
-                            
+                            self.hourlyPayRate(data[i][24])
                             holidayType=data[i][25]
                             if(holidayType!=null){
                                 if(data[i][26] == "Midnight to Midnight"){
@@ -399,6 +413,12 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                  if (result[4] !== 'null') {
                     var dataInvoice = JSON.parse(result[4]);
                     console.log(dataInvoice)
+                    if(dataInvoice[17]!=null){
+                        const convertedAdjustTime = convertTimeToHoursAndMinutes(dataInvoice[17]);
+                        self.LastAdjustedTime(convertedAdjustTime);
+                    }
+                    self.LastAdjustedTimeFormatted(dataInvoice[17])
+                    self.LastAdjustmentedType(dataInvoice[18])
                     // if (dataInvoice[5] !== '') {
                     //     var types = dataInvoice[5].split(',');
                     //     var rates = dataInvoice[6].split(',');
@@ -534,15 +554,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             function updateDueDate(daysToAdd) {
                 const currentDate = new Date();
                 currentDate.setDate(currentDate.getDate() + daysToAdd);
-                const dueYear = currentDate.getFullYear();
-                const dueMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                const dueDay = currentDate.getDate().toString().padStart(2, '0');
-                if(dueMonth<10){
+                let dueYear = currentDate.getFullYear();
+                let dueMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                let dueDay = currentDate.getDate().toString().padStart(2, '0');
+               /*  if(dueMonth<10){
                     dueMonth = '0'+dueMonth;
                 }       
                 if(dueDay<10){
                     dueDay = '0'+dueDay;
-                }
+                } */
                 self.dueDate(`${dueYear}-${dueMonth}-${dueDay}`);
             }
 
@@ -551,16 +571,16 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
                 endOfMonth.setDate(endOfMonth.getDate() + daysToAdd);
             
-                const dueYear = endOfMonth.getFullYear();
-                const dueMonth = (endOfMonth.getMonth() + 1).toString().padStart(2, '0');
-                const dueDay = endOfMonth.getDate().toString().padStart(2, '0');
+                let dueYear = endOfMonth.getFullYear();
+                let dueMonth = (endOfMonth.getMonth() + 1).toString().padStart(2, '0');
+                let dueDay = endOfMonth.getDate().toString().padStart(2, '0');
             
-                if(dueMonth<10){
+               /*  if(dueMonth<10){
                     dueMonth = '0'+dueMonth;
                 }       
                 if(dueDay<10){
                     dueDay = '0'+dueDay;
-                }
+                } */
 
                 self.dueDate(`${dueYear}-${dueMonth}-${dueDay}`);
             }
@@ -631,6 +651,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         invoiceId : sessionStorage.getItem("invoiceId"),
                         invoice_date : self.invoiceDate(),
                         payment_due_date : self.dueDate(),
+                        adjust_time : self.adjustTimeFormatted(),
+                        adjust_type : self.adjustmentType(),
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -926,6 +948,60 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 self.typeError('The certificate must be a file of type: pdf')
             }
             }
+
+            self.convertToHourFormat1 = ()=>{
+                const inputString1 = convertToTimeFromInput1(self.adjustTime());
+                console.log(inputString1);
+                self.adjustmentType('')
+                self.adjustTimeFormatted(inputString1);
+             }
+
+             function convertToTimeFromInput1(input1) {
+                const match1 = input1.match(/^(\d+)h (\d+)m$/);
+        
+                if (match1) {
+                    const hours1 = parseInt(match1[1], 10);
+                    const minutes1 = parseInt(match1[2], 10);
+        
+                    const formattedHours1 = hours1.toString().padStart(2, '0');
+                    const formattedMinutes1 = minutes1.toString().padStart(2, '0');
+        
+                    return `${formattedHours1}:${formattedMinutes1}`;
+                } else {
+                    return 'Invalid input';
+                }
+               }
+
+               self.invoiceAmountAdjust = ()=>{
+                if(self.adjustTimeFormatted() !=undefined){
+                    const timeDuration = self.adjustTimeFormatted();
+                    const hourlyRate = self.hourlyPayRate()
+                    const [hours, minutes] = timeDuration.split(':').map(Number);
+                    const timeInHours = hours + minutes / 60;
+                    const cost = timeInHours * hourlyRate;
+                    console.log(`The cost for ${timeDuration} at $${hourlyRate} per hour is $${cost.toFixed(2)}`);
+                   if(self.adjustmentType() == 'Addition') {
+                    self.grandTotal((parseFloat(self.grandTotal()) + cost).toFixed(2));
+                   }else if(self.adjustmentType() == 'Deduction') {
+                    self.grandTotal((parseFloat(self.grandTotal()) - cost).toFixed(2));
+                   }     
+                }
+                
+             }
+
+             function convertTimeToHoursAndMinutes(timeString) {
+                const [hours, minutes] = timeString.split(':').map(Number);
+                if (hours === 0) {
+                    // If hours are zero, return only the minutes
+                    return `${hours}h ${minutes}m`;
+                  } else if (minutes === 0) {
+                    // If minutes are zero, return only the hours
+                    return `${hours}h ${minutes}m`;
+                  } else {
+                    // If both hours and minutes are nonzero, return both
+                    return `${hours}h ${minutes}m`;
+                  }
+              }
         }
         
     }

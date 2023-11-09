@@ -6,7 +6,7 @@ module.exports = function (configObj) {
   return new Promise((resolve, reject) => {
     console.log("Running after_build hook.");
     //change the extension of the my-archive.xxx file from .war to .zip as needed
-    const output = fs.createWriteStream("1Place1Cloud.zip");
+    const output = fs.createWriteStream("JobsPlus.zip");
     //leave unchanged, compression is the same for WAR or Zip file
     const archive = archiver("zip");
 
