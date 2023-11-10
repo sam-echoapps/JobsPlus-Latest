@@ -7,7 +7,7 @@
 <div
 class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
 <div
-  class=" oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-3">
+  class=" oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-5">
   <oj-validation-group id="filterSec" role="group" valid="{{groupValid}}"
   aria-labelledby="grouplabelid" disbaled>
   <oj-select-single required label-hint="Select Client Name" 
@@ -16,7 +16,7 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </oj-validation-group>
 </div>
         <div
-          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-7">
+          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-7 oj-sm-3">
           <oj-button id="confirmBtn" style="margin-top:12px;" class="oj-flex-bar-end" chroming='solid' on-oj-action="[[filterPostedShift]]">Search
           </oj-button>
         </div>
@@ -42,9 +42,9 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </div>
 
 <div class="oj-flex">
-    <div class="oj-sm-8">
+    <div class="oj-md-8">
     </div>
-    <div class="oj-sm-4">
+    <div class="oj-md-4">
         <oj-buttonset-one id="setMultipleButtons" value="{{shiftList}}" aria-label="Choose only one format">
           <oj-bind-for-each data="[[formatValues]]">
             <template>

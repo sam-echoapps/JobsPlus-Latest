@@ -117,6 +117,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[0])
                     console.log(result[1])
                     console.log(result[3])
+                    console.log(JSON.parse(result[8]))
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;

@@ -191,6 +191,74 @@
         Last adjustment added <oj-bind-text value="{{LastAdjustedTimeFormatted}}"></oj-bind-text> of work amount.
       </div>
   </div>
+  <oj-list-view id="listviewtwo" aria-label="multicolumn with list item layout" data="[[dataProvider2]]"
+  class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selectorSelectedItems}}">
+  <template slot="itemTemplate" data-oj-as="item">
+    <div
+    class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x oj-lg-padding-2x oj-md-margin-2x oj-md-padding-2x oj-sm-margin-1x oj-sm-padding-1x contentStyle">
+    <li>
+      <oj-list-item-layout>
+      
+        <div class="oj-typography-body-md">
+          <div class="oj-flex">
+
+            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+              <oj-list-item-layout class="oj-listitemlayout-padding-off">
+                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                  <oj-bind-text value="Time Adjusted"></oj-bind-text>
+                </div>
+                <div slot="tertiary" class="oj-typography-body-lg">
+                <div>
+                  <oj-bind-text value="[[item.data.adjustmentTime]]"></oj-bind-text>
+                </div>
+              </div>
+              </oj-list-item-layout>
+            </div>
+
+
+            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+              <oj-list-item-layout class="oj-listitemlayout-padding-off">
+                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                  <oj-bind-text value="Adjustment Type"></oj-bind-text>
+                </div>
+                <div slot="tertiary" class="oj-typography-body-lg">
+                  <div>
+                      <oj-bind-text value="[[item.data.adjustmentType]]"></oj-bind-text>
+                  </div>
+                </div>
+              </oj-list-item-layout>
+            </div>
+
+            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+              <oj-list-item-layout class="oj-listitemlayout-padding-off">
+                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                  <oj-bind-text value="Action"></oj-bind-text>
+                </div>
+                <div slot="tertiary" class="oj-typography-body-lg">
+                  <div>
+                    <oj-button
+                    chroming="borderless"
+                    display="icons"
+                    class="oj-button-sm deleteBtn"
+                    on-oj-action="[[deleteAdditionalAmount]]">
+                    <span slot="startIcon"></span>
+                    Delete
+                  </oj-button>                 
+                 </div>
+                </div>
+              </oj-list-item-layout>
+            </div>
+
+
+        </div>
+        
+          </div>
+      
+      </oj-list-item-layout>
+    </li>
+  </div>
+  </template>
+</oj-list-view>
     <oj-validation-group id="adjustmentSec" role="group" valid="{{groupValid}}"
         aria-labelledby="grouplabelid" disbaled>
     <div class="row" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">

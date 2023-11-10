@@ -65,7 +65,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 sessionStorage.setItem("invoiceId", data.data.id);
                 sessionStorage.setItem("startDate", data.data.start_date);
                 sessionStorage.setItem("endDate", data.data.end_date);
-                self.router.go({path:'viewPaidInvoice'})
+                self.router.go({path:'clientViewPaidInvoice'})
             }
 
             self.ConfirmDeleteInvoice = function (event,data) {

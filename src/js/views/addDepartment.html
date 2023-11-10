@@ -14,7 +14,9 @@
               <span slot="startIcon" class="demo-icon-sprite"> Add New Department</span>
             </oj-button>
           </div>
-          <div class="oj-sm-8" style="margin-left:150px;">
+          <div class="oj-flex">
+            <div class="oj-md-2"></div>
+          <div class="oj-md-8">
             <oj-list-view id="listviewtwo" aria-label="multicolumn with list item layout" data="[[dataProvider1]]"
            class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selectorSelectedItems}}">
            <template slot="itemTemplate" data-oj-as="item">
@@ -72,6 +74,7 @@
              </li>
            </div>
          </div>
+        </div>
            </template>
          </oj-list-view>
     </div> 

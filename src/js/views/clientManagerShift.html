@@ -28,32 +28,30 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </div> -->
 
 <div class="oj-panel oj-xl-margin-4x">
-  <div
-class="oj-flex">
-<div
-  class="oj-sm-5">
-  <div class="">
-    <div class="hint-div" style="margin: 10px;padding: 10px;">
-        <div style="font-size:large;color:rgb(11, 111, 165)">
-            <b>Client Name : <oj-bind-text value="[[clientNameCap]]"></oj-bind-text></b>
+  <div class="oj-flex">
+    <div class="oj-md-5 oj-sm-9">
+        <div class="hint-div" style="margin: 10px; padding: 10px;">
+            <div style="font-size: large; color: rgb(11, 111, 165)">
+                <b>Client Name: <oj-bind-text value="[[clientNameCap]]"></oj-bind-text></b>
+            </div>
+        </div>
+    </div>
+
+    <div class="oj-md-5">
+        <!-- Additional content for the second oj-md-5 column if needed -->
+    </div>
+
+    <div class="oj-md-1 oj-sm-3">
+        <oj-button id="confirmBtn" style="margin-top: 12px;" class="oj-flex-bar-end" chroming="callToAction" on-oj-action="[[postNewShift]]">
+            Post Shift
+        </oj-button>
     </div>
 </div>
-</div>
-</div>
 
-        <div
-          class="oj-sm-5">
-        </div>
-        <div
-        class="oj-sm-1">
-        <oj-button id="confirmBtn" style="margin-top:12px;" class="oj-flex-bar-end" chroming='callToAction' on-oj-action="[[postNewShift]]">Post Shift
-        </oj-button>
-      </div>
-</div>
 <div class="oj-flex">
-  <div class="oj-sm-7">
+  <div class="oj-md-7 oj-sm-12">
   </div>
-  <div class="oj-sm-4">
+  <div class="oj-md-4 oj-sm-12">
       <oj-buttonset-one id="setMultipleButtons" value="{{shiftList}}" aria-label="Choose only one format">
         <oj-bind-for-each data="[[formatValues]]">
           <template>

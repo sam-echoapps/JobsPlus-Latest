@@ -1666,17 +1666,7 @@ max-width: 20rem;
   }
 
   @page{size:auto; margin:5mm;}
-  
 
-  @media only screen and (max-width: 768px) {
-     /* For mobile phones: */
-  [class*="buttonset-align"] {
-    width: 25%;
-  }
-  [class*="table-align"] {
-    width: 100%;
-  }
-   } 
 
    .demo-icon-draft:before {
     font-family: "Font Awesome 6 Free";
@@ -1713,4 +1703,39 @@ content: "\f019";
 font-weight: 950;
 color:white;
 }
+
+.inner-side-panel {
+  width: 250px;
+  background-color: #e9ecef;
+  height: 100vh;
+  color: gray;
+  padding: 20px;
+}
+
+.action-align{
+  padding-left: 200px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+[class*="buttonset-align"] {
+ width: 25%;
+}
+[class*="table-align"] {
+ width: 100%;
+}
+.oj-flex-pwa {
+  flex-direction: column; /* Change to a top-down layout */
+}
+
+.inner-side-panel {
+  width: auto; 
+  height: auto;
+}
+
+.action-align{
+  padding-left: 0px;
+}
+} 
 
