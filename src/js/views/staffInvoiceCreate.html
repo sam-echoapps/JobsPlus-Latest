@@ -232,6 +232,19 @@
             <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
               <oj-list-item-layout class="oj-listitemlayout-padding-off">
                 <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                  <oj-bind-text value="Updated At"></oj-bind-text>
+                </div>
+                <div slot="tertiary" class="oj-typography-body-lg">
+                <div>
+                  <oj-bind-text value="[[item.data.createdAt]]"></oj-bind-text>
+                </div>
+              </div>
+              </oj-list-item-layout>
+            </div>
+
+            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+              <oj-list-item-layout class="oj-listitemlayout-padding-off">
+                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
                   <oj-bind-text value="Action"></oj-bind-text>
                 </div>
                 <div slot="tertiary" class="oj-typography-body-lg">

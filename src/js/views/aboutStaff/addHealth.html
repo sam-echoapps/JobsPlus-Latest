@@ -13,7 +13,7 @@
         <div
         class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
         <div
-          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
           <oj-validation-group id="staffHealthGPName" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <oj-input-text required id="gp_name" label-hint="GP Name" value="{{gp_name}}" clear-icon="always">
@@ -21,14 +21,14 @@
           </oj-validation-group>
         </div>
         <div
-        class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-3">
+        class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
         <oj-validation-group id="staffHealthCountryCode" role="group" valid="{{groupValid}}"
         aria-labelledby="grouplabelid">
         <oj-select-single class="register-input" id="countryCode" label-hint="Country Code" required placeholder="Country Code" data="[[countryCodes]]" value="{{countryCode}}"></oj-select-single>
         </oj-validation-group>
       </div>
       <div
-          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
           <oj-validation-group id="staffHealthContact" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <oj-input-text required length.max="10" id="contactNumber" label-hint="Contact Number" value="{{contactNumber}}" clear-icon="always" on-value-changed="[[onlyNumberContact]]">
@@ -43,7 +43,7 @@
         </div>
           <oj-bind-if test="[[staffActionBtn() === 'Add']]">
           <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             <oj-validation-group id="staffHealthAddress1" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid">
             <input type="text" id="line_1" class="form-control" placeholder='Address line 1' spellcheck='false' aria-label='Address line 1' value="">
@@ -52,7 +52,7 @@
             </oj-validation-group>
           </div>
           <div
-          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-3">
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
           <oj-validation-group id="staffHealthAddress2" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <input type="text" id="line_2" class="form-control" placeholder='Address line 2' spellcheck='false' aria-label='Address line 1' value="">
@@ -60,7 +60,7 @@
         </oj-validation-group>
         </div>
         <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             
             <input type="text" id="line_3" class="form-control" placeholder='Address line 3' spellcheck='false' aria-label='Address line 1' value="">
   
@@ -68,7 +68,7 @@
           </div>
       
           <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             <oj-validation-group id="staffHealthTown" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid">
             <input type="text" class="form-control" id="post_town" placeholder='Post town' spellcheck='false' aria-label='Address line 1' value="">
@@ -76,7 +76,7 @@
             </oj-validation-group>
           </div>
           <div
-          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-3">
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
           <oj-validation-group id="staffHealthPostcode" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <input type="text" id="postcode" class="form-control" placeholder='Postcode' spellcheck='false' aria-label='Address line 1' value="">
@@ -86,7 +86,7 @@
         </oj-bind-if>
         <oj-bind-if test="[[staffActionBtn() === 'Update']]">
           <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             <oj-validation-group id="staffHealthAddress1" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid">
             <oj-input-text required id="addressLine1" label-hint="Address Line One" value="{{addressLine1}}" clear-icon="always">
@@ -94,7 +94,7 @@
             </oj-validation-group>
           </div>
           <div
-          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-3">
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
           <oj-validation-group id="staffHealthAddress2" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <oj-input-text required id="addressLine2" label-hint="Address Line Two" value="{{addressLine2}}" clear-icon="always">
@@ -102,14 +102,14 @@
         </oj-validation-group>
         </div>
         <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             
             <oj-input-text id="town" label-hint="Address Line Three(Optional)" value="{{addressLine3}}" clear-icon="always">
             </oj-input-text>
   
           </div>
           <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-4">
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             <oj-validation-group id="staffHealthTown" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid">
             <oj-input-text required id="town" label-hint="Post Town" value="{{town}}" clear-icon="always">
@@ -117,7 +117,7 @@
             </oj-validation-group>
           </div>
           <div
-          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-3">
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
           <oj-validation-group id="staffHealthPostcode" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <oj-input-text required id="postcode" label-hint="Postcode" value="{{postcode}}" clear-icon="always">

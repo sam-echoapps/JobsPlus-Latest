@@ -72,6 +72,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.LastAdjustedTime = ko.observable();
             self.LastAdjustedTimeFormatted = ko.observable();
             self.LastAdjustmentedType = ko.observable();
+            self.invoiceAdjustmentEntry = ko.observableArray([]);
+
 
 
             self.connected = function () {
@@ -117,7 +119,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[0])
                     console.log(result[1])
                     console.log(result[3])
-                    console.log(JSON.parse(result[8]))
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;
@@ -466,6 +467,54 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.grandTotal(grandTotal.toFixed(2))
                 }
 
+                if (result[8] !== 'null') {
+                    data = JSON.parse(result[8])
+                    console.log(data)
+                    for (var i = 0; i < data.length; i++) {
+                    var utcDateString = data[i][4] + " UTC";
+                    var utcDateObject = new Date(utcDateString);
+                    var localYear = utcDateObject.getFullYear();
+                    var localMonth = utcDateObject.getMonth() + 1; // Note: Month is zero-based, so we add 1
+                    var localDay = utcDateObject.getDate();
+                    var localHours = utcDateObject.getHours();
+                    var localMinutes = utcDateObject.getMinutes();
+                    var localSeconds = utcDateObject.getSeconds();
+                    var formattedLocalDate = localYear + '-' + (localMonth < 10 ? '0' : '') + localMonth + '-' + (localDay < 10 ? '0' : '') + localDay +
+                        ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
+                    console.log(formattedLocalDate);
+
+                    //self.invoiceAdjustmentEntry.push({'id': data[i][0],'invoice_id': data[i][1], 'adjustmentTime': data[i][2], 'adjustmentType': data[i][3], 'createdAt': formattedLocalDate});
+                    
+                    // var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
+                    // var extraList = [
+                    //     { extraType: result[5][i][2], extraRate:  result[5][i][3] },
+                    //   ];
+                    
+                    //   extraList.forEach(function (item) {
+                    //     var newRow = table.insertRow(table.rows.length);
+                    //     var cell1 = newRow.insertCell(0);
+                    //     var cell2 = newRow.insertCell(1);
+                    
+                    //     cell1.innerHTML = item.extraType;
+                    //     cell2.innerHTML = item.extraRate;
+                
+                    //     cell1.innerHTML = item.extraType;
+                    //     cell1.style.border = "1px solid #000";
+                    //     cell1.style.padding = "8px";
+
+                    //     cell2.innerHTML = item.extraRate;
+                    //     cell2.style.border = "1px solid #000";
+                    //     cell2.style.padding = "8px";
+
+                    //   });
+
+                    }
+                
+                }else{
+                    self.grandTotal(grandTotal.toFixed(2))
+                }
+
+
                 const CurrentDate = new Date(); 
                 let currentYear= CurrentDate.getFullYear(); 
                 let currentMonth= CurrentDate.getMonth()+1; 
@@ -784,6 +833,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             }
 
             self.dataProvider1 = new ArrayDataProvider(this.invoiceAdditionalAmount, { keyAttributes: "id"});
+            self.dataProvider2 = new ArrayDataProvider(this.invoiceAdjustmentEntry, { keyAttributes: "id"});
 
             self.deleteAdditionalAmount = function (event,data) {
                 var typeVal;
