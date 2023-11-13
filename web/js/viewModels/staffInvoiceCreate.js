@@ -69,10 +69,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.adjustTimeFormatted = ko.observable();
             self.adjustmentType = ko.observable();
             self.hourlyPayRate = ko.observable();
-            self.LastAdjustedTime = ko.observable();
-            self.LastAdjustedTimeFormatted = ko.observable();
-            self.LastAdjustmentedType = ko.observable();
             self.invoiceAdjustmentEntry = ko.observableArray([]);
+            self.adjustAmount = ko.observable();
+            self.downloadTitle = ko.observable(); 
 
 
 
@@ -415,12 +414,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                  if (result[4] !== 'null') {
                     var dataInvoice = JSON.parse(result[4]);
                     console.log(dataInvoice)
-                    if(dataInvoice[17]!=null){
-                        const convertedAdjustTime = convertTimeToHoursAndMinutes(dataInvoice[17]);
-                        self.LastAdjustedTime(convertedAdjustTime);
-                    }
-                    self.LastAdjustedTimeFormatted(dataInvoice[17])
-                    self.LastAdjustmentedType(dataInvoice[18])
                     // if (dataInvoice[5] !== '') {
                     //     var types = dataInvoice[5].split(',');
                     //     var rates = dataInvoice[6].split(',');
@@ -436,7 +429,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.grandTotal(grandTotal.toFixed(2))
                 }
                 if (result[5] !== 'null') {
+                    //var nilRowAdded1 = false;
                     for (var i = 0; i < result[5].length; i++) {
+                        if(result[5][i][2] !='Nil'){
                         self.invoiceAdditionalAmount.push({'id': result[5][i][0],'type': result[5][i][2], 'additionalRate': result[5][i][3]});
                         var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
                         var extraList = [
@@ -460,6 +455,24 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             cell2.style.padding = "8px";
 
                           });
+                        }
+                    //     else if(!nilRowAdded1){
+                    //         var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
+                    //             var newRow = table.insertRow(table.rows.length);
+                    //             var cell1 = newRow.insertCell(0);
+                    //             var cell2 = newRow.insertCell(1);
+                    //             var cell3 = newRow.insertCell(2);
+    
+                    //             cell1.innerHTML = 'Nil';
+                    //             cell1.style.border = "1px solid #000";
+                    //             cell1.style.padding = "8px";
+        
+                    //             cell2.innerHTML = 'Nil';
+                    //             cell2.style.border = "1px solid #000";
+                    //             cell2.style.padding = "8px";
+        
+                    //             nilRowAdded1 = true;
+                    // }
 
                     }
                 
@@ -470,8 +483,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 if (result[8] !== 'null') {
                     data = JSON.parse(result[8])
                     console.log(data)
+                    //var nilRowAdded = false;
                     for (var i = 0; i < data.length; i++) {
-                    var utcDateString = data[i][4] + " UTC";
+                    if(data[i][3] !='Nil'){
+                    var utcDateString = data[i][5] + " UTC";
                     var utcDateObject = new Date(utcDateString);
                     var localYear = utcDateObject.getFullYear();
                     var localMonth = utcDateObject.getMonth() + 1; // Note: Month is zero-based, so we add 1
@@ -483,31 +498,58 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
                     console.log(formattedLocalDate);
 
-                    //self.invoiceAdjustmentEntry.push({'id': data[i][0],'invoice_id': data[i][1], 'adjustmentTime': data[i][2], 'adjustmentType': data[i][3], 'createdAt': formattedLocalDate});
+                    self.invoiceAdjustmentEntry.push({'id': data[i][0],'invoice_id': data[i][1], 'adjustmentTime': data[i][2], 'adjustmentType': data[i][3], 'adjustmentAmount': data[i][4], 'createdAt': formattedLocalDate});
                     
-                    // var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
-                    // var extraList = [
-                    //     { extraType: result[5][i][2], extraRate:  result[5][i][3] },
-                    //   ];
+                    var table = document.getElementById("adjustmentTable").getElementsByTagName('tbody')[0];
+                    var adjustList = [
+                        { adjustTime: data[i][2], adjustType:  data[i][3], adjustAmount:  data[i][4] },
+                      ];
                     
-                    //   extraList.forEach(function (item) {
-                    //     var newRow = table.insertRow(table.rows.length);
-                    //     var cell1 = newRow.insertCell(0);
-                    //     var cell2 = newRow.insertCell(1);
-                    
-                    //     cell1.innerHTML = item.extraType;
-                    //     cell2.innerHTML = item.extraRate;
-                
-                    //     cell1.innerHTML = item.extraType;
-                    //     cell1.style.border = "1px solid #000";
-                    //     cell1.style.padding = "8px";
+                      adjustList.forEach(function (item) {
+                        var newRow = table.insertRow(table.rows.length);
+                        var cell1 = newRow.insertCell(0);
+                        var cell2 = newRow.insertCell(1);
+                        var cell3 = newRow.insertCell(2);
 
-                    //     cell2.innerHTML = item.extraRate;
-                    //     cell2.style.border = "1px solid #000";
-                    //     cell2.style.padding = "8px";
+                        cell1.innerHTML = item.adjustTime;
+                        cell2.innerHTML = item.adjustType;
+                        cell3.innerHTML = item.adjustAmount;
 
-                    //   });
+                        cell1.innerHTML = item.adjustTime;
+                        cell1.style.border = "1px solid #000";
+                        cell1.style.padding = "8px";
 
+                        cell2.innerHTML = item.adjustType;
+                        cell2.style.border = "1px solid #000";
+                        cell2.style.padding = "8px";
+
+                        cell3.innerHTML = item.adjustAmount;
+                        cell3.style.border = "1px solid #000";
+                        cell3.style.padding = "8px";
+
+                      });
+
+                    }
+                //     else if(!nilRowAdded){
+                //         var table = document.getElementById("adjustmentTable").getElementsByTagName('tbody')[0];
+                //             var newRow = table.insertRow(table.rows.length);
+                //             var cell1 = newRow.insertCell(0);
+                //             var cell2 = newRow.insertCell(1);
+                //             var cell3 = newRow.insertCell(2);
+
+                //             cell1.innerHTML = 'Nil';
+                //             cell1.style.border = "1px solid #000";
+                //             cell1.style.padding = "8px";
+    
+                //             cell2.innerHTML = 'Nil';
+                //             cell2.style.border = "1px solid #000";
+                //             cell2.style.padding = "8px";
+    
+                //             cell3.innerHTML = 'Nil';
+                //             cell3.style.border = "1px solid #000";
+                //             cell3.style.padding = "8px";
+                //             nilRowAdded = true;
+                // }
                     }
                 
                 }else{
@@ -529,6 +571,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 const formattedID = currentYear.toString()+currentMonth.toString()+currentDay.toString(); 
                 console.log(formattedID); 
                 self.invoiceId("INV #INV"+formattedID+ (result[7]+1))
+                self.downloadTitle("Invoice-"+formattedID+(result[7]+1))
                 self.invoiceDate(currentYear+'-'+currentMonth+'-'+currentDay)
                 if(result[6] !== 'null'){
                         if (result[6][0][0] === '7') {
@@ -681,6 +724,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 if(self.amountAdditional() == undefined){
                     self.amountAdditional(0)
                 }
+                if(self.adjustmentType() == undefined){
+                    self.adjustmentType('Nil')
+                }
+                if(self.adjustAmount() == undefined){
+                    self.adjustAmount(0)
+                }
+                if(self.adjustTimeFormatted() == undefined){
+                    self.adjustTimeFormatted('00:00')
+                }
                 self.grandTotal((Number(self.grandTotal())+Number(self.amountAdditional())).toFixed(2))
                 document.querySelector('#openConfirmSaveDraft').close();  
                 document.querySelector('#openInvoiceSaveProgress').close();              
@@ -703,6 +755,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         payment_due_date : self.dueDate(),
                         adjust_time : self.adjustTimeFormatted(),
                         adjust_type : self.adjustmentType(),
+                        adjust_amount : self.adjustAmount()
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -777,7 +830,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
                         console.log(data)
                         document.querySelector('#openInvoiceSaveProgress').close();
-                        sessionStorage.removeItem("invoiceId")      
+                        sessionStorage.removeItem("invoiceId")   
+                        document.title = self.downloadTitle()      
                         var printContents = document.getElementById('invoice').innerHTML;
                         document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
                         window.print(); 
@@ -921,6 +975,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
         self.downloadInvoice = function (event,data) {
             //document.title = "Print page title";
+            document.title = self.downloadTitle()   
             var printContents = document.getElementById('invoice').innerHTML;
             document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
             window.print(); 
@@ -1030,6 +1085,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     const [hours, minutes] = timeDuration.split(':').map(Number);
                     const timeInHours = hours + minutes / 60;
                     const cost = timeInHours * hourlyRate;
+                    self.adjustAmount(cost)
                     console.log(`The cost for ${timeDuration} at $${hourlyRate} per hour is $${cost.toFixed(2)}`);
                    if(self.adjustmentType() == 'Addition') {
                     self.grandTotal((parseFloat(self.grandTotal()) + cost).toFixed(2));
@@ -1053,6 +1109,49 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     return `${hours}h ${minutes}m`;
                   }
               }
+
+              self.deleteAdjustAmount = function (event,data) {
+                // var typeVal;
+                // var rateVal;
+                // if (self.invoiceAdditionalAmount().length == 1) {
+                //     typeVal = data.data.type;
+                //     rateVal = data.data.additionalRate;
+                // } else if (self.invoiceAdditionalAmount().length > 1) {
+                //     typeVal = data.data.type + ',';
+                //     rateVal = data.data.additionalRate +',';
+                    
+                //     // Check if the current element is not the last one
+                //     if (self.invoiceAdditionalAmount().length - 1) {
+                //         typeVal = data.data.type;
+                //         rateVal = data.data.additionalRate;
+                //     }
+                // }
+                document.querySelector('#openDeleteProgress').close();
+                     $.ajax({
+                        url: BaseURL + "/jpDeleteAdjustmentAmount",
+                        type: 'POST',
+                        data: JSON.stringify({
+                           rowId : data.data.id,
+                           invoiceId : sessionStorage.getItem("invoiceId"),
+                           adjustAmount : data.data.adjustmentAmount,
+                        }),
+                        dataType: 'json',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            if(textStatus == 'timeout' || textStatus == 'error'){
+                                document.querySelector('#TimeoutSup').open();
+                            }
+                        },
+                        success: function (data) {
+                            document.querySelector('#openDeleteProgress').close();
+                            console.log(data)
+                            location.reload();
+                    }
+                    })          
+               
+            }
+
         }
         
     }
