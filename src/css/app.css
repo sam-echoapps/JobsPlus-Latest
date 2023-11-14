@@ -1716,6 +1716,15 @@ color:white;
   padding-left: 200px;
 }
 
+.align-invoice-btn{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.right-align {
+  text-align: right;
+}
 
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
@@ -1737,5 +1746,13 @@ color:white;
 .action-align{
   padding-left: 0px;
 }
-} 
+
+.align-invoice-btn {
+  display: flex;
+  flex-direction: column !important; /* Stack items vertically on small screens */
+  justify-content: flex-start !important; /* Align items to the start (left) */
+  align-items: flex-start !important; /* Align items to the start (left) */
+}
+
+}
 

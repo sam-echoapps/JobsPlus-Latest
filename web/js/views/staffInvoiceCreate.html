@@ -7,7 +7,7 @@
   <div
   class="oj-flex">
   <div
-    class="oj-sm-5">
+    class="oj-md-5 oj-sm-12">
     <div class="">
       <div class="hint-div" style="margin: 10px;padding: 10px;">
           <div style="font-size:large;color:rgb(11, 111, 165)">
@@ -204,6 +204,19 @@
                 </div>
                 <div slot="tertiary" class="oj-typography-body-lg">
                 <div>
+                  <oj-bind-text value="[[item.data.adjustmentReason]]"></oj-bind-text>
+                </div>
+              </div>
+              </oj-list-item-layout>
+            </div>
+
+            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+              <oj-list-item-layout class="oj-listitemlayout-padding-off">
+                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                  <oj-bind-text value="Time Adjusted"></oj-bind-text>
+                </div>
+                <div slot="tertiary" class="oj-typography-body-lg">
+                <div>
                   <oj-bind-text value="[[item.data.adjustmentTime]]"></oj-bind-text>
                 </div>
               </div>
@@ -283,16 +296,21 @@
     <oj-validation-group id="adjustmentSec" role="group" valid="{{groupValid}}"
         aria-labelledby="grouplabelid" disbaled>
     <div class="row" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
-      <div class="col-md-4">
-        <oj-input-text required id="adjustTime" value="{{adjustTime}}" label-hint="Adjustment Time[h=hours m=minutes eg:0h 30m]" on-value-changed="[[convertToHourFormat1]]"></oj-input-text></br></br>
+      <div class="col-md-2">
+        <oj-input-text id="adjustmentReason" value="{{adjustmentReason}}" label-hint="Adjustment Reason(Please specify)"></oj-input-text></br></br>  
       </div>
       <div class="col-md-1"></div>
-      <div class="col-md-2">
-        <oj-input-text required id="adjustTimeFormatted" value="{{adjustTimeFormatted}}" label-hint="Adjustment Time" disabled></oj-input-text></br></br>  
+      <div class="col-md-4">
+        <oj-input-text id="adjustTime" value="{{adjustTime}}" label-hint="Adjustment Time[h=hours m=minutes eg:0h 30m]" on-value-changed="[[convertToHourFormat1]]"></oj-input-text>
+        <div class="oj-text-color-danger"><oj-bind-text value='[[timeError]]'></oj-bind-text></div></br>
+      </br></br>
       </div>
+     <!--  <div class="col-md-2">
+        <oj-input-text required id="adjustTimeFormatted" value="{{adjustTimeFormatted}}" label-hint="Adjustment Time" disabled></oj-input-text></br></br>  
+      </div> -->
       <div class="col-md-1"></div>
       <div class="col-md-3">
-        <oj-select-single required id="adjustment" label-hint="Select the type of adjustment"
+        <oj-select-single id="adjustment" label-hint="Select the type of adjustment"
         label-edge="inside" data="[[choiceListDP]]" value="{{adjustmentType}}" on-value-changed="[[invoiceAmountAdjust]]">
         </oj-select-single>    
       </div>
@@ -325,7 +343,7 @@
         </div>
       <div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #d1ecf1;display: flex;align-items: baseline;">
         <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp;
-        <p>If you have any additional amount to be added to this invoice, please specify the details down below. Make sure to click on Save, once you enter the details. </p>
+        <p>If you have any additional amount to be added to this invoice, please specify the details down below. Make sure to click on Save Changes, once you enter the details. </p>
       </div>  </br>  
       
       <oj-list-view id="listviewtwo" aria-label="multicolumn with list item layout" data="[[dataProvider1]]"
@@ -405,18 +423,13 @@
          &nbsp; &nbsp; Additional Amount(Optional)
         </div>
         <div class="col-md-3"></br>
-          <oj-input-text required id="note" label-hint="Please specify" value="{{additionalNote}}" clear-icon="always">
+          <oj-input-text id="note" label-hint="Please specify" value="{{additionalNote}}" clear-icon="always">
           </oj-input-text>
         </div>
       <div class="col-md-2"></br>
-        <oj-input-number required id="amount" value="{{amountAdditional}}" min=1 label-hint="Amount to add(£)">
+        <oj-input-number id="amount" value="{{amountAdditional}}" min=0 label-hint="Amount to add(£)">
         </oj-input-number>
       </div> 
-      <div  class="oj-sm-2">
-      </br></br>
-      <oj-button id="confirmBtn"  chroming='callToAction' on-oj-action="[[invoiceSave]]"> Save
-      </oj-button>
-    </div>
   </div>
   </div>
 </oj-validation-group>           
@@ -431,7 +444,7 @@
      &nbsp; &nbsp; Comment(Optional)
     </div>
     <div class="col-md-3">
-      <oj-input-text required id="comments" label-hint="Please specify" value="{{comments}}" clear-icon="always">
+      <oj-input-text id="comments" label-hint="Please specify" value="{{comments}}" clear-icon="always">
       </oj-input-text>
     </div>
 </div>
@@ -442,20 +455,28 @@
   </h3>
 </div>
 
+<div class="oj-panel" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
+  <div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #d1ecf1;display: flex;align-items: baseline;">
+    <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp;
+    <p>Make sure to click on Save Changes, once you enter the details. </p>
+  </div>  </br>  
+  <div class="right-align">
+    <oj-button id="confirmBtn" chroming='callToAction' on-oj-action="[[invoiceSave]]"> Save Changes
+    </oj-button>
+  </div>
+</div>
+</div>
 
-    <div class="oj-flex oj-panel">
-      <div  class="oj-sm-2"></div>
-      <oj-button id="draftBtn" class="oj-xl-margin-4x" style="background-color:orange;" on-oj-action="[[confirmSaveDraft]]"><span style="color:white" slot="startIcon" class="demo-icon-draft"> Save as Draft & Download</span>
+<div id="invoice-status-btn" style="display:none;">
+    <div class="oj-flex oj-panel align-invoice-btn">
+      <oj-button id="draftBtn" class="oj-xl-margin-4x mb-3" style="background-color:orange;" on-oj-action="[[confirmSaveDraft]]"><span style="color:white" slot="startIcon" class="demo-icon-draft"> Save as Draft & Download</span>
       </oj-button>
-      <div  class="oj-sm-2"></div>
-           <oj-button id="pendingBtn" class="oj-xl-margin-4x" chroming='callToAction' on-oj-action="[[confirmPublish]]"><span style="color:white" slot="startIcon" class="demo-icon-publish"> Publish Invoice</span>
+           <oj-button id="pendingBtn" class="oj-xl-margin-4x mb-3" chroming='callToAction' on-oj-action="[[confirmPublish]]"><span style="color:white" slot="startIcon" class="demo-icon-publish"> Publish Invoice</span>
           </oj-button>
-          <div  class="oj-sm-2"></div>
-          <oj-button  id="downloadBtn" style="background-color:#5470ff;" class="oj-xl-margin-4x" on-oj-action="[[downloadInvoice]]"><span style="color:white" slot="startIcon" class="demo-icon-download">Download Invoice</span>
+          <oj-button  id="downloadBtn" style="background-color:#5470ff;" class="oj-xl-margin-4x mb-3" on-oj-action="[[downloadInvoice]]"><span style="color:white" slot="startIcon" class="demo-icon-download">Download Invoice</span>
           </oj-button>
         </div>
-        </div>
-
+      </div>
 
 
 

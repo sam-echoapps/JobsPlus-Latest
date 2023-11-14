@@ -72,6 +72,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.invoiceAdjustmentEntry = ko.observableArray([]);
             self.adjustAmount = ko.observable();
             self.downloadTitle = ko.observable(); 
+            self.adjustmentReason = ko.observable(); 
+            self.timeError = ko.observable(''); 
 
 
 
@@ -90,6 +92,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     document.getElementById('successView').style.display='block';
                     document.getElementById('loaderView').style.display='none';
                 }else{
+                document.getElementById('invoice-status-btn').style.display='none';
                 document.getElementById('loaderView').style.display='block';
                 self.TimesheetDet([]);
                 $.ajax({
@@ -115,6 +118,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     document.getElementById('contentView').style.display='block';
                     document.getElementById('invoiceDateSec').style.display='block';
                     document.getElementById('invoiceAdjustmentSec').style.display='block';
+                    if(sessionStorage.getItem("invoiceId") == null){
+                        document.getElementById('invoice-status-btn').style.display='none';
+                    }else{
+                        document.getElementById('invoice-status-btn').style.display='block';
+                    }
                     console.log(result[0])
                     console.log(result[1])
                     console.log(result[3])
@@ -425,13 +433,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     // }
                 
                     self.grandTotal(dataInvoice[7])
+                    self.comments(dataInvoice[12])
                 }else{
                     self.grandTotal(grandTotal.toFixed(2))
                 }
                 if (result[5] !== 'null') {
                     //var nilRowAdded1 = false;
                     for (var i = 0; i < result[5].length; i++) {
-                        if(result[5][i][2] !='Nil'){
+                        if(result[5][i][3] != 0){
                         self.invoiceAdditionalAmount.push({'id': result[5][i][0],'type': result[5][i][2], 'additionalRate': result[5][i][3]});
                         var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
                         var extraList = [
@@ -498,7 +507,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
                     console.log(formattedLocalDate);
 
-                    self.invoiceAdjustmentEntry.push({'id': data[i][0],'invoice_id': data[i][1], 'adjustmentTime': data[i][2], 'adjustmentType': data[i][3], 'adjustmentAmount': data[i][4], 'createdAt': formattedLocalDate});
+                    self.invoiceAdjustmentEntry.push({'id': data[i][0],'invoice_id': data[i][1], 'adjustmentTime': data[i][2], 'adjustmentType': data[i][3], 'adjustmentAmount': data[i][4], 'createdAt': formattedLocalDate, 'adjustmentReason': data[i][6]});
                     
                     var table = document.getElementById("adjustmentTable").getElementsByTagName('tbody')[0];
                     var adjustList = [
@@ -733,7 +742,16 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 if(self.adjustTimeFormatted() == undefined){
                     self.adjustTimeFormatted('00:00')
                 }
-                self.grandTotal((Number(self.grandTotal())+Number(self.amountAdditional())).toFixed(2))
+                if(self.adjustmentReason() == undefined){
+                    self.adjustmentReason('Nil')
+                }
+                if(self.adjustmentType() == 'Addition') {
+                    self.grandTotal((Number(self.grandTotal())+Number(self.amountAdditional())+Number(self.adjustAmount())).toFixed(2))
+                }else if(self.adjustmentType() == 'Deduction') {
+                    self.grandTotal((Number(self.grandTotal())+Number(self.amountAdditional())-Number(self.adjustAmount())).toFixed(2))
+                }else if(self.adjustmentType() == 'Nil') {
+                    self.grandTotal((Number(self.grandTotal())+Number(self.amountAdditional())).toFixed(2))
+                }     
                 document.querySelector('#openConfirmSaveDraft').close();  
                 document.querySelector('#openInvoiceSaveProgress').close();              
                 console.log(self.timesheetIdList())
@@ -755,7 +773,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         payment_due_date : self.dueDate(),
                         adjust_time : self.adjustTimeFormatted(),
                         adjust_type : self.adjustmentType(),
-                        adjust_amount : self.adjustAmount()
+                        adjust_amount : self.adjustAmount(),
+                        adjustment_reason : self.adjustmentReason(),
+                        comments : self.comments()
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -1071,9 +1091,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
         
                     const formattedHours1 = hours1.toString().padStart(2, '0');
                     const formattedMinutes1 = minutes1.toString().padStart(2, '0');
-        
+                    self.timeError('')
                     return `${formattedHours1}:${formattedMinutes1}`;
                 } else {
+                    self.timeError('Format mismatch!')
                     return 'Invalid input';
                 }
                }
@@ -1087,11 +1108,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     const cost = timeInHours * hourlyRate;
                     self.adjustAmount(cost)
                     console.log(`The cost for ${timeDuration} at $${hourlyRate} per hour is $${cost.toFixed(2)}`);
-                   if(self.adjustmentType() == 'Addition') {
-                    self.grandTotal((parseFloat(self.grandTotal()) + cost).toFixed(2));
-                   }else if(self.adjustmentType() == 'Deduction') {
-                    self.grandTotal((parseFloat(self.grandTotal()) - cost).toFixed(2));
-                   }     
+                //    if(self.adjustmentType() == 'Addition') {
+                //     self.grandTotal((parseFloat(self.grandTotal()) + cost).toFixed(2));
+                //    }else if(self.adjustmentType() == 'Deduction') {
+                //     self.grandTotal((parseFloat(self.grandTotal()) - cost).toFixed(2));
+                //    }     
                 }
                 
              }
@@ -1133,6 +1154,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         data: JSON.stringify({
                            rowId : data.data.id,
                            invoiceId : sessionStorage.getItem("invoiceId"),
+                           adjustType : data.data.adjustmentType,
                            adjustAmount : data.data.adjustmentAmount,
                         }),
                         dataType: 'json',
