@@ -50,7 +50,18 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         console.log(data)
                         self.clientNameCap(result[1][0][0].toUpperCase())
                         for (var i = 0; i < data.length; i++) {
-                            self.DraftInvoiceDet.push({'id': data[i][0],'serial_number': "INV"+(8000+data[i][0]),'start_date': data[i][1], 'end_date': data[i][2], 'grand_total': data[i][3]});
+                            var utcDateString = data[i][6] + " UTC";
+                            var utcDateObject = new Date(utcDateString);
+                            var localYear = utcDateObject.getFullYear();
+                            var localMonth = utcDateObject.getMonth() + 1; // Note: Month is zero-based, so we add 1
+                            var localDay = utcDateObject.getDate();
+                            var localHours = utcDateObject.getHours();
+                            var localMinutes = utcDateObject.getMinutes();
+                            var localSeconds = utcDateObject.getSeconds();
+                            var formattedLocalDate = localYear + '-' + (localMonth < 10 ? '0' : '') + localMonth + '-' + (localDay < 10 ? '0' : '') + localDay +
+                                ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
+                            console.log(formattedLocalDate);
+                            self.DraftInvoiceDet.push({'id': data[i][0],'serial_number': "INV"+(8000+data[i][0]),'start_date': data[i][1], 'end_date': data[i][2], 'grand_total': data[i][3], 'invoice_date': data[i][4], 'payment_due_date': data[i][5], 'updated_at': formattedLocalDate });
                     }
                     }
                 })

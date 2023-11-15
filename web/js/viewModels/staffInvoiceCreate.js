@@ -434,6 +434,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 
                     self.grandTotal(dataInvoice[7])
                     self.comments(dataInvoice[12])
+                    self.invoiceDate(dataInvoice[14])
+                    self.dueDate(dataInvoice[15])
                 }else{
                     self.grandTotal(grandTotal.toFixed(2))
                 }
@@ -511,7 +513,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     
                     var table = document.getElementById("adjustmentTable").getElementsByTagName('tbody')[0];
                     var adjustList = [
-                        { adjustTime: data[i][2], adjustType:  data[i][3], adjustAmount:  data[i][4] },
+                        { adjustTime: data[i][2], adjustType:  data[i][3], adjustAmount:  data[i][4], adjustmentReason:  data[i][6] },
                       ];
                     
                       adjustList.forEach(function (item) {
@@ -519,22 +521,28 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         var cell1 = newRow.insertCell(0);
                         var cell2 = newRow.insertCell(1);
                         var cell3 = newRow.insertCell(2);
+                        var cell4 = newRow.insertCell(3);
 
-                        cell1.innerHTML = item.adjustTime;
-                        cell2.innerHTML = item.adjustType;
-                        cell3.innerHTML = item.adjustAmount;
+                        cell1.innerHTML = item.adjustmentReason;
+                        cell2.innerHTML = item.adjustTime;
+                        cell3.innerHTML = item.adjustType;
+                        cell4.innerHTML = item.adjustAmount;
 
-                        cell1.innerHTML = item.adjustTime;
+                        cell1.innerHTML = item.adjustmentReason;
                         cell1.style.border = "1px solid #000";
                         cell1.style.padding = "8px";
 
-                        cell2.innerHTML = item.adjustType;
+                        cell2.innerHTML = item.adjustTime;
                         cell2.style.border = "1px solid #000";
                         cell2.style.padding = "8px";
 
-                        cell3.innerHTML = item.adjustAmount;
+                        cell3.innerHTML = item.adjustType;
                         cell3.style.border = "1px solid #000";
                         cell3.style.padding = "8px";
+
+                        cell4.innerHTML = item.adjustAmount;
+                        cell4.style.border = "1px solid #000";
+                        cell4.style.padding = "8px";
 
                       });
 
@@ -565,7 +573,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.grandTotal(grandTotal.toFixed(2))
                 }
 
-
+               
                 const CurrentDate = new Date(); 
                 let currentYear= CurrentDate.getFullYear(); 
                 let currentMonth= CurrentDate.getMonth()+1; 
@@ -581,6 +589,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 console.log(formattedID); 
                 self.invoiceId("INV #INV"+formattedID+ (result[7]+1))
                 self.downloadTitle("Invoice-"+formattedID+(result[7]+1))
+                if(result[4] == 'null'){
                 self.invoiceDate(currentYear+'-'+currentMonth+'-'+currentDay)
                 if(result[6] !== 'null'){
                         if (result[6][0][0] === '7') {
@@ -644,6 +653,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             calculateDueDate(60);
                         }
                 }
+            }
                  self.TimesheetDet.valueHasMutated();
                  return self; 
                 }
@@ -727,6 +737,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             }
 
             self.invoiceSave = function (event,data) {
+                if(self.timeError() == ''){
                 if(self.additionalNote() == undefined || self.additionalNote() == ''){
                     self.additionalNote('Nil')
                 }
@@ -795,6 +806,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         location.reload();
                     }
                 })
+            }
                 
                
             }
@@ -1093,6 +1105,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     const formattedMinutes1 = minutes1.toString().padStart(2, '0');
                     self.timeError('')
                     return `${formattedHours1}:${formattedMinutes1}`;
+                }else if(self.adjustTime() == ''){
+                    self.timeError('')
                 } else {
                     self.timeError('Format mismatch!')
                     return 'Invalid input';

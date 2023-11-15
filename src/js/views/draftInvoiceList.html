@@ -46,7 +46,7 @@ class="oj-flex">
               </oj-list-item-layout>
             </div>
 
-            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+            <!-- <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
               <oj-list-item-layout class="oj-listitemlayout-padding-off">
                 <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
                   <oj-bind-text value="Invoice Start Date"></oj-bind-text>
@@ -71,7 +71,48 @@ class="oj-flex">
                 </div>
               </oj-list-item-layout>
             </div>
+ -->
 
+          <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+            <oj-list-item-layout class="oj-listitemlayout-padding-off">
+              <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                <oj-bind-text value="Invoice Create Date"></oj-bind-text>
+              </div>
+              <div slot="tertiary" class="oj-typography-body-lg">
+              <div>
+                <oj-bind-text value="[[item.data.invoice_date]]"></oj-bind-text>
+              </div>
+            </div>
+            </oj-list-item-layout>
+          </div>
+
+          <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+            <oj-list-item-layout class="oj-listitemlayout-padding-off">
+              <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                <oj-bind-text value="Payment Due Date"></oj-bind-text>
+              </div>
+              <div slot="tertiary" class="oj-typography-body-lg">
+                <div>
+                    <oj-bind-text value="[[item.data.payment_due_date]]"></oj-bind-text>
+                </div>
+              </div>
+            </oj-list-item-layout>
+          </div>
+
+
+          <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
+            <oj-list-item-layout class="oj-listitemlayout-padding-off">
+              <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+                <oj-bind-text value="Invoice Updated At"></oj-bind-text>
+              </div>
+              <div slot="tertiary" class="oj-typography-body-lg">
+                <div>
+                    <oj-bind-text value="[[item.data.updated_at]]"></oj-bind-text>
+                </div>
+              </div>
+            </oj-list-item-layout>
+          </div>
+          
             <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
               <oj-list-item-layout class="oj-listitemlayout-padding-off">
                 <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
@@ -94,10 +135,10 @@ class="oj-flex">
                   <oj-button
                 chroming="borderless"
                 display="icons"
-                class="oj-button-sm viewBtn"
+                class="oj-button-sm editBtn"
                 on-oj-action="[[viewDraftInvoice]]">
                 <span slot="startIcon"></span>
-                View Draft Invoice
+                Edit Draft Invoice
               </oj-button> 
               <oj-button
               chroming="borderless"

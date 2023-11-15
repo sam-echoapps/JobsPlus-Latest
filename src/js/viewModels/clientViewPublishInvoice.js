@@ -59,6 +59,20 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.invoiceId = ko.observable(); 
             self.client_pay_status = ko.observable(); 
             self.downloadTitle = ko.observable(); 
+            self.choiceList = ko.observableArray([]);
+            self.choiceList.push(
+                {'value' : 'Addition', 'label' : 'Addition'},
+                {'value' : 'Deduction', 'label' : 'Deduction'},
+            );
+            self.choiceListDP = new ArrayDataProvider(self.choiceList, {keyAttributes: 'value'});
+            self.adjustTime = ko.observable();  
+            self.adjustTimeFormatted = ko.observable();
+            self.adjustmentType = ko.observable();
+            self.hourlyPayRate = ko.observable();
+            self.invoiceAdjustmentEntry = ko.observableArray([]);
+            self.adjustAmount = ko.observable();
+            self.adjustmentReason = ko.observable(); 
+            self.timeError = ko.observable(''); 
 
 
             self.connected = function () {
@@ -96,6 +110,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     document.getElementById('mainView').style.display='block';
                     document.getElementById('contentView').style.display='block';
                     document.getElementById('invoiceDateSec').style.display='block';
+                    document.getElementById('invoiceAdjustmentSec').style.display='block';
                     console.log(result[0])
                     console.log(result[1])
                     console.log(result[3])
@@ -422,7 +437,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.grandTotal(grandTotal.toFixed(2))
                 }
                 if (result[5] !== 'null') {
+                    //var nilRowAdded1 = false;
                     for (var i = 0; i < result[5].length; i++) {
+                        if(result[5][i][3] != 0){
                         self.invoiceAdditionalAmount.push({'id': result[5][i][0],'type': result[5][i][2], 'additionalRate': result[5][i][3]});
                         var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
                         var extraList = [
@@ -446,6 +463,107 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             cell2.style.padding = "8px";
 
                           });
+                        }
+                    //     else if(!nilRowAdded1){
+                    //         var table = document.getElementById("extraTable").getElementsByTagName('tbody')[0];
+                    //             var newRow = table.insertRow(table.rows.length);
+                    //             var cell1 = newRow.insertCell(0);
+                    //             var cell2 = newRow.insertCell(1);
+                    //             var cell3 = newRow.insertCell(2);
+    
+                    //             cell1.innerHTML = 'Nil';
+                    //             cell1.style.border = "1px solid #000";
+                    //             cell1.style.padding = "8px";
+        
+                    //             cell2.innerHTML = 'Nil';
+                    //             cell2.style.border = "1px solid #000";
+                    //             cell2.style.padding = "8px";
+        
+                    //             nilRowAdded1 = true;
+                    // }
+
+                    }
+                }else{
+                    self.grandTotal(grandTotal.toFixed(2))
+                }
+
+
+                if (result[6] !== 'null') {
+                    data = JSON.parse(result[6])
+                    console.log(data)
+                    //var nilRowAdded = false;
+                    for (var i = 0; i < data.length; i++) {
+                    if(data[i][3] !='Nil'){
+                    var utcDateString = data[i][5] + " UTC";
+                    var utcDateObject = new Date(utcDateString);
+                    var localYear = utcDateObject.getFullYear();
+                    var localMonth = utcDateObject.getMonth() + 1; // Note: Month is zero-based, so we add 1
+                    var localDay = utcDateObject.getDate();
+                    var localHours = utcDateObject.getHours();
+                    var localMinutes = utcDateObject.getMinutes();
+                    var localSeconds = utcDateObject.getSeconds();
+                    var formattedLocalDate = localYear + '-' + (localMonth < 10 ? '0' : '') + localMonth + '-' + (localDay < 10 ? '0' : '') + localDay +
+                        ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
+                    console.log(formattedLocalDate);
+
+                    self.invoiceAdjustmentEntry.push({'id': data[i][0],'invoice_id': data[i][1], 'adjustmentTime': data[i][2], 'adjustmentType': data[i][3], 'adjustmentAmount': data[i][4], 'createdAt': formattedLocalDate, 'adjustmentReason': data[i][6]});
+                    
+                    var table = document.getElementById("adjustmentTable").getElementsByTagName('tbody')[0];
+                    var adjustList = [
+                        { adjustTime: data[i][2], adjustType:  data[i][3], adjustAmount:  data[i][4], adjustmentReason:  data[i][6] },
+                      ];
+                    
+                      adjustList.forEach(function (item) {
+                        var newRow = table.insertRow(table.rows.length);
+                        var cell1 = newRow.insertCell(0);
+                        var cell2 = newRow.insertCell(1);
+                        var cell3 = newRow.insertCell(2);
+                        var cell4 = newRow.insertCell(3);
+
+                        cell1.innerHTML = item.adjustmentReason;
+                        cell2.innerHTML = item.adjustTime;
+                        cell3.innerHTML = item.adjustType;
+                        cell4.innerHTML = item.adjustAmount;
+
+                        cell1.innerHTML = item.adjustmentReason;
+                        cell1.style.border = "1px solid #000";
+                        cell1.style.padding = "8px";
+
+                        cell2.innerHTML = item.adjustTime;
+                        cell2.style.border = "1px solid #000";
+                        cell2.style.padding = "8px";
+
+                        cell3.innerHTML = item.adjustType;
+                        cell3.style.border = "1px solid #000";
+                        cell3.style.padding = "8px";
+
+                        cell4.innerHTML = item.adjustAmount;
+                        cell4.style.border = "1px solid #000";
+                        cell4.style.padding = "8px";
+
+                      });
+
+                    }
+                //     else if(!nilRowAdded){
+                //         var table = document.getElementById("adjustmentTable").getElementsByTagName('tbody')[0];
+                //             var newRow = table.insertRow(table.rows.length);
+                //             var cell1 = newRow.insertCell(0);
+                //             var cell2 = newRow.insertCell(1);
+                //             var cell3 = newRow.insertCell(2);
+
+                //             cell1.innerHTML = 'Nil';
+                //             cell1.style.border = "1px solid #000";
+                //             cell1.style.padding = "8px";
+    
+                //             cell2.innerHTML = 'Nil';
+                //             cell2.style.border = "1px solid #000";
+                //             cell2.style.padding = "8px";
+    
+                //             cell3.innerHTML = 'Nil';
+                //             cell3.style.border = "1px solid #000";
+                //             cell3.style.padding = "8px";
+                //             nilRowAdded = true;
+                // }
                     }
                 
                 }else{
@@ -656,6 +774,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             }
 
             self.dataProvider1 = new ArrayDataProvider(this.invoiceAdditionalAmount, { keyAttributes: "id"});
+            self.dataProvider2 = new ArrayDataProvider(this.invoiceAdjustmentEntry, { keyAttributes: "id"});
+
 
             self.deleteAdditionalAmount = function (event,data) {
                 var typeVal;
