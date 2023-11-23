@@ -19,16 +19,16 @@
             <oj-input-date required label-hint="Date Of Birth" autocomplete="off" value="{{date_of_birth}}"></oj-input-date></br>
             <oj-input-text required id="nationality" label-hint="Nationality" value="{{nationality}}" clear-icon="always">
             </oj-input-text></br>
-            <oj-select-single  required id="ni_number_sec" label-hint="Do you have NI Number?" 
-            label-edge="inside" data="[[choiceListDP]]" value="{{ni_number_sec}}"  on-value-changed="[[NISecShow]]">
-            </oj-select-single>
+            <oj-input-text id="nmc_pin" label-hint="NMC Pin(Applicable Only for RGN's)" value="{{nmc_pin}}" length.max="8" clear-icon="always">
+            </oj-input-text></br></br>
           </div>
           <div
             class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
             <oj-select-single required label-hint="Marital Status" label-edge="inside" data="[[maritalStatusDetDP]]" value="{{marital_status}}"> 
             </oj-select-single></br>
-            <oj-input-text id="nmc_pin" label-hint="NMC Pin(Applicable Only for RGN's)" value="{{nmc_pin}}" length.max="8" clear-icon="always">
-            </oj-input-text></br></br>
+            <oj-select-single  required id="ni_number_sec" label-hint="Do you have NI Number?" 
+            label-edge="inside" data="[[choiceListDP]]" value="{{ni_number_sec}}"  on-value-changed="[[NISecShow]]">
+            </oj-select-single>
             <oj-bind-if test="[[have_ni() === true]]">
               <oj-input-text required id="ni_number" label-hint="NI Number" value="{{ni_number}}" length.max="9" clear-icon="always">
               </oj-input-text>
@@ -82,51 +82,51 @@
         <b>Protection Of Children and Vulnerable Adults Declaration</b></br>
       </div>
       <div
-      class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
+      class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-12 oj-sm-12">
       <b>a)</b>Has any Social Service Department or Police Service ever conducted an enquiry or investigation into any allegations or that you may pose an actual or potential risk to children or vulnerable adults?
     </div>
       <div
-          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
           <oj-select-single  required id="service" label-hint="Choose one" 
           label-edge="inside" data="[[choiceListDP]]" value="{{service}}" on-value-changed="[[serviceSecShow]]">
           </oj-select-single>
         </div>
         <div
-          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
         <oj-bind-if test="[[service_note_show() === true]]">
           <oj-input-text required id="service_note" label-hint="Please specify" value="{{service_note}}" clear-icon="always">
           </oj-input-text>
         </oj-bind-if>
         </div>
         <div
-        class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
+        class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-12 oj-sm-12">
         <b>b)</b>Have you ever been convicted of any offence relating to children or vulnerable adults?
       </div>
         <div
-            class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+            class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
             <oj-select-single  required id="offence" label-hint="Choose one" 
             label-edge="inside" data="[[choiceListDP]]" value="{{offence}}" on-value-changed="[[offenceSecShow]]">
             </oj-select-single>
           </div>
           <div
-            class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+            class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
           <oj-bind-if test="[[offence_note_show() === true]]">
             <oj-input-text required id="offence_note" label-hint="Please specify" value="{{offence_note}}" clear-icon="always">
             </oj-input-text>
           </oj-bind-if>
           </div>
           <div
-          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
+          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-12 oj-sm-12">
           <b>c)</b>Have you ever been the subject of any disciplinary procedure or been asked to leave employment or voluntary activity due fo inappropriate behavior towards a child or vulnerable adult?
         </div>
           <div
-              class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+              class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
               <oj-select-single  required id="disciplinary" label-hint="Choose one" 
               label-edge="inside" data="[[choiceListDP]]" value="{{disciplinary}}" on-value-changed="[[disciplinarySecShow]]">
               </oj-select-single>
             </div>
             <div
-              class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+              class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
             <oj-bind-if test="[[disciplinary_note_show() === true]]">
               <oj-input-text required id="disciplinary_note" label-hint="Please specify" value="{{disciplinary_note}}" clear-icon="always">
               </oj-input-text>
@@ -143,17 +143,17 @@
       </div>
     </div>
     <div
-    class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
+    class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-12 oj-sm-12">
     <b>a)</b>Have you ever been convicted of a criminal offence, or been subject to any confidential discharge, bind overs or caution.
   </div>
     <div
-        class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+        class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-12">
         <oj-select-single  required id="criminal" label-hint="Choose one" 
         label-edge="inside" data="[[choiceListDP]]" value="{{criminal}}" on-value-changed="[[criminalSecShow]]">
         </oj-select-single>
       </div>
       <div
-        class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-2 oj-sm-12">
+        class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-4 oj-sm-12">
       <oj-bind-if test="[[criminal_note_show() === true]]">
         <oj-input-text required id="criminal_note" label-hint="Please specify" value="{{criminal_note}}" clear-icon="always">
         </oj-input-text>
