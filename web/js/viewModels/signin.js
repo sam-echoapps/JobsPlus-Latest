@@ -68,7 +68,6 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                                     var login = localStorage.getItem('login');
                                     self.SignIn('Y');
                                     if(login == "yes"){
-                                        document.querySelector('#signInProgress').close();
                                         app.onLoginSuccess();
                                     }
                                     else{
