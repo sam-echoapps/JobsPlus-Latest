@@ -66,9 +66,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.breakTime = ko.observable();
             self.workedHours = ko.observable();
             self.paidHours = ko.observable();
-            self.authoriser = ko.observable();
-            self.position = ko.observable();
-            self.signature = ko.observable();
+            self.authoriser = ko.observable('');
+            self.position = ko.observable('');
+            self.signature = ko.observable('');
             self.breakTimeFormatted = ko.observable();
             self.workedHoursFormatted = ko.observable();   
             self.paidHoursFormatted = ko.observable();
@@ -770,8 +770,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
         self.timesheetSave = function (event,data) {
             var validSec1 = self._checkValidationGroup("timesheetSec1");
             var validSec2 = self._checkValidationGroup("timesheetSec2");
-            var validSec3 = self._checkValidationGroup("timesheetSec3");
-            if(validSec1 && validSec2 && validSec3){
+            //var validSec3 = self._checkValidationGroup("timesheetSec3");
+            //if(validSec1 && validSec2 && validSec3){
+            if(validSec1 && validSec2){
             document.querySelector('#openAddStaffTimesheet').close();
             document.querySelector('#openTimesheetSaveProgress').open();
             $.ajax({

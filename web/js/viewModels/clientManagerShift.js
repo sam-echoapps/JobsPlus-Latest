@@ -18,7 +18,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.selectShiftDate = ko.observable();
             self.currentDate = ko.observable(); 
             self.jobRoleList = ko.observableArray([]);  
-            self.selected_job_role = ko.observable();   
+            self.selected_job_role = ko.observable(); 
+            self.selected_shift_type = ko.observable();      
             var BaseURL = sessionStorage.getItem("BaseURL")
             self.selectedShift = ko.observable('');
             self.shiftDet = ko.observableArray([]);  
@@ -282,6 +283,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     }else if(data[0][1].split(':')[0].length==2){
                         self.endTime('T'+data[0][1]+'+05:30')
                     }
+                    self.selected_shift_type(data[0][3])
                     self.selected_job_role(result[1][0])
             }
             }) 
@@ -347,6 +349,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     shiftId : self.selectedShift(),
                     departmentId : self.department_name(),
                     jobRole : self.selected_job_role(),
+                    shiftType : self.selected_shift_type(),
                     shiftDate : self.selectShiftDate(),
                     startTime : startTime,
                     endTime : endTime,
@@ -427,7 +430,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.gender(data[0][9])
                     self.staff_extra_pay(data[0][10])
                     self.client_extra_pay(data[0][11])
-                    self.comments(data[0][12])  
+                    self.comments(data[0][12]) 
+                    self.selected_shift_type(data[0][15])  
             }
             })
             
@@ -460,6 +464,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 shiftId : self.selectedShift(),
                 departmentId : self.department_name(),
                 jobRole : self.selected_job_role(),
+                shiftType : self.selected_shift_type(),
                 shiftDate : self.selectShiftDate(),
                 startTime : startTime,
                 endTime : endTime,
@@ -492,6 +497,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 self.selectedShift('')  
                 self.department_name('')
                 self.selected_job_role('')
+                self.selected_shift_type('')
                 self.selectShiftDate('')
                 self.startTime('')
                 self.endTime('')
