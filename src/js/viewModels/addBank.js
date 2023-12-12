@@ -74,7 +74,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 self.DBErrorOKClose = function (event) {
                     document.querySelector('#openBankSaveResult').close();
                     self.startOpened(false);
-                    self.router.go({path:'addStaff'})
+                    //self.router.go({path:'addBank'})
+                    location.reload()
                 };
                 
              self._checkValidationGroup = (value) => {

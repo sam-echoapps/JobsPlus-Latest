@@ -77,14 +77,13 @@
       </oj-bind-if>
      </div>
     </div>
-    <oj-dialog id="openAddBankProgress" dialog-title="Saving Bank Details" modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddBankProgress" class="popupBank" dialog-title="Saving Bank Details" modality="modeless">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
     </div>
   </oj-dialog>
-  <oj-dialog id="openBankSaveResult" dialog-title="Save Bank Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openBankSaveResult" class="popupBank" dialog-title="Save Bank Details" modality="modeless">
     <div slot="body">
       <oj-bind-text value='[[saveBankMsg]]'></oj-bind-text>
     </div>

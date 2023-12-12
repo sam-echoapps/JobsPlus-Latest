@@ -65,14 +65,13 @@
 
     </div>
     
-    <oj-dialog id="openAddRelativeProgress" dialog-title="Saving Next of Kin Details" modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddRelativeProgress" class="popupRelation" dialog-title="Saving Next of Kin Details" modality="modeless">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
     </div>
   </oj-dialog>
-  <oj-dialog id="openRelativeSaveResult" dialog-title="Save Next of Kin Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openRelativeSaveResult" class="popupRelation" dialog-title="Save Next of Kin Details" modality="modeless">
     <div slot="body">
       <oj-bind-text value='[[saveRelativeMsg]]'></oj-bind-text>
     </div>

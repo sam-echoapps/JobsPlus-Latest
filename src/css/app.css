@@ -1726,6 +1726,21 @@ color:white;
   text-align: right;
 }
 
+.popupBank{
+  display:none;
+  width:350px;
+  min-width:240px;
+  max-width:450px;
+}
+
+.popupRelation{
+  display:none;
+  width:350px;
+  min-width:265px;
+  max-width:450px;
+}
+
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
 [class*="buttonset-align"] {
@@ -1752,6 +1767,20 @@ color:white;
   flex-direction: column !important; /* Stack items vertically on small screens */
   justify-content: flex-start !important; /* Align items to the start (left) */
   align-items: flex-start !important; /* Align items to the start (left) */
+}
+
+.popupBank{
+  display: block;
+  width:100px;
+  top: 380px !important;
+  left: 80px !important;
+}
+
+.popupRelation{
+  display: block;
+  width:100px;
+  top: 380px !important;
+  left: 80px !important;
 }
 
 }

@@ -93,7 +93,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 self.DBErrorOKClose = function (event) {
                     document.querySelector('#openRelativeSaveResult').close();
                     self.startOpened(false);
-                    self.router.go({path:'addStaff'})
+                    // self.router.go({path:'addStaff'})
+                    location.reload()
                 };
                 
              self._checkValidationGroup = (value) => {
