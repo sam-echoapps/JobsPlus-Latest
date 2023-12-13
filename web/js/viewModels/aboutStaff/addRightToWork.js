@@ -97,6 +97,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         },
                         success: function (data) {
                             console.log(data)
+                            document.getElementById('loaderView').style.display='none';
                              var result1 = JSON.parse(data[0]);
                              console.log(result1) 
                              var result2 = JSON.parse(data[1]);

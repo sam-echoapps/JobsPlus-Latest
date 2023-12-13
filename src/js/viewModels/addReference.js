@@ -80,6 +80,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         },
                         success: function (data) {
                             console.log(data)
+                            document.getElementById('loaderView').style.display='none';
                             if(data[0].length > 1){
                                 document.getElementById('showAddBtn').style.display='none';
                             }else{

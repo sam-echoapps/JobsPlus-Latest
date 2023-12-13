@@ -44,6 +44,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 };
 
                 function getEducation() {
+                    document.getElementById('loaderView').style.display='block';
                     self.EducationDet([]);
                     var BaseURL = sessionStorage.getItem("BaseURL")
                     $.ajax({
@@ -62,6 +63,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         },
                         success: function (result) {
                             var data = JSON.parse(result[0]);
+                            document.getElementById('loaderView').style.display='none';
                             console.log(result[1])
                             console.log(data.length)
 

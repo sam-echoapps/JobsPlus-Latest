@@ -60,6 +60,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         },
                         success: function (data) {
                             console.log(data)
+                            document.getElementById('loaderView').style.display='none';
+
  
                         for (var i = 0; i < data[0].length; i++) {
                             if(data[0][i][6]){

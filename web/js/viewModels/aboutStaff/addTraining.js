@@ -102,6 +102,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         },
                         success: function (result) {
                             console.log(result)
+                            document.getElementById('loaderView').style.display='none';
                             var data = JSON.parse(result[0]);
                             console.log(data)
                              if(data.length !=0){

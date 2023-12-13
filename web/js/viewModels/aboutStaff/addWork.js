@@ -60,7 +60,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         },
                         success: function (data) {
                             console.log(data)
- 
+                            document.getElementById('loaderView').style.display='none';
+
                         for (var i = 0; i < data[0].length; i++) {
                             if(data[0][i][6]){
                                 self.WorkDet.push({'id': data[0][i][0], 'staff_id' : data[0][i][1], 'employer_name' : data[0][i][2] , 'business_type' : data[0][i][3] , 'job_title' :data[0][i][4], 'certificate' : data[0][i][6], 'file' : data[1][i] }); 
