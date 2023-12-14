@@ -62,6 +62,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 };
 
                 function getReference() {
+                    document.getElementById('loaderView').style.display='block';
                     self.ReferenceDet([]);
                     var BaseURL = sessionStorage.getItem("BaseURL")
                     $.ajax({
@@ -115,6 +116,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     //alert(self.DepName())
                     var BaseURL = sessionStorage.getItem("BaseURL")
                     if (validReferenceSave1 && validReferenceSave2) {
+                    document.querySelector('#openAddReferenceDialog').close();
                     document.querySelector('#openAddReferenceProgress').open();
                     self.saveReferenceMsg('');
                     $.ajax({
@@ -184,6 +186,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 
                 if(checkFormat == 'pdf' || checkFormat =="doc"){
                 self.progressText('Please wait!Uploading....')
+                document.querySelector('#openFileUpload').close();
                 document.querySelector('#openAddUploadingProgress').open();
                 self.typeError('')
                 const reader = new FileReader();
@@ -267,6 +270,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             var validReferenceSave2 = self._checkValidationGroup("referAddSec2");
             var BaseURL = sessionStorage.getItem("BaseURL")
             if (validReferenceSave1 && validReferenceSave2) {
+                document.querySelector('#openAddReferenceDialog').close();
                 document.querySelector('#openAddReferenceProgress').open();
                 self.saveReferenceMsg('');
                 $.ajax({

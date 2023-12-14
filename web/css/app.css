@@ -1747,6 +1747,33 @@ color:white;
   max-width:450px;
 }
 
+.popupDialog{
+  display:none;
+  width:900px;
+  max-width:900x;
+}
+
+.popupResult{
+  display:none;
+  width:350px;
+  min-width:265px;
+  max-width:450px;
+}
+
+.popupUpload{
+  display:none;
+  width:350px;
+  min-width:265px;
+  max-width:450px;
+}
+
+.popupSend{
+  display:none;
+  width:350px;
+  min-width:265px;
+  max-width:450px;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
 [class*="buttonset-align"] {
@@ -1794,6 +1821,34 @@ color:white;
   width:100px;
   top: 380px !important;
   left: 80px !important;
+}
+
+.popupDialog{
+  display: block;
+  width:350px;
+  top: 350px !important;
+  left: 40px !important;
+}
+
+.popupResult{
+  display: block;
+  width:100px !important;
+  top: 380px !important;
+  left: 80px !important;
+}
+
+.popupUpload{
+  display: block;
+  width:320px!important;
+  top: 380px !important;
+  left: 45px !important;
+}
+
+.popupSend{
+  display: block;
+  width:345px !important;
+  top: 380px !important;
+  left: 35px !important;
 }
 
 }

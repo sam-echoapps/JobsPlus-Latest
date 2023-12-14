@@ -183,13 +183,13 @@
   </oj-list-view>
 </div>
       <oj-dialog id="openAddReferenceDialog" dialog-title="[[DialogTitle]]" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:900px;min-width:900px;max-width:900px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
   <div slot="body">
 
   <div
     class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
     <div
-      class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-6">
+      class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-6 oj-sm-12">
       <oj-validation-group id="referAddSec1" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid" disbaled>
             <oj-input-text required id="refer_name" label-hint="Reference Name" value="{{refer_name}}" clear-icon="always">
@@ -202,7 +202,7 @@
             </oj-validation-group>
     </div>
     <div
-      class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-5 ">
+      class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12 ">
       <oj-validation-group id="referAddSec2" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-input-text required id="refer_address" label-hint="Reference Address" value="{{refer_address}}" clear-icon="always">
@@ -291,14 +291,14 @@
     </div>
     
   <oj-dialog id="openAddReferenceProgress" dialog-title="Saving Reference Details" modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openReferenceSaveResult" dialog-title="[[ResultTitle]]" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openReferenceSaveResult" dialog-title="[[ResultTitle]]" modality="modeless" class="popupResult">
   <div slot="body">
     <oj-bind-text value='[[saveReferenceMsg]]'></oj-bind-text>
   </div>
@@ -309,15 +309,14 @@
   </div>
 </oj-dialog>
 
-<oj-dialog id="openAddUploadingProgress" dialog-title="[[progressText]]" modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openAddUploadingProgress" dialog-title="[[progressText]]" modality="modeless" class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openDeleteConfirm" dialog-title="Delete Reference Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeleteConfirm" dialog-title="Delete Reference Details" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
   </div>
@@ -328,7 +327,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
   </div>
 </oj-dialog>
 
-<oj-dialog id="openSendConfirm" dialog-title="Send Referrer Form" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openSendConfirm" dialog-title="Send Referrer Form" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to send referrer form to the referree?'></oj-bind-text>
   </div>
@@ -339,7 +338,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
   </div>
 </oj-dialog>
 
-<oj-dialog id="openFileUpload" dialog-title="Upload Reference Document" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openFileUpload" dialog-title="Upload Reference Document" modality="modeless"  class="popupUpload" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-file-picker  primary-text="[[referenceFileText]]"
       secondary-text="[[referenceCustomText]]" on-oj-select="[[referenceDocUpload]]">
