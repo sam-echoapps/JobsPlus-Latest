@@ -247,8 +247,7 @@
       </oj-bind-if>
      </div>
     </div>
-    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless" class="popupProgress">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
@@ -266,16 +265,14 @@
     </div>
   </oj-dialog> 
 
-  <oj-dialog id="openAddTrainingProgress" dialog-title="Please wait! Rquest Email Sending..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openAddTrainingProgress" dialog-title="Please wait! Rquest Email Sending..." modality="modeless" class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openFinishTrainingProgress" dialog-title="Please wait! Finishing training session..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openFinishTrainingProgress" dialog-title="Please wait! Finishing training session..." modality="modeless" class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

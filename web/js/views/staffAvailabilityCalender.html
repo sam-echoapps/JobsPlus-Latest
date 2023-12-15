@@ -33,7 +33,7 @@
            <!-- <oj-input-text style="display:none" id="selectdate" value="{{dates}}" clear-icon="always" on-value-changed="[[availableDate]]">
             </oj-input-text> -->
 
-    <oj-dialog id="openAddAvailability" dialog-title="Staff Availability" modality="modeless"  style="display:none;width:550px;min-width:300px;max-width:550px;" cancel-behavior="[[CancelBehaviorOpt]]">
+    <oj-dialog id="openAddAvailability" dialog-title="Staff Availability" modality="modeless" class="popupAvailability" cancel-behavior="[[CancelBehaviorOpt]]">
         <div class="oj-panel">
             <div class="row oj-flex" style="display: flex;justify-content: center;">
               <div class="oj-sm-7">
@@ -72,7 +72,7 @@
             </div>
         </oj-dialog>
 
-        <oj-dialog id="openSaveConfirm" dialog-title="Save Staff Availability" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+        <oj-dialog id="openSaveConfirm" dialog-title="Save Staff Availability" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
           <div slot="body">
             <oj-bind-text value='Would you like to save your changes?'></oj-bind-text>
           </div>
@@ -82,7 +82,7 @@
             </oj-button>
           </div>
         </oj-dialog>
-        <oj-dialog id="openUpdateConfirm" dialog-title="Update Staff Availability" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+        <oj-dialog id="openUpdateConfirm" dialog-title="Update Staff Availability" modality="modeless"   class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
           <div slot="body">
             <oj-bind-text value='Would you like to save your changes?'></oj-bind-text>
           </div>
@@ -92,8 +92,7 @@
             </oj-button>
           </div>
         </oj-dialog>
-        <oj-dialog id="openAddAvailabilityProgress" dialog-title="Saving Availability details" modality="modeless"
-        style="display:none;width:350px;min-width:240px;max-width:450px;">
+        <oj-dialog id="openAddAvailabilityProgress" dialog-title="Saving Availability details" modality="modeless"  class="popupProgress">
         <div slot="body">
           <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
           </oj-progress-bar>
@@ -239,7 +238,7 @@
       </oj-list-view>
     </oj-bind-if>
 
-      <oj-dialog id="openDeleteConfirm" dialog-title="Delete Availble Date" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+      <oj-dialog id="openDeleteConfirm" dialog-title="Delete Availble Date" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
         <div slot="body">
           <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
         </div>
@@ -249,8 +248,7 @@
           </oj-button>
         </div>
       </oj-dialog>
-      <oj-dialog id="openDeleteAvailabilityProgress" dialog-title="Deleteing Availability Details" modality="modeless"
-      style="display:none;width:350px;min-width:240px;max-width:450px;">
+      <oj-dialog id="openDeleteAvailabilityProgress" dialog-title="Deleteing Availability Details" modality="modeless" class="popupProgress">
       <div slot="body">
         <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
         </oj-progress-bar>

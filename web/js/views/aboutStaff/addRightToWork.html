@@ -51,7 +51,7 @@
               </oj-file-picker>
               <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>
         </div>
-        <div class="col-md-4" id="passportPreview" style="display:none"></br></br>
+        <div class="col-md-4 oj-xl-margin-4x oj-sm-margin-4x" id="passportPreview" style="display:none"></br></br>
           <a on-click="[[previewClick]]" target="_blank"><b style="color:rgb(58, 30, 219);">Click here</b></a>
         </div>
       </div>
@@ -65,7 +65,7 @@
               </oj-file-picker>
               <div class="oj-text-color-danger"><oj-bind-text value='[[typeError1]]'></oj-bind-text></div></br>
         </div>
-        <div class="col-md-4" id="BRPPreview" style="display:none"></br></br>
+        <div class="col-md-4 oj-xl-margin-4x oj-sm-margin-4x" id="BRPPreview" style="display:none"></br></br>
           <a on-click="[[previewClickBRP]]" target="_blank"><b style="color:rgb(58, 30, 219);">Click here</b></a>
         </div>
       </div>
@@ -105,8 +105,7 @@
     </div>
   </div>  
 
-    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless" class="popupProgress">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
@@ -135,8 +134,7 @@
     </div>
   </oj-dialog>
 
-  <oj-dialog id="openAddRightToWorkProgress" dialog-title="[[progressDialog]]" modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openAddRightToWorkProgress" dialog-title="[[progressDialog]]" modality="modeless" class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>

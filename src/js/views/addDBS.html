@@ -219,8 +219,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
     </oj-bind-if>
    </div>
   </div>
-    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless" class="popupProgress">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
@@ -249,8 +248,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
     </div>
   </oj-dialog>
 
-  <oj-dialog id="openAddDBSProgress" dialog-title="[[progressDialog]]" modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openAddDBSProgress" dialog-title="[[progressDialog]]" modality="modeless" class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -259,7 +257,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
 
 
 <oj-dialog id="openUpdateDBSDialog" dialog-title="Update DBS Info" modality="modeless" drag-affordance="title-bar"
-cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:900px;min-width:900px;max-width:900px;">
+cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
 <div slot="body">
 
 <div
@@ -307,15 +305,14 @@ cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:900px;min-widt
 </div>
 </oj-dialog>
 
-<oj-dialog id="openAddDBSProgress" dialog-title="[[progressDialog]]" modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openAddDBSProgress" dialog-title="[[progressDialog]]" modality="modeless" class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openDeleteConfirm" dialog-title="Delete DBS Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeleteConfirm" dialog-title="Delete DBS Details" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
   </div>
@@ -326,8 +323,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
   </div>
 </oj-dialog>
 
-<oj-dialog id="openDeleteDBSProgress" dialog-title="Please wait!Deleteing...." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openDeleteDBSProgress" dialog-title="Please wait!Deleteing...." modality="modeless" class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

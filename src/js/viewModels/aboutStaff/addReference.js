@@ -28,7 +28,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     {'value' : 'Colleague', 'label' : 'Colleague'},
                     {'value' : 'Employer', 'label' : 'Employer'},
                     {'value' : 'Manager', 'label' : 'Manager'},
-                    {'value' : 'Professional Person', 'label' : 'Professional Person'}
+                    {'value' : 'Professional Person', 'label' : 'Professional Person'},
+                    {'value' : 'Professor', 'label' : 'Professor'}
                 );
                 self.jobListDP = new ArrayDataProvider(self.jobList, {keyAttributes: 'value'});
                 self.refer_address = ko.observable();

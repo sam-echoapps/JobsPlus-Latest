@@ -175,7 +175,7 @@
         <p>If you have any additional training certificate, please upload below. Expiry dates are optional. If you want to edit any additional training certificate that you have uploaded already, type in the name correctly and upload the file again. </p>
       </div>  </br>     
     <div
-    class="oj-sm-6" id="AdditionalgQuestion">
+    class="oj-md-6 oj-sm-12" id="AdditionalgQuestion">
     <oj-select-single  id="" label-hint="Do you want to upload additional training certificates?" 
     label-edge="inside" data="[[choiceListDP]]" value="{{additionalSec}}" on-value-changed="[[additionalSecShow]]">
     </oj-select-single>
@@ -212,7 +212,7 @@
     <p>If you are missing any of training certificates mentioned above, kindly request training in the below section. Our team will get in touch with you.</p>
   </div> </br>    
 <div
-class="oj-sm-6" id="TrainingQuestion">
+class="oj-md-6 oj-sm-12" id="TrainingQuestion">
 <oj-select-single  id="" label-hint="Do you have all the above mentioned training certificates?" 
 label-edge="inside" data="[[choiceListDP]]" value="{{trainingSec}}" on-value-changed="[[trainingSecShow]]">
 </oj-select-single>
@@ -233,8 +233,7 @@ label-edge="inside" data="[[choiceListDP]]" value="{{trainingSec}}" on-value-cha
 </div>
 </div>
 </div></br>
-    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless" class="popupProgress">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
@@ -251,15 +250,13 @@ label-edge="inside" data="[[choiceListDP]]" value="{{trainingSec}}" on-value-cha
       </oj-button>
     </div>
   </oj-dialog> 
-  <oj-dialog id="openAddTrainingProgress" dialog-title="Please wait! Rquest Email Sending..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openAddTrainingProgress" dialog-title="Please wait! Rquest Email Sending..." modality="modeless" class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
-  <oj-dialog id="openFinishTrainingProgress" dialog-title="Please wait! Finishing training session..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+  <oj-dialog id="openFinishTrainingProgress" dialog-title="Please wait! Finishing training session..." modality="modeless" class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

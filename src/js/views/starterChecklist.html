@@ -371,8 +371,8 @@
                  <a  on-click="[[previewClick]]" target="_blank"><b style="color:red;">Click here to see the uploaded document</b></a>
             </oj-bind-if>
             <oj-bind-if test="[[p45Val() === 'No' ]]">
-                Do you want to Edit Starter Checklist? 
-                <a id="passportLink" on-click="[[editStarter]]"><b style="color:red;">Click here</b></a>
+                <p class="oj-xl-margin-4x oj-sm-margin-4x">Do you want to Edit Starter Checklist?
+                    <a id="passportLink" on-click="[[editStarter]]"><b style="color:red;">Click here</b></a></p> 
             </oj-bind-if>
         </div>
 
@@ -694,7 +694,7 @@
                     </div>
                 </oj-validation-group>
                 <div style="display: flex; justify-content: center;padding-right: 100px;">
-                    <oj-button id="icon_button1" display="icons" style="width: 100px;" on-oj-action="[[formUpdate]]">
+                    <oj-button id="icon_button5" display="icons" style="width: 100px;margin-top: 20px;" on-oj-action="[[formUpdate]]">
                         Update
                     </oj-button>
                 </div>
@@ -720,8 +720,7 @@
     </div>
     </oj-bind-if>
 
-    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless"
-    style="display:none;width:350px;min-width:240px;max-width:450px;">
+    <oj-dialog id="openAddUploadingProgress" dialog-title="Please wait!Uploading...." modality="modeless" class="popupProgress">
     <div slot="body">
       <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
       </oj-progress-bar>
