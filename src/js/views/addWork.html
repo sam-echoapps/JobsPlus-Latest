@@ -9,7 +9,27 @@
         <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp;The candidate is requested to enter work history for the past 5 years or since their qualification date, whichever is sooner.
 &nbsp;
         Any temporary and agency work experience can be included.
-      </div>  
+      </div> 
+      
+      <div
+      class="oj-md-6 oj-sm-12" id="workQuestion">
+      <oj-select-single  id="" label-hint="Do you have work experience?" 
+      label-edge="inside" data="[[choiceListDP]]" value="{{workSec}}" on-value-changed="[[WorkSecShow]]">
+      </oj-select-single>
+    </div>
+
+    <div id="fresher" style="display:none;" class="hint">
+      <br><br>
+      <div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #d1ecf1;display: flex;">
+      If you are a fresher or do not have relevant work experience, kindly indicate 'Fresher' and proceed to the next step<br><br>
+      </div> 
+      <div class="fresherBtn-div" style="display: flex; justify-content: center;">
+        <oj-button id="fresherBtn" class="" on-oj-action="[[submitFresher]]" style="color: aliceblue;">Fresher
+        </oj-button>
+      </div>
+    </div>
+
+      <div id="workContent" style="display:none;">    
          <oj-button chroming="callToAction" class="oj-xl-margin-4x oj-sm-margin-4x" on-oj-action="[[openAddWorkDialog]]">
               <span slot="startIcon" class="demo-icon-sprite"> Add Work History</span>
             </oj-button>
@@ -135,6 +155,7 @@
   </div>
     </template>
   </oj-list-view>
+</div>
 </div>
       <oj-dialog id="openAddWorkDialog" dialog-title="[[DialogTitle]]" modality="modeless" drag-affordance="title-bar"
   cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
