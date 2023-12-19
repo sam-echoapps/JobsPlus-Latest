@@ -162,7 +162,7 @@
   </div> 
 </div> 
 
-<oj-dialog id="openDeleteConfirm" dialog-title="Delete Department" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeleteConfirm" dialog-title="Delete Department" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
   </div>
@@ -174,7 +174,7 @@
 </oj-dialog>
 
 <oj-dialog id="openDeleteUserTypeProgress" dialog-title="Please wait!Deleteing...." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -182,7 +182,7 @@
 </oj-dialog>
 
 <oj-dialog id="openAddClientUsersDialog" dialog-title="Add Client Portal User" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:600px;min-width:600px;max-width:600px;">
+  cancel-behavior="[[CancelBehaviorOpt]]"  class="popupDialog">
   <div slot="body">
 
   <div
@@ -190,11 +190,11 @@
     <div
     class="oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
     <div
-      class="oj-sm-3">
+      class="oj-md-3">
     
     </div>
     <div
-      class="oj-sm-6">
+      class="oj-md-6 oj-sm-12">
       <oj-validation-group id="usersSec" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-input-text required  label-hint="Name (First Name,Last Name)" value="{{username}}" clear-icon="always">
@@ -222,7 +222,7 @@
 </oj-dialog>
 
 <oj-dialog id="openAddClientUsersProgress" dialog-title="Saving client portal users..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -230,7 +230,7 @@
 </oj-dialog>
 
 <oj-dialog id="openUpdateClientUsersProgress" dialog-title="Updating client portal users..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -238,7 +238,7 @@
 </oj-dialog>
 
 <oj-dialog id="openEditClientUsersDialog" dialog-title="Edit Client Portal User" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:600px;min-width:600px;max-width:600px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
   <div slot="body">
 
   <div
@@ -246,11 +246,11 @@
     <div
     class="oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
     <div
-      class="oj-sm-3">
+      class="oj-md-3">
     
     </div>
     <div
-      class="oj-sm-6">
+      class="oj-md-6 oj-sm-12">
       <oj-validation-group id="usersSec" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-input-text required id="username" label-hint="Name (First Name,Last Name)" value="{{username}}" clear-icon="always">
@@ -278,7 +278,7 @@
 </oj-dialog>
 
 <oj-dialog id="openUpdateClientUsersProgress" dialog-title="Updating client portal users..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -286,7 +286,7 @@
 </oj-dialog>
 
 <oj-dialog id="openChangePasswordDialog" dialog-title="Change Password" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:600px;min-width:600px;max-width:600px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
   <div slot="body">
 
   <div
@@ -294,11 +294,11 @@
     <div
     class="oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
     <div
-      class="oj-sm-3">
+      class="oj-md-3">
     
     </div>
     <div
-    class="oj-sm-6">
+    class="oj-md-6 oj-sm-12">
     <oj-input-text required label-hint="User Name" value="{{userName}}" clear-icon="always" disabled="true">
     </oj-input-text>
     <oj-input-text
@@ -334,14 +334,14 @@
 </oj-dialog>
 
 <oj-dialog id="openUpdateCredentialProgress" dialog-title="Updating client user credentials" modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
       
-<oj-dialog id="openSendConfirm" dialog-title="Send User credentials" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openSendConfirm" dialog-title="Send User credentials" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to send login credentials to the selected staff?'></oj-bind-text>
   </div>
@@ -353,14 +353,14 @@
 </oj-dialog>
 
 <oj-dialog id="openEmailSendingProgress" dialog-title="Please Wait!Sending credentials..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openDeactivateConfirm" dialog-title="Deactivate Client" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeactivateConfirm" dialog-title="Deactivate Client" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to deactivate the selected portal user?'></oj-bind-text>
   </div>
@@ -372,13 +372,13 @@
 </oj-dialog>
 
 <oj-dialog id="openDeactivateProgress" dialog-title="Please wait!Deactivating..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
-<oj-dialog id="openActivateConfirm" dialog-title="Activate Client" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openActivateConfirm" dialog-title="Activate Client" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to activate the selected portal user?'></oj-bind-text>
   </div>
@@ -389,7 +389,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
   </div>
 </oj-dialog>
 <oj-dialog id="openActivateProgress" dialog-title="Please wait!Activating..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>

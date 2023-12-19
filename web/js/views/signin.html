@@ -15,7 +15,7 @@
           <div class="submit-btn">
             <oj-button id='signInBtn' class='demo-signin-button' chroming='solid'
             on-oj-action='[[signIn]]'><span class="demo-signin-button-label"><span class='oj-hybrid-padding-horizontal'>Sign In</span></span></oj-button>          </div>
-            <oj-dialog id="LoginErrDialog" dialog-title="Login Error" style="display:none;width:500px;min-width:500px;max-width:500px;">
+            <oj-dialog id="LoginErrDialog" dialog-title="Login Error" class="popupSend">
               <div slot="body">
                   <oj-bind-for-each data="[[LoginErr]]">
                       <template data-oj-as="LoginMsg">
@@ -38,7 +38,7 @@
 </div>  
 
 <oj-dialog id="signInProgress" title="Authenticating...." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
 <oj-progress-bar class="oj-progress-bar-embedded" id="createbar" value="-1" >
 </oj-progress-bar>
@@ -46,7 +46,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="TimeoutSign" dialog-title="There is a technical issue. Please try again later" modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+class="popupProgress" cancel-behavior="[[CancelBehaviorOpt]]">
     <div slot="body">
         
     </div>

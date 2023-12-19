@@ -1396,6 +1396,7 @@ max-width: 20rem;
 
 .addClientAlign{
   justify-content: flex-end;
+  margin-right:15px;
 }
 
 .addStaffAlign{

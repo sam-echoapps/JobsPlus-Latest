@@ -10,18 +10,18 @@
         </div> 
         <div id="defaultActive">
         <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[clientConfSelect]]">
-          <span slot="startIcon" class=""> Configuration</span>
+          <span slot="startIcon"> Configuration</span>
         </oj-button>&nbsp;&nbsp;&nbsp;
         <oj-button style="background-color: #f1f1f1;" class="oj-xl-margin-4x" on-oj-action="[[clientShiftSelect]]">
-          <span slot="startIcon" class=""> Client Rate & Shift</span>
+          <span slot="startIcon"> Client Rate & Shift</span>
         </oj-button>&nbsp;&nbsp;&nbsp;
       </div>
       <div id="clickActive" style="display:none">
         <oj-button  style="background-color: #f1f1f1;" class="oj-xl-margin-4x" on-oj-action="[[clientConfSelect]]">
-          <span slot="startIcon" class=""> Configuration</span>
+          <span slot="startIcon"> Configuration</span>
         </oj-button>&nbsp;&nbsp;&nbsp;
         <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[clientShiftSelect]]">
-          <span slot="startIcon" class=""> Client Rate & Shift</span>
+          <span slot="startIcon"> Client Rate & Shift</span>
         </oj-button>&nbsp;&nbsp;&nbsp;
       </div>
     </div>
@@ -221,7 +221,7 @@ class="oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x o
 
 
 <oj-dialog id="openAddClientProgress" dialog-title="Saving shift configuration details..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

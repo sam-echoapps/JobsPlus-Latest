@@ -184,12 +184,12 @@
 </div>
 
 <oj-dialog id="openAddClientDialog" dialog-title="Add Client Details" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:900px;min-width:900px;max-width:900px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
   <div slot="body">
 <div
     class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
     <div
-      class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-6">
+      class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-6 oj-sm-12">
       <oj-validation-group id="clientAddSec1" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid" disbaled>
       <oj-input-text id="clientId" label-hint="Client Id" value="{{clientId}}" clear-icon="always"  style="display:none">
@@ -208,7 +208,7 @@
       </oj-validation-group>
     </div>
     <div
-      class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-5 ">
+      class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
       <oj-validation-group id="clientAddSec2" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-select-single id="countryCode" label-hint="Country Code" required  data="[[countryCodes]]" value="{{countryCode}}"></oj-select-single>
@@ -267,14 +267,14 @@
 </oj-dialog>
 
 <oj-dialog id="openAddClientProgress" dialog-title="Saving Client Details" modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openAddClientResult" dialog-title="Add Client Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openAddClientResult" dialog-title="Add Client Details" modality="modeless" class="popupSend">
   <div slot="body">
     <oj-bind-text value='[[addClientMsg]]'></oj-bind-text>
   </div>
@@ -285,7 +285,7 @@
   </div>
 </oj-dialog>
 
-<oj-dialog id="openDeleteConfirm" dialog-title="Delete Client Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeleteConfirm" dialog-title="Delete Client Details" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
   </div>
@@ -296,14 +296,14 @@
   </div>
 </oj-dialog>
 <oj-dialog id="openDeleteClientProgress" dialog-title="Please wait!Deleteing...." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openDeactivateConfirm" dialog-title="Deactivate Client" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeactivateConfirm" dialog-title="Deactivate Client" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to deactivate the selected client?'></oj-bind-text>
   </div>
@@ -315,13 +315,13 @@
 </oj-dialog>
 
 <oj-dialog id="openDeactivateProgress" dialog-title="Please wait!Deactivating..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
-<oj-dialog id="openActivateConfirm" dialog-title="Activate Client" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openActivateConfirm" dialog-title="Activate Client" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to activate the selected client?'></oj-bind-text>
   </div>
@@ -332,7 +332,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
   </div>
 </oj-dialog>
 <oj-dialog id="openActivateProgress" dialog-title="Please wait!Activating..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
