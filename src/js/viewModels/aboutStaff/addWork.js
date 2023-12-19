@@ -28,6 +28,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 var BaseURL = sessionStorage.getItem("BaseURL")
                 self.workStatus = ko.observable('');
                 self.workFile = ko.observable('');
+                self.choiceList = ko.observableArray([]);  
+                self.choiceList.push(
+                    {'value' : 'Yes', 'label' : 'Yes'},
+                    {'value' : 'No', 'label' : 'No'},  
+                );
+                self.choiceListDP = new ArrayDataProvider(self.choiceList, {keyAttributes: 'value'});
+                self.workSec = ko.observable();  
+
 
                 self.selectorSelectedItems = new ojknockout_keyset_1.ObservableKeySet();
 
@@ -61,6 +69,18 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         success: function (data) {
                             console.log(data)
                             document.getElementById('loaderView').style.display='none';
+                            if(data[0].length>0){
+                                document.getElementById('workContent').style.display='block';
+                                document.getElementById('workQuestion').style.display='none';
+                                document.getElementById('fresherStaff').style.display='none';
+                            }
+    
+                            if(data[2].length>0){
+                                document.getElementById('workContent').style.display='none';
+                                document.getElementById('workQuestion').style.display='block';
+                                document.getElementById('fresherStaff').style.display='block';
+                            }
+     
 
                         for (var i = 0; i < data[0].length; i++) {
                             if(data[0][i][6]){
@@ -387,6 +407,42 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             downloadLink.click();
 
         };
+
+        self.WorkSecShow = function (event,data) {
+            if(self.workSec()=='Yes'){
+                document.getElementById('workContent').style.display='block';
+                document.getElementById('fresher').style.display='none';
+                self.requiredDBS(true)
+            }else if(self.workSec()=='No'){
+                document.getElementById('fresher').style.display='block';
+                document.getElementById('workContent').style.display='none';
+            }
+
+        }
+
+        self.submitFresher = function (event,data) {
+            document.querySelector('#openAddWorkProgress').open();
+            $.ajax({
+                url: BaseURL+ "/jpStaffFresherWork",
+                type: 'POST',
+                data: JSON.stringify({
+                    staffId : sessionStorage.getItem("userId")
+                }),
+                dataType: 'json',
+                timeout: sessionStorage.getItem("timeInetrval"),
+                context: self,
+                error: function (xhr, textStatus, errorThrown) {
+                    if(textStatus == 'timeout'){
+                        document.querySelector('#openAddWorkProgress').close();
+                        document.querySelector('#Timeout').open();
+                    }
+                },
+                success: function (data) {
+                    document.querySelector('#openAddWorkProgress').close();
+                    location.reload()
+                }
+            })   
+        }
 
     
             }

@@ -71,6 +71,13 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         if(data[0].length>0){
                             document.getElementById('workContent').style.display='block';
                             document.getElementById('workQuestion').style.display='none';
+                            document.getElementById('fresherStaff').style.display='none';
+                        }
+
+                        if(data[2].length>0){
+                            document.getElementById('workContent').style.display='none';
+                            document.getElementById('workQuestion').style.display='block';
+                            document.getElementById('fresherStaff').style.display='block';
                         }
  
                         for (var i = 0; i < data[0].length; i++) {
@@ -414,7 +421,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
         }
 
         self.submitFresher = function (event,data) {
-             self.addWorkMsg('');
+            document.querySelector('#openAddWorkProgress').open();
             $.ajax({
                 url: BaseURL+ "/jpStaffFresherWork",
                 type: 'POST',
@@ -432,7 +439,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 },
                 success: function (data) {
                     document.querySelector('#openAddWorkProgress').close();
-                    document.querySelector('#openAddWorkResult').open();
+                    location.reload()
                 }
             })   
         }
