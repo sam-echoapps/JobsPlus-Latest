@@ -41,21 +41,21 @@ class="oj-flex">
 <div
 class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
 <div
-  class=" oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-4">
+  class=" oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-md-4 oj-sm-4">
   <oj-validation-group id="filterSec1" role="group" valid="{{groupValid}}"
   aria-labelledby="grouplabelid" disbaled>
   <oj-input-date required label-hint="Start Date" autocomplete="off" value="{{selectStartDate}}"></oj-input-date></br></br> 
 </oj-validation-group>
 </div>
 <div
-          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-4">
+          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-md-4 oj-sm-4">
           <oj-validation-group id="filterSec2" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid" disbaled>
           <oj-input-date required label-hint="End Date" autocomplete="off" value="{{selectEndDate}}"></oj-input-date></br></br> 
         </oj-validation-group>
         </div>
         <div
-          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-3">
+          class="oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-3 oj-sm-3 oj-sm-3">
           <oj-button id="confirmBtn" style="margin-top:12px;" class="oj-flex-bar-end" chroming='callToAction' on-oj-action="[[approvedTimesheetFilter]]"><span slot="startIcon" class="demo-icon-search"> Search</span>
           </oj-button>
         </div>
@@ -238,7 +238,7 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </div></center>
 
 <oj-dialog id="openStaffTimesheetView" dialog-title="Staff Timesheet" modality="modeless"
-cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-width:240px;max-width:550px;">
+cancel-behavior="[[CancelBehaviorOpt]]" class="popupViewTimesheet">
 <div id="divToDownload" slot="body">
   <!-- <oj-avatar
   role="img"
@@ -457,7 +457,7 @@ class="oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x o
 
 
 <oj-dialog id="openTimesheetDisapproveProgress" dialog-title="Timesheet disapproving..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

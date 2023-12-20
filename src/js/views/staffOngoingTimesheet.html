@@ -6,28 +6,28 @@
 
 <div
 class="oj-panel oj-flex  oj-xl-margin-6x">
-<div class="oj-sm-padding-1x oj-sm-4">
+<div class="oj-sm-padding-1x oj-md-4 oj-sm-12">
   <b>Client Name : <oj-bind-text value="[[clientName]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
     <b>Shift Name : <oj-bind-text value="[[shiftName]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
   <b>Shift Date : <oj-bind-text value="[[shiftDate]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-2">
+<div class="oj-sm-padding-1x oj-md-2 oj-sm-12">
   <b>Staff Required : <oj-bind-text value="[[requiredStaff]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-4">
+<div class="oj-sm-padding-1x oj-md-4 oj-sm-12">
   <b>Staff Type : <oj-bind-text value="[[jobRole]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
   <b>Start Time : <oj-bind-text value="[[startTime]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
   <b>End Time : <oj-bind-text value="[[endTime]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-2">
+<div class="oj-sm-padding-1x oj-md-2 oj-sm-12">
   <b>Approved Staff : <oj-bind-text value="[[approvedCount]]"></oj-bind-text></b>
 </div>
 </div>
@@ -204,7 +204,7 @@ class="oj-panel oj-flex  oj-xl-margin-6x">
 </oj-list-view>
 
 <oj-dialog id="openUserProfileInfo" dialog-title="Staff Profile" modality="modeless"
-cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-width:240px;max-width:550px;">
+cancel-behavior="[[CancelBehaviorOpt]]" class="popupProfile">
 <div id="divToDownload" slot="body">
   <oj-avatar
   role="img"
@@ -245,7 +245,7 @@ cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-widt
 
 
 <oj-dialog id="openAddStaffTimesheet" dialog-title="Add Staff Timesheet" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:600px;min-width:600px;max-width:600px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupDialog">
   <div slot="body">
 
   <div
@@ -290,14 +290,14 @@ cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-widt
 </oj-dialog>
 
 <oj-dialog id="openTimesheetSaveProgress" dialog-title="Timesheet saving..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openFileUpload" dialog-title="Upload Timesheet" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openFileUpload" dialog-title="Upload Timesheet" modality="modeless"  class="popupUpload" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-file-picker  primary-text="[[timesheetFileText]]"
       secondary-text="[[timesheetCustomText]]" on-oj-select="[[timesheetDocUpload]]">
@@ -306,7 +306,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openAddUploadingProgress" dialog-title="[[progressText]]" modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

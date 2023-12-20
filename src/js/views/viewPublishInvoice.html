@@ -454,10 +454,10 @@
     Client Pay Status
   </div>
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-2">
      &nbsp; &nbsp; &nbsp; Client Pay Status
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-sm-3  oj-sm-margin-4x">
       <span :class="[[getBadgeClass(clientPayStatus())]]">
         <oj-bind-if test="[[clientPayStatus() === 'Pending']]">
         <oj-bind-text value="Pending"></oj-bind-text>
@@ -579,7 +579,7 @@
 
 
 <oj-dialog id="openInvoiceSaveProgress" dialog-title="Invoice saving..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
@@ -587,7 +587,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openDeleteProgress" dialog-title="Please wait!Deleteing...." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -595,7 +595,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 
-<oj-dialog id="openConfirmPaidInvoice" dialog-title="Confirm Invoice Pay" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openConfirmPaidInvoice" dialog-title="Confirm Invoice Pay" modality="modeless"   class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to pay this invoice?'></oj-bind-text>
   </div>
@@ -607,7 +607,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openInvoicePaidProgress" dialog-title="Please wait..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

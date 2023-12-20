@@ -42,9 +42,9 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </div>
 
 <div class="oj-flex">
-    <div class="oj-md-8">
+    <div class="oj-md-8 oj-sm-12">
     </div>
-    <div class="oj-md-4">
+    <div class="oj-md-4 oj-sm-12">
         <oj-buttonset-one id="setMultipleButtons" value="{{shiftList}}" aria-label="Choose only one format">
           <oj-bind-for-each data="[[formatValues]]">
             <template>
@@ -562,12 +562,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </oj-list-view>
 
 <oj-dialog id="openPostNewShiftDialog" dialog-title="Post New Shift" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:900px;min-width:900px;max-width:900px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupTimesheet">
   <div slot="body">
     <div
     class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
     <div
-      class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-5">
+      class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
       <oj-validation-group id="postShiftSec1" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid" disbaled>
       <oj-bind-if test="[[actionVal() == 'Add']]">
@@ -613,7 +613,7 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
         class="oj-sm-1">
     </div>
     <div
-        class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-5">
+        class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
         <oj-validation-group id="postShiftSec2" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-bind-if test="[[actionVal() == 'Add']]">
@@ -674,14 +674,14 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
 </oj-dialog>
 
 <oj-dialog id="openPostShiftProgress" dialog-title="New shift posting..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openDeleteConfirm" dialog-title="Delete Posted Shift" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeleteConfirm" dialog-title="Delete Posted Shift" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
   </div>
@@ -693,7 +693,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openDeletePostedShiftProgress" dialog-title="Please wait!Deleteing...." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
@@ -701,7 +701,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openUpdatePostShiftProgress" dialog-title="Updating shift..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

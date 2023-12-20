@@ -18,11 +18,11 @@
         <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp;Here you can create and manage availability of the staff.
       </div>
       <div class="oj-flex">
-        <div class="oj-sm-3"></div>
+        <div class="oj-md-3 oj-sm-3"></div>
         <div class="oj-xl-margin-4x">
           <h3><strong><oj-bind-text value=""></oj-bind-text></strong></h3>
         </div>
-        <div class="oj-sm-6"></div>
+        <div class="oj-md-6 oj-sm-6"></div>
         <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[availableDateAdd]]">
           <span slot="startIcon" class=""> Add Availability</span>
         </oj-button>
@@ -68,7 +68,7 @@
             </div>
         </oj-dialog>
 
-        <oj-dialog id="openSaveConfirm" dialog-title="Save Staff Availability" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+        <oj-dialog id="openSaveConfirm" dialog-title="Save Staff Availability" modality="modeless"   class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
           <div slot="body">
             <oj-bind-text value='Would you like to save your changes?'></oj-bind-text>
           </div>
@@ -78,7 +78,7 @@
             </oj-button>
           </div>
         </oj-dialog>
-        <oj-dialog id="openUpdateConfirm" dialog-title="Update Staff Availability" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+        <oj-dialog id="openUpdateConfirm" dialog-title="Update Staff Availability" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
           <div slot="body">
             <oj-bind-text value='Would you like to save your changes?'></oj-bind-text>
           </div>

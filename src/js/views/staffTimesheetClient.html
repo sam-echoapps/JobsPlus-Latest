@@ -8,28 +8,28 @@
 
 <div
 class="oj-panel oj-flex  oj-xl-margin-6x" style="margin: 10px;padding:10px;">
-<div class="oj-sm-padding-1x oj-sm-4">
+<div class="oj-sm-padding-1x oj-md-4 oj-sm-12">
   <b>Client Name : <oj-bind-text value="[[clientName]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
     <b>Shift Name : <oj-bind-text value="[[shiftName]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
   <b>Shift Date : <oj-bind-text value="[[shiftDate]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-2">
+<div class="oj-sm-padding-1x oj-md-2 oj-sm-12">
   <b>Staff Required : <oj-bind-text value="[[requiredStaff]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-4">
+<div class="oj-sm-padding-1x oj-md-4 oj-sm-12">
   <b>Staff Type : <oj-bind-text value="[[jobRole]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
   <b>Start Time : <oj-bind-text value="[[startTime]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-3">
+<div class="oj-sm-padding-1x oj-md-3 oj-sm-12">
   <b>End Time : <oj-bind-text value="[[endTime]]"></oj-bind-text></b>
 </div>
-<div class="oj-sm-padding-1x oj-sm-2">
+<div class="oj-sm-padding-1x oj-md-2 oj-sm-12">
   <b>Approved Staff : <oj-bind-text value="[[approvedCount]]"></oj-bind-text></b>
 </div>
 </div>
@@ -248,7 +248,7 @@ class="oj-panel oj-flex  oj-xl-margin-6x" style="margin: 10px;padding:10px;">
 </oj-list-view>
 
 <oj-dialog id="openUserProfileInfo" dialog-title="Staff Profile" modality="modeless"
-cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-width:240px;max-width:550px;">
+cancel-behavior="[[CancelBehaviorOpt]]" class="popupProfile">
 <div id="divToDownload" slot="body">
   <oj-avatar
   role="img"
@@ -333,13 +333,13 @@ cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-widt
  -->
 
  <oj-dialog id="openAddStaffTimesheet" dialog-title="Add Staff Timesheet" modality="modeless" drag-affordance="title-bar"
-  cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:900px;min-width:900px;max-width:900px;">
+  cancel-behavior="[[CancelBehaviorOpt]]" class="popupTimesheet">
   <div slot="body">
-    <div style="display: flex;justify-content: center;"
-    class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x oj-lg-padding-2x oj-md-margin-2x oj-md-padding-2x oj-sm-margin-1x oj-sm-padding-1x">
-   <div
-  class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-12x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-5">
-  <oj-validation-group id="timesheetSec1" role="group" valid="{{groupValid}}"
+    <div
+    class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
+    <div
+      class="oj-panel oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
+     <oj-validation-group id="timesheetSec1" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-input-text label-hint="Staff Name" value="{{name}}" clear-icon="always" disabled>
       </oj-input-text></br></br>
@@ -356,8 +356,12 @@ cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-widt
       <oj-input-text required id="paidHoursFormatted" value="{{paidHoursFormatted}}" label-hint="Total Hours Paid" disabled></oj-input-text></br></br> 
     </oj-validation-group>
     </div>
-    <div class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-12x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-sm-5">
-      <oj-validation-group id="timesheetSec2" role="group" valid="{{groupValid}}"
+    <div
+      class="oj-md-1">
+    </div>
+    <div
+    class="oj-panel oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
+    <oj-validation-group id="timesheetSec2" role="group" valid="{{groupValid}}"
       aria-labelledby="grouplabelid">
       <oj-input-text label-hint="Job Title" value="{{jobRole}}" clear-icon="always" disabled>
       </oj-input-text></br></br>
@@ -373,11 +377,11 @@ cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-widt
 </div>
 <!--  Rating Star Start  -->
 <div style="display: flex;"
-class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x oj-lg-padding-2x oj-md-margin-2x oj-md-padding-2x oj-sm-margin-1x oj-sm-padding-1x">
-<div class="oj-sm-4 oj-flex-item oj-sm-padding-2x-horizontal"></br>
+class="oj-panel  oj-flex oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x oj-lg-padding-2x oj-md-margin-2x oj-md-padding-2x oj-sm-margin-1x oj-sm-padding-1x">
+<div class="oj-md-4 oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal"></br>
   How was your experience with the staff?
 </div>
-<div class="oj-sm-4 oj-flex-item oj-sm-padding-2x-horizontal">
+<div class="oj-md-4 oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
   </br>
 <div class="rating"> 
 <span class="rating__result"></span> 
@@ -388,7 +392,7 @@ class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-m
 <i class="rating__star far fa-star"></i>
 </div>
 </div>
-<div class="oj-sm-4 oj-flex-item oj-sm-padding-2x-horizontal">
+<div class="oj-md-4 oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
   <oj-text-area id="rating_note" value="{{rating_note}}" label-hint="Feedback(Optional)" raw-valuenewE=""
   rows="2" clear-icon="always" required="true">
   </oj-text-area>
@@ -400,15 +404,15 @@ class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-m
     <div class="oj-flex-bar">
   <oj-validation-group id="timesheetSec3" role="group" valid="{{groupValid}}">
     <div class="oj-flex">
-        <div class="oj-sm-4 oj-flex-item oj-sm-padding-2x-horizontal">
+        <div class="oj-md-4 oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
           <oj-input-text required id="authoriser" label-hint="Authorised By Name" value="{{authoriser}}" clear-icon="always" on-value-changed="[[createSignature]]">
           </oj-input-text>
         </div>
-        <div class="oj-sm-4 oj-flex-item oj-sm-padding-2x-horizontal">
+        <div class="oj-md-4 oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal">
           <oj-input-text required id="position" label-hint="Position" value="{{position}}" clear-icon="always">
           </oj-input-text>
         </div>
-        <div class="oj-sm-4 oj-flex-item oj-sm-padding-2x-horizontal" style="font-family: Cedarville Cursive">
+        <div class="oj-md-4 oj-sm-12 oj-flex-item oj-sm-padding-2x-horizontal" style="font-family: Cedarville Cursive">
           <oj-input-text required id="signature" label-hint="Signature" value="{{signature}}" clear-icon="always">
           </oj-input-text>
          </div>
@@ -429,14 +433,14 @@ class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-m
 </oj-dialog>
 
 <oj-dialog id="openTimesheetSaveProgress" dialog-title="Timesheet saving..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openFileUpload" dialog-title="Upload Timesheet" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openFileUpload" dialog-title="Upload Timesheet" modality="modeless"  class="popupUpload" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-file-picker  primary-text="[[timesheetFileText]]"
       secondary-text="[[timesheetCustomText]]" on-oj-select="[[timesheetDocUpload]]">
@@ -446,7 +450,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openAddUploadingProgress" dialog-title="[[progressText]]" modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
@@ -455,7 +459,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 
 
 <oj-dialog id="openStaffTimesheetView" dialog-title="Staff Timesheet" modality="modeless"
-cancel-behavior="[[CancelBehaviorOpt]]" style="display:none;width:550px;min-width:240px;max-width:550px;">
+cancel-behavior="[[CancelBehaviorOpt]]" class="popupViewTimesheet">
 <div id="divToDownload" slot="body">
   <!-- <oj-avatar
   role="img"

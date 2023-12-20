@@ -32,23 +32,23 @@
               <div class="oj-flex-item  ">
                 <oj-list-item-layout class="oj-listitemlayout-padding-off"
                   :aria-label="[['task ' +item.data.taskName]]">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                     <oj-bind-text value="Reference Name"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg" :aria-label="[['name ' +item.data.refer_name]]">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.refer_name]]">
                     <oj-bind-text value="[[item.data.refer_name]]"></oj-bind-text>
                   </div>
                   
                 </oj-list-item-layout>
               </div>
               
-              <div class="oj-flex-item  oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off"
+              <div class="oj-flex-item  oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end"
                   :aria-label="[['task ' +item.data.taskName]]">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                     <oj-bind-text value="Referrer Status"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg" :aria-label="[['name ' +item.data.referrer_status]]">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.referrer_status]]">
                     <oj-bind-text value="[[item.data.referrer_status]]"></oj-bind-text>
                   </div>
                   
@@ -56,12 +56,12 @@
               </div>
               <oj-bind-if test="[[item.data.referrer_status === 'Uploaded']]">
               <div class="oj-flex-item oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off"
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end"
                   :aria-label="[['task ' +item.data.taskName]]">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                     <oj-bind-text value="Document Preview"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg" :aria-label="[['name ' +item.data.referrer_status]]">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.referrer_status]]">
                     <div class="oj-text-color-success"><a  :id = "[[ item.data.file ]]" on-click= "[[previewClick]]" target="_blank">Click here</a></div>
                   </div>
                   
@@ -70,7 +70,7 @@
             </oj-bind-if>
 
             <oj-bind-if test="[[item.data.referrer_status == 'Email Sent']]">
-              <div class="oj-flex-item oj-md-padding-4x-end">
+              <div class="oj-flex-item oj-md-padding-4x-end oj-sm-padding-12x-end">
                 <oj-list-item-layout class="oj-listitemlayout-padding-off"
                   :aria-label="[['task ' +item.data.taskName]]">
                   <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
@@ -85,7 +85,7 @@
             </oj-bind-if>
 
             <oj-bind-if test="[[item.data.referrer_status == 'Received']]">
-              <div class="oj-flex-item oj-md-padding-4x-end">
+              <div class="oj-flex-item oj-md-padding-4x-end oj-sm-padding-12x-end">
                 <oj-list-item-layout class="oj-listitemlayout-padding-off"
                   :aria-label="[['task ' +item.data.taskName]]">
                   <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
@@ -105,30 +105,30 @@
                 </oj-list-item-layout>
               </div>
             </oj-bind-if>
-                <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end">
-                  <oj-list-item-layout class="oj-listitemlayout-padding-off"
+                <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end oj-sm-padding-12x-end">
+                  <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end"
                     :aria-label="[['task ' +item.data.taskName]]">
                     <oj-bind-if test="[[item.data.referrer_status === 'Pending']]">
-                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                       &nbsp; &nbsp; &nbsp; <oj-bind-text value="Actions"></oj-bind-text>
                     </div>
                   </oj-bind-if>
                   <oj-bind-if test="[[item.data.referrer_status === 'Email Sent']]">
-                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                       &nbsp; &nbsp; &nbsp; <oj-bind-text value="Actions"></oj-bind-text>
                     </div>
                   </oj-bind-if>
                   <oj-bind-if test="[[item.data.referrer_status === 'Uploaded']]">
-                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                       &nbsp; &nbsp; &nbsp; <oj-bind-text value="Actions"></oj-bind-text>
                     </div>
                   </oj-bind-if>
                   <oj-bind-if test="[[item.data.referrer_status === 'Received']]">
-                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                    <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <oj-bind-text value="Actions"></oj-bind-text>
                     </div>
                   </oj-bind-if>
-                  <div slot="tertiary" class="oj-typography-body-lg"
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end"
                   :aria-label="[['Contact Phone ' + item.data.PPhone]]">
                     <div>
                       <oj-button

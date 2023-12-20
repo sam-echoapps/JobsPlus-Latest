@@ -1802,6 +1802,13 @@ color:white;
   max-width:550px;
 }
 
+.popupCalendar{
+  display:none;
+  width:550px;
+  min-width:300px;
+  max-width:550px;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
 [class*="buttonset-align"] {
@@ -1906,5 +1913,13 @@ color:white;
   top: 180px !important;
   left: 40px !important;
 }
+
+.popupCalendar{
+  display: block;
+  width:350px;
+  top: 350px !important;
+  left: 40px !important;
+}
+
 }
 

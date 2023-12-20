@@ -9,8 +9,8 @@
     <div class="oj-xl-margin-4x">
       <h3><strong><oj-bind-text value=""></oj-bind-text></strong></h3>
     </div>
-    <div class="oj-sm-6"></div>
-    <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[HolidayDateAdd]]">
+    <div class="oj-md-6 oj-sm-6"></div>
+    <oj-button chroming="solid" class="oj-xl-margin-4x oj-sm-margin-4x" on-oj-action="[[HolidayDateAdd]]">
       <span slot="startIcon" class=""> Add Holiday</span>
     </oj-button>
       </div>
@@ -18,10 +18,10 @@
         <oj-date-picker id="datepicker" day-formatter="[[dayFormatter]]" value="{{dates}}"></oj-date-picker>
 </div>
 
-    <oj-dialog id="openAddHoliday" dialog-title="Company Holiday" modality="modeless"  style="display:none;width:550px;min-width:300px;max-width:550px;" cancel-behavior="[[CancelBehaviorOpt]]">
+    <oj-dialog id="openAddHoliday" dialog-title="Company Holiday" modality="modeless"  class="popupCalendar" cancel-behavior="[[CancelBehaviorOpt]]">
         <div class="oj-panel">
             <div class="row oj-flex" style="display: flex;justify-content: center;">
-              <div class="oj-sm-7">
+              <div class="oj-md-7 oj-sm-9">
                 <oj-validation-group id="holidaySec" role="group" valid="{{groupValid}}"
                 aria-labelledby="grouplabelid">
                <oj-input-date required label-hint="Holiday Date" autocomplete="off" value="{{selectHolidayDate}}"  day-formatter="[[dayFormatterInput]]" min="{{currentDate}}"></oj-input-date></br></br> 
@@ -51,7 +51,7 @@
             </div>
         </oj-dialog>
 
-        <oj-dialog id="openSaveConfirm" dialog-title="Save Company Holiday" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+        <oj-dialog id="openSaveConfirm" dialog-title="Save Company Holiday" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
           <div slot="body">
             <oj-bind-text value='Would you like to save your changes?'></oj-bind-text>
           </div>
@@ -61,7 +61,7 @@
             </oj-button>
           </div>
         </oj-dialog>
-        <oj-dialog id="openUpdateConfirm" dialog-title="Update Company Holiday" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+        <oj-dialog id="openUpdateConfirm" dialog-title="Update Company Holiday" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
           <div slot="body">
             <oj-bind-text value='Would you like to save your changes?'></oj-bind-text>
           </div>
@@ -72,7 +72,7 @@
           </div>
         </oj-dialog>
         <oj-dialog id="openAddHolidayProgress" dialog-title="Saving Holiday details" modality="modeless"
-        style="display:none;width:350px;min-width:240px;max-width:450px;">
+        class="popupProgress">
         <div slot="body">
           <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
           </oj-progress-bar>
@@ -193,7 +193,7 @@
       </oj-list-view>
     </oj-bind-if>
 
-      <oj-dialog id="openDeleteConfirm" dialog-title="Delete Holiday Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+      <oj-dialog id="openDeleteConfirm" dialog-title="Delete Holiday Details" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
         <div slot="body">
           <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
         </div>
@@ -204,7 +204,7 @@
         </div>
       </oj-dialog>
       <oj-dialog id="openDeleteHolidayProgress" dialog-title="Deleteing Holiday Details" modality="modeless"
-      style="display:none;width:350px;min-width:240px;max-width:450px;">
+      class="popupProgress">
       <div slot="body">
         <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
         </oj-progress-bar>

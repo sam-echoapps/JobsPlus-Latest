@@ -29,25 +29,25 @@
 </oj-bind-if>
 
   <div class="oj-flex">
-    <div class="oj-xl-margin-4x">
+    <div class="oj-xl-margin-4x oj-sm-margin-4x">
       <h3><strong>&nbsp;&nbsp;<oj-bind-text value="[[ListAction]]"></oj-bind-text></strong></h3>
     </div>
-    <div class="oj-sm-6"></div>
+    <div class="oj-md-6 oj-sm-12"></div>
     <oj-bind-if test="[[ListAction() === 'Active Staffs']]">
-         <oj-button chroming="solid" class="oj-xl-margin-4x" on-oj-action="[[activatedStaffList]]">
+         <oj-button chroming="solid" class="oj-xl-margin-4x oj-sm-margin-4x" on-oj-action="[[activatedStaffList]]">
           <span slot="startIcon" class=""> Active Staffs</span>
         </oj-button>
-         <div class="oj-sm-1"></div>
-       <oj-button style="background-color: #f1f1f1;" class="oj-xl-margin-4x" on-oj-action="[[deactivatedStaffList]]">
+         <div class="oj-md-1 oj-sm-1"></div>
+       <oj-button style="background-color: #f1f1f1;" class="oj-xl-margin-4x oj-sm-margin-4x" on-oj-action="[[deactivatedStaffList]]">
           <span slot="startIcon" class=""> Inactive Staffs</span>
         </oj-button>
       </oj-bind-if>
       <oj-bind-if test="[[ListAction() === 'Inactive Staffs']]">
-        <oj-button style="background-color: #f1f1f1;" class="oj-xl-margin-4x" on-oj-action="[[activatedStaffList]]">
+        <oj-button style="background-color: #f1f1f1;" class="oj-xl-margin-4x oj-sm-margin-4x" on-oj-action="[[activatedStaffList]]">
          <span slot="startIcon" class=""> Active Staffs</span>
        </oj-button>
-        <div class="oj-sm-1"></div>
-      <oj-button chroming="solid"  class="oj-xl-margin-4x" on-oj-action="[[deactivatedStaffList]]">
+        <div class="oj-md-1 oj-sm-1"></div>
+      <oj-button chroming="solid"  class="oj-xl-margin-4x oj-sm-margin-4x" on-oj-action="[[deactivatedStaffList]]">
          <span slot="startIcon" class=""> Inactive Staffs</span>
        </oj-button>
      </oj-bind-if>

@@ -275,7 +275,7 @@
   </div>
 
   
-  <oj-dialog id="openAddPreferredListConfirm" dialog-title="Add to Preferred List" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+  <oj-dialog id="openAddPreferredListConfirm" dialog-title="Add to Preferred List" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
     <div slot="body">
       <oj-bind-text value='Do you want to add the selected staff to the preferred list?'></oj-bind-text>
     </div>
@@ -287,14 +287,14 @@
   </oj-dialog>
 
   <oj-dialog id="openAddPreferredListProgress" dialog-title="Adding to preferred list..." modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+  class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openRemovePreferredListConfirm" dialog-title="Remove from Preferred List" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openRemovePreferredListConfirm" dialog-title="Remove from Preferred List" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to remove the selected staff from the preferred list?'></oj-bind-text>
   </div>
@@ -306,7 +306,7 @@
 </oj-dialog>
 
 <oj-dialog id="openRemovePreferredListProgress" dialog-title="Removing from preferred list..." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
