@@ -267,7 +267,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
 </div>
 
 
-<oj-dialog id="openActionResult" dialog-title="[[ResultTitle]]" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openActionResult" dialog-title="[[ResultTitle]]" modality="modeless"  class="popupSend">
   <div slot="body">
     <oj-bind-text value='[[addInductionMsg]]'></oj-bind-text>
   </div>
@@ -278,7 +278,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
   </div>
 </oj-dialog>
 
-<oj-dialog id="openRejectConfirm" dialog-title="Reject Induction Program" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openRejectConfirm" dialog-title="Reject Induction Program" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to reject the induction for the selected staff?'></oj-bind-text>
   </div>
@@ -290,14 +290,14 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
 </oj-dialog>
 
 <oj-dialog id="openRejectProgress" dialog-title="Please wait!Canceling...." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openInductionConfirm" dialog-title="Confirm Induction Program" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openInductionConfirm" dialog-title="Confirm Induction Program" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to confirm the induction for the selected staff?'></oj-bind-text>
   </div>
@@ -309,14 +309,14 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openConfirmProgress" dialog-title="Please wait!Confirming...." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>
 </div>
 </oj-dialog>
 
-<oj-dialog id="openFileUpload" dialog-title="Upload Induction Document" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openFileUpload" dialog-title="Upload Induction Document" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-file-picker  primary-text="[[inductionFileText]]"
       secondary-text="[[inductionCustomText]]" on-oj-select="[[inductionDocUpload]]">
@@ -325,7 +325,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </oj-dialog>
 
 <oj-dialog id="openAddUploadingProgress" dialog-title="[[progressText]]" modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

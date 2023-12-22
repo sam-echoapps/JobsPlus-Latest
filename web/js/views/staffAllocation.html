@@ -84,12 +84,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
                 </oj-list-item-layout>
               </div> -->
 
-              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end">
                     <oj-bind-text value="Staff Name"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end">
                     <a on-click= "[[goToProfile]]" target="_blank" title="Go To Profile">
                       <oj-bind-text value="[[item.data.staff_name]]"></oj-bind-text>
                     </a>
@@ -98,12 +98,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
                 </oj-list-item-layout>
               </div>
   
-              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end">
                     <oj-bind-text value="Preferred"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end">
                     <oj-bind-if test="[[item.data.client_id == selectedClientId() ]]">
                         <oj-bind-text value="Yes"></oj-bind-text>
                     </oj-bind-if> 
@@ -115,12 +115,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
                 </oj-list-item-layout>
               </div>
               
-              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end">
                     <oj-bind-text value="Visa Type"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end">
                     <oj-bind-if test="[[item.data.visa_status != null ]]">
                         <oj-bind-text value="[[item.data.visa_status]]"></oj-bind-text>
                     </oj-bind-if> 
@@ -132,12 +132,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
                 </oj-list-item-layout>
               </div>
 
-              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end">
                     <oj-bind-text value="Own Transportation"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end">
                     <div>
                         <oj-bind-text value="[[item.data.transportation]]"></oj-bind-text>
                     </div>
@@ -146,12 +146,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
                 </oj-list-item-layout>
               </div>
 
-              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary">
+              <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end">
                     <oj-bind-text value="Booking Status"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg">
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end">
                     <oj-bind-if test="[[item.data.allocation_status == null ]]">
                     <oj-bind-text value="Pending"></oj-bind-text>
                   </oj-bind-if>

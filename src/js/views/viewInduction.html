@@ -100,7 +100,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
 </div>
 
 
-<oj-dialog id="openDeleteInductionInfoResult" dialog-title="[[ResultTitle]]" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openDeleteInductionInfoResult" dialog-title="[[ResultTitle]]" modality="modeless"  class="popupSend">
   <div slot="body">
     <oj-bind-text value='[[addInductionMsg]]'></oj-bind-text>
   </div>
@@ -111,7 +111,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
   </div>
 </oj-dialog>
 
-<oj-dialog id="openDeleteConfirm" dialog-title="Delete Induction Details" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;" cancel-behavior="[[CancelBehaviorOpt]]">
+<oj-dialog id="openDeleteConfirm" dialog-title="Delete Induction Details" modality="modeless"  class="popupSend" cancel-behavior="[[CancelBehaviorOpt]]">
   <div slot="body">
     <oj-bind-text value='Do you want to delete the selected row?'></oj-bind-text>
   </div>
@@ -123,7 +123,7 @@ class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selector
 </oj-dialog>
 
 <oj-dialog id="openDeleteProgress" dialog-title="Please wait!Deleteing...." modality="modeless"
-style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
 <div slot="body">
   <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
   </oj-progress-bar>

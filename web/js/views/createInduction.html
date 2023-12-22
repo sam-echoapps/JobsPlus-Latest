@@ -31,14 +31,14 @@ class="oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x o
 </div>
 
 <oj-dialog id="openAddInductionInfoProgress" dialog-title="[[progressDialog]]" modality="modeless"
-  style="display:none;width:350px;min-width:240px;max-width:450px;">
+class="popupProgress">
   <div slot="body">
     <oj-progress-bar id="createbar" class="oj-progress-bar-embedded" value="-1">
     </oj-progress-bar>
   </div>
 </oj-dialog>
 
-<oj-dialog id="openAddInductionInfoResult" dialog-title="[[ResultTitle]]" modality="modeless"  style="display:none;width:350px;min-width:240px;max-width:450px;">
+<oj-dialog id="openAddInductionInfoResult" dialog-title="[[ResultTitle]]" modality="modeless"  class="popupSend">
   <div slot="body">
     <oj-bind-text value='[[addInductionMsg]]'></oj-bind-text>
   </div>

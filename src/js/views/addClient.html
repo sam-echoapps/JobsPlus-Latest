@@ -27,7 +27,7 @@
           <div class="oj-typography-body-md">
             <div class="oj-flex oj-sm-align-items-center">
             
-              <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end">
+              <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end oj-sm-padding-12x-end">
                 <oj-list-item-layout class="oj-listitemlayout-padding-off"
                   :aria-label="[['task ' +item.data.taskName]]">
                   <oj-bind-text value="[[item.data.taskName]]"></oj-bind-text>
@@ -40,7 +40,7 @@
                       <oj-bind-text value="[[item.data.PContact]]"></oj-bind-text>
                     </div>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg oj-text-color-secondary"
+                  <div slot="tertiary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end"
                   :aria-label="[['Contact Email ' + item.data.ClientType]]">
                   <div>
                     <oj-bind-text value="[[item.data.ClientType]]"></oj-bind-text>
@@ -49,19 +49,19 @@
                 </oj-list-item-layout>
               </div>
               
-              <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off"
+              <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end oj-sm-padding-12x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end"
                   :aria-label="[['task ' +item.data.taskName]]">
-                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                  <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                     <oj-bind-text value="Contact"></oj-bind-text>
                   </div>
-                  <div slot="tertiary" class="oj-typography-body-lg"
+                  <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end"
                   :aria-label="[['Contact Email ' + item.data.PEmail]]">
                   <div>
                     <oj-bind-text value="[[item.data.PEmail]]"></oj-bind-text>
                   </div>
                 </div>
-                <div slot="tertiary" class="oj-typography-body-lg"
+                <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end"
                 :aria-label="[['Contact Phone ' + item.data.PPhone]]">
                 <div>
                   <oj-bind-text value="[[item.data.PPhone]]"></oj-bind-text>
@@ -70,7 +70,7 @@
                 </oj-list-item-layout>
               </div>
 
-              <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end">
+              <div class="oj-flex-item demo-list-item-layout oj-md-padding-4x-end oj-sm-padding-12x-end">
                 <oj-list-item-layout class="oj-listitemlayout-padding-off"
                   :aria-label="[['task ' +item.data.taskName]]">
                   <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
@@ -137,13 +137,13 @@
                 </oj-list-item-layout>
               </div>
 
-              <div class="oj-flex-item demo-list-item-layout2 oj-md-padding-4x-end">
-                <oj-list-item-layout class="oj-listitemlayout-padding-off"
+              <div class="oj-flex-item demo-list-item-layout2 oj-md-padding-4x-end oj-sm-padding-12x-end">
+                <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end"
                   :aria-label="[['task ' +item.data.taskName]]">
                   <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
                     <oj-bind-text value="Preferred Staff"></oj-bind-text>
                   </div>
-                <div slot="tertiary" class="oj-typography-body-lg"
+                <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end"
                 :aria-label="[['Post town ' + item.data.postTown]]">
                 <div>
                   <oj-bind-text value="[[item.data.count]]"></oj-bind-text>
@@ -153,13 +153,13 @@
               </div>
 
 
-            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end">
-              <oj-list-item-layout class="oj-listitemlayout-padding-off"
+            <div class="oj-flex-item demo-list-item-layout3 oj-md-padding-4x-end oj-sm-padding-12x-end">
+              <oj-list-item-layout class="oj-listitemlayout-padding-off oj-sm-padding-12x-end"
                 :aria-label="[['task ' +item.data.taskName]]">
-                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary" :aria-label="[['name ' +item.data.userName]]">
+                <div slot="secondary" class="oj-typography-body-lg oj-text-color-secondary oj-sm-padding-12x-end" :aria-label="[['name ' +item.data.userName]]">
                   <oj-bind-text value="Status"></oj-bind-text>
                 </div>
-                <div slot="tertiary" class="oj-typography-body-lg">
+                <div slot="tertiary" class="oj-typography-body-lg oj-sm-padding-12x-end">
               <span :class="[[getBadgeClass(item.data.status)]]">
                 <oj-bind-if test="[[item.data.status === 'Pending']]">
                 <oj-bind-text value="Active"></oj-bind-text>
