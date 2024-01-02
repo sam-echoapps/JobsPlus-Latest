@@ -133,6 +133,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'paidInvoiceList', detail : {label: 'Paid Invoice List',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'viewPaidInvoice', detail : {label: 'View Paid Invoice',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'download', detail : {label: 'Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
+          { path: 'appDownload', detail : {label: 'App Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
 /*           { path: 'postcode', detail : {label: 'Postcode',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} }
  */
         ];
