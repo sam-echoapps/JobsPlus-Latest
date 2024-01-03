@@ -1,41 +1,131 @@
-@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 * {
-  font-family: 'Open Sans', 'sans-serif';
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-html, body {
-  overflow: hidden;
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: white;
 }
 
-ul {
-  width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+.container {
+  max-width: 90rem;
+  margin: 2rem auto;
+  padding: 0px 2rem;
 }
 
-li {
-  display: inline-block;
-  margin: 10px;
+.img-fluid {
+  max-width: 100%;
+  height:550px;
+}
+.logo img {
+  width: 70px;
+  height: 70px;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 3rem;
+  align-items: center;
 }
 
-.download {
+.items {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.items a {
+  color: white;
+}
+
+
+.items a:link {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.items a:hover {
+  color: red;
+}
+
+button {
+  font-size: 2rem;
+  padding: 0.6rem 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  cursor: pointer;
+  border: 2px solid white !important;
+}
+
+
+button:hover {
+  background: white;
+  outline: 1px solid red;
+  color: red;
+  border: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-heading {
+  color:#ffffff;
+  margin-bottom: 0.3rem;
+}
+.app-sub-heading {
+  color:#ffffff;
+  opacity: 0.7;
+}
+
+.main {
+  height:920px;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(97,115,255,1) 65%, rgba(97,115,255,1) 76%);
+}
+
+.main-buttons {
+  padding-bottom: 30px;
+}
+
+.main-buttons button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 20px 77px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 15px
+}
+
+
+.download-app {
   width: 200px;
   height: 75px;
-  background: black;
   float: left;
-  border-radius: 5px;
   position: relative;
   color: #fff;
-  cursor: pointer;
-  border: 1px solid #fff;
+  cursor: pointer;  
 }
 
-.download > .fa {
+.download-app > .fa {
   color: #fff;
   position: absolute;
   top: 50%;
@@ -59,7 +149,29 @@ li {
   font-size: 1.08em;
 }
 
-.download:hover {
+.download-app:hover {
   -webkit-filter: invert(100%);
   filter: invert(100%);
+}
+
+
+.text-note {
+  color:#fff
+}
+/* media queries */
+
+@media only screen and (max-width: 800px) {
+  .items {
+    display: block;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .img-fluid {
+    max-width: 100%;
+    height:350px;
+  }
+  
+  
 }

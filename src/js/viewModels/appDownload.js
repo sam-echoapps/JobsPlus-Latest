@@ -15,26 +15,6 @@ define(['knockout', 'jquery', 'appController', 'ojs/ojarraydataprovider', "ojs/o
                     //download()
                 }
             } */
-
-            self.previewClick = function (event,data) {
-                // console.log(event.srcElement.id)  
-                // var clickedId=event.srcElement.id
-                // var file=clickedId.replace(/\s/g,'%20');
-                // document.getElementById(clickedId).href = file;
-                var data64=event.srcElement.id;
-                //window.open("data:application/octet-stream;charset=utf-16le;base64,"+data64);
-        
-                var pdfDataUri = "application/vnd.android.package-archive"+data64;
-        
-                    // Create an anchor element
-                    var downloadLink = document.createElement("a");
-                    downloadLink.href = pdfDataUri;
-                  
-        
-                    // Trigger a click event on the anchor element to start the download
-                    downloadLink.click();
-        
-            };
             
             
         }
