@@ -21,7 +21,7 @@ body {
   height:550px;
 }
 .logo img {
-  width: 95px;
+  width: 125px;
   height: 80px;
 }
 nav {
@@ -161,6 +161,10 @@ button:hover {
 
 .text-note {
   color:#fff
+}
+
+.icon{
+  width:60px;
 }
 /* media queries */
 
