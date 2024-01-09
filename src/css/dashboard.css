@@ -1,0 +1,67 @@
+/* 
+//For this id center the action card
+  #total-leave-card{
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 30px;
+} */ 
+
+.total-leave-card{
+  padding: 10px;
+  display: flex;
+  margin: 20px 10px;
+  width: 250px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  background-color: #5a5278;
+  color: #ffffff;
+  transition: transform 0.5s ease-in-out;
+}
+
+.total-leave-card:hover {
+  transform: scale(1.1);
+}
+
+.total-leave-card p{
+  font-size: 15px;
+}
+
+.menu-button-icon{
+  position: absolute; 
+  bottom: 20px; 
+  left: 230px;
+}
+
+.menu-button-icon .oj-button-icon {
+  color: #ffffff !important;
+}
+
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+
+  .total-leave-card{
+    padding: 10px;
+    display: flex;
+    margin: 20px 60px;
+    width: 250px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    background-color: #5a5278;
+    color: #ffffff;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .menu-button-icon{
+    position: absolute; 
+    bottom: 20px; 
+    left: 280px;
+  }
+  
+  }
+  
+  

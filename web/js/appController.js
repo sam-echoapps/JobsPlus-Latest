@@ -41,7 +41,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       self.smScreen = ResponsiveKnockoutUtils.createMediaQueryObservable(smQuery);
 
       self.count = ko.observable(3);
-      this.selectedItem = ko.observable('addClient');
+      this.selectedItem = ko.observable('dashboardAdmin');
 
       if(sessionStorage.getItem('userRole')=='staff'){
         var navData = [
@@ -134,6 +134,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'viewPaidInvoice', detail : {label: 'View Paid Invoice',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'download', detail : {label: 'Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'appDownload', detail : {label: 'App Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
+          { path: 'dashboardAdmin', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
 /*           { path: 'postcode', detail : {label: 'Postcode',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} }
  */
         ];
@@ -173,6 +174,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         ]
       }else {
         self.navMenu = [
+          {"name": "Dashboard","id": "dashboardAdmin","icons": "fa-solid fa fa-home", "path":"dashboardAdmin"},
           {"name": "Client Manager","id": "clientManager","icons": "fa-solid fa fa-user", "path":"addClient"},
           {"name": "Staffs", "id": "staff", "icons": "fa-solid fa fa-id-card", 
             "children": [
@@ -278,7 +280,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         router.go({path : 'clientShiftManager'});
       }
       else{
-        router.go({path : 'addClient'});
+        router.go({path : 'dashboardAdmin'});
       }
       // self.SignIn('Y');
     };

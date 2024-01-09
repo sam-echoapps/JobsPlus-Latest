@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="css/dashboard.css" type="text/css" />
+
+<div class="oj-panel oj-flex oj-xl-margin-4x oj-sm-margin-4x">
+    <div id="total-leave-card">
+     
+        <oj-action-card id="total-leave" on-oj-action="" chroming="solid" class="total-leave-card oj-sm-padding-2x demo-card-content">
+            <p class="leave-count"><oj-bind-text value="15"></oj-bind-text></p>
+            <p>Total Leaves</p>
+        </oj-action-card>
+
+        <oj-menu-button
+        chroming="borderless"
+        id="menu-item-list"
+        class="oj-button-sm menu-button-icon"
+        display="icons">
+        <oj-menu slot="menu"  on-oj-action="[[menuItemSelect]]">
+            <oj-bind-for-each data="[[menuItems]]">
+            <template>
+                <oj-option
+                value="[[$current.data.label]]"
+                id="[[$current.data.id + 1]]">
+                <span slot="startIcon" :class="[[$current.data.icon]] userCalender"></span>
+                <span>
+                    <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                </span>
+                </oj-option>
+            </template>
+            </oj-bind-for-each>
+        </oj-menu>
+        </oj-menu-button>  
+       <!--  <oj-menu-button id="oj-menu-button--1409012963-1">Action
+            <oj-menu style="display:none;" slot="menu" id="oj-menu--1409012963-3">
+               <oj-option value="item1">Menu Item 1</oj-option> 
+                <oj-option value="item1">Menu Item 1</oj-option>
+            </oj-menu>
+        </oj-menu-button> -->
+    </div>
+</div>
+
