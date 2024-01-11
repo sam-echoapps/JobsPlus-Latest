@@ -9,6 +9,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.totalStaff = ko.observable('');
             self.activeStaff = ko.observable('');
             self.inactiveStaff = ko.observable('');
+            self.pendingStaff = ko.observable('');
 
             self.menuItems = [
                 {
@@ -33,26 +34,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 }
                 else {
                    app.onAppSuccess();
+                   
                    getTotalStaff();
-
-                //    document.getElementById('oj-menu--1409012963-3').addEventListener('ojAction', function(event) {
-                //     var target = event.target;
-                //     var itemValue = target.value;
-                
-                //     // Handle the click event based on the value of the selected menu item
-                //     console.log('Clicked on menu item with value: ' + itemValue);
-                // });
-                
-
-                   /* document.getElementById('menu-item-list').addEventListener('ojAction', function(event) {
-                   alert("jhj")
-                }); */
                 }
             };
 
             function getTotalStaff() {
-                document.getElementById('mainView').style.display="none";
-                document.getElementById('loaderView').style.display="block";
+                $("#mainView").hide();
+                $("#loaderView").show();
                 $.ajax({
                     url: BaseURL + "/jpDashboardCountGet",
                     type: 'GET',
@@ -65,12 +54,13 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         }
                     },
                     success: function (data) {
-                        document.getElementById('mainView').style.display="block";
-                        document.getElementById('loaderView').style.display="none";
+                        $("#mainView").show();
+                        $("#loaderView").hide();
                         console.log(data)
                         self.totalStaff(data[0][0][0])
                         self.activeStaff(data[1][0][0])
                         self.inactiveStaff(data[2][0][0])
+                        self.pendingStaff(data[3][0][0])
                 }
                 })
             }
