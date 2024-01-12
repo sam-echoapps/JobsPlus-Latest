@@ -10,6 +10,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.activeStaff = ko.observable('');
             self.inactiveStaff = ko.observable('');
             self.pendingStaff = ko.observable('');
+            self.username = ko.observable('');
+            self.CancelBehaviorOpt = ko.observable('icon'); 
+            self.StaffDet = ko.observableArray([]);
 
             self.menuItems = [
                 {
@@ -34,7 +37,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 }
                 else {
                    app.onAppSuccess();
-                   
+                   self.username(sessionStorage.getItem("userName"));
                    getTotalStaff();
                 }
             };
@@ -71,8 +74,90 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 console.log(itemValue)
             }
 
-           
-            
+            self.totalStaffPopup = function (event) {
+                getTotalStaffList();
+                let popup = document.getElementById("totalStaffPopup");
+                popup.open();
+            }
+        
+            self.closeTotalStaffPopup = function (event) {
+                let popup = document.getElementById("totalStaffPopup");
+                popup.close();
+            }
+
+            function getTotalStaffList(){
+                $("#loaderViewPopup").show();
+                self.StaffDet([]);
+                $.ajax({
+                    url: BaseURL+ "/jpTotalStaffGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        $("#loaderViewPopup").hide();
+                         for (var i = 0; i < data[0].length; i++) {
+                            if(data[0][i][17] == "Deactive"){
+                                data[0][i][17] = "Inactive"
+                            }
+                            self.StaffDet.push({'no': i+1,'id': data[0][i][0],'name' : data[0][i][2] + " " + data[0][i][3], 'email': data[0][i][11],'contact': data[0][i][15] + data[0][i][12],'role': data[0][i][16],'status': data[0][i][17]  });
+
+                    }
+
+  
+                    self.StaffDet.valueHasMutated();
+                    return self; 
+                }
+                })
+            }
+
+
+            self.activeStaffPopup = function (event) {
+                getActiveStaffList();
+                let popup = document.getElementById("activeStaffPopup");
+                popup.open();
+            }
+        
+            self.closeActiveStaffPopup = function (event) {
+                let popup = document.getElementById("activeStaffPopup");
+                popup.close();
+            }
+
+            function getActiveStaffList(){
+                self.StaffDet([]);
+                $("#loaderActivePopup").show();
+                $.ajax({
+                    url: BaseURL + "/jpActiveStaffDashboardGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        $("#loaderActivePopup").hide();
+                         for (var i = 0; i < data[0].length; i++) {
+                            self.StaffDet.push({'no': i+1,'id': data[0][i][0],'name' : data[0][i][2] + " " + data[0][i][3], 'email': data[0][i][11],'contact': data[0][i][15] + data[0][i][12]  });
+
+                    }
+  
+                    self.StaffDet.valueHasMutated();
+                    return self; 
+                }
+                })
+            }
+            self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
+
+
            
         }
     }

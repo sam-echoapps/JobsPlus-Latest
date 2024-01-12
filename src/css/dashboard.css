@@ -55,6 +55,8 @@ body {
 .py-20{padding-top: 20px; padding-bottom: 20px;}
 .mb-30{margin-bottom: 30px;}
 .mb-50{margin-bottom: 50px;}
+.ml-50{margin-left: 50px;}
+
 
 .font-30{font-size: 30px; line-height: 1.46em;}
 .font-24{font-size: 24px; line-height: 1.5em;}
@@ -137,6 +139,69 @@ body {
 }
 
 .link {
-  color: #007bff; 
-  text-decoration: none;
+  color: #007bff !important; 
+  text-decoration: none !important;
 }
+
+.arrow-icon {
+	padding-left:8px;
+  }
+
+  .welcome-text{
+	color:rgb(26, 25, 25);
+	font-weight: bold;
+  }
+
+  .welcome-caption
+{
+	color:rgb(46, 44, 44);
+}
+
+.demo-popup {
+    /* width: 125rem;
+    height: 9rem; */
+	width: 85rem;
+    height: 50em;
+    display: none;
+	overflow:auto;
+  }
+  
+  .demo-popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .demo-popup-header {
+    align-self: flex-end;
+	background-color: rgb(207, 202, 202);
+  }
+  
+  .demo-popup-content {
+    align-self: stretch;
+    overflow: hidden;
+  }
+
+  .table-header-style{
+	font-size:14px; 
+	text-align: center;
+	background-color: #5a5278;
+	color:#ffffff;
+  }
+
+  td{
+	text-align: center !important;
+  }
+
+  .demo-table-container tr:nth-child(even) {
+    background-color: #dcdae3;
+  }
+  .demo-table-container tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+  .bar-chart-icon {
+	margin-left: auto; 
+	width : 50px;
+	height: 50px;
+  }
