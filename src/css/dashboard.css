@@ -185,7 +185,7 @@ body {
   .table-header-style{
 	font-size:14px; 
 	text-align: center;
-	background-color: #5a5278;
+	background-color: #1b00ff;
 	color:#ffffff;
   }
 
@@ -194,7 +194,7 @@ body {
   }
 
   .demo-table-container tr:nth-child(even) {
-    background-color: #dcdae3;
+    background-color: #ecf0f4;
   }
   .demo-table-container tr:nth-child(odd) {
     background-color: #ffffff;
@@ -205,3 +205,28 @@ body {
 	width : 50px;
 	height: 50px;
   }
+
+  .export-button {
+
+	transition: none !important;
+
+  }
+
+  .oj-button-toggle.oj-default.oj-button-full-chrome,
+  .oj-button-toggle.oj-focus-only.oj-button-full-chrome,
+  .oj-button.oj-default.oj-button-full-chrome .oj-button-button,
+  .oj-button.oj-focus-only.oj-button-full-chrome .oj-button-button {
+	background-color: red !important;
+	border-color: var(--oj-button-solid-chrome-border-color);
+	color: var(--oj-button-solid-chrome-text-color); }
+  
+  .oj-button-toggle.oj-hover.oj-button-full-chrome,
+  .oj-button.oj-hover.oj-button-full-chrome .oj-button-button {
+	border-color: var(--oj-button-solid-chrome-border-color-hover);
+	color: var(--oj-button-solid-chrome-text-color-hover); }
+  
+	.oj-button-toggle.oj-active.oj-button-full-chrome,
+  .oj-button.oj-active.oj-button-full-chrome .oj-button-button {
+	background-color: red !important;
+   border-color: var(--oj-button-solid-chrome-border-color-active);
+	color: var(--oj-button-solid-chrome-text-color-active); }
