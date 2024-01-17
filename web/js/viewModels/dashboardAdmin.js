@@ -16,8 +16,12 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.ActiveStaffDet = ko.observableArray([]);
             self.InactiveStaffDet = ko.observableArray([]);
             self.PendingStaffDet = ko.observableArray([]);
+            self.CustomTotalStaffDet = ko.observableArray([]);
             self.blob = ko.observable();
             self.fileName = ko.observable();
+            self.start_date = ko.observable('2024-01-01');
+            self.end_date = ko.observable('2024-01-15');
+            self.groupValid = ko.observable();
 
             self.menuItems = [
                 {
@@ -100,12 +104,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 })
             }
 
-            self.menuItemSelect = function (event) {
-                self.TotalStaffDet([]);
-                var target = event.target;
-                var itemValue = target.value;
-                console.log(itemValue)
-            }
 
             self.totalStaffPopup = function (event) {
                 //self.TotalStaffDet([]);
@@ -327,11 +325,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
                 })
             }
-            //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
-            self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
-            self.ActiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.ActiveStaffDet, {keyAttributes: 'id'}));   
-            self.InactiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.InactiveStaffDet, {keyAttributes: 'id'}));   
-            self.PendingStaffData = new PagingDataProviderView(new ArrayDataProvider(self.PendingStaffDet, {keyAttributes: 'id'}));   
 
             self.downloadData = ()=>{
                 if(self.blob() != undefined && self.fileName() != undefined){
@@ -357,7 +350,185 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 sessionStorage.setItem("staffId", clickedStaffId);
                 self.router.go({path:'staffManagerView'})  
             }; 
-           
+
+            self.menuItemSelect = function (event) {
+                self.TotalStaffDet([]);
+                var target = event.target;
+                var itemValue = target.value;
+                console.log(itemValue)
+                if(itemValue == 'Last Week'){
+                    getLastWeekTotalStaffList();
+                    let popup = document.getElementById("totalStaffPopup");
+                    popup.open();
+                }
+                if(itemValue == 'Last Month'){
+                    getLastMonthTotalStaffList();
+                    let popup = document.getElementById("totalStaffPopup");
+                    popup.open();
+                }
+                if(itemValue == 'Custom'){
+                    //getTotalStaffList();
+                    let popup = document.getElementById("customStaffPopup");
+                    popup.open();
+                    self.CustomTotalStaffDet([]);
+                    refresh()
+                }
+            }
+            function refresh(){
+                self.CustomTotalStaffDet([]);
+            }
+
+            function getLastWeekTotalStaffList(){
+                $("#loaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL+ "/jpLastWeekTotalStaffGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (result) {
+                        //self.TotalStaffDet([]);
+                        console.log(result)
+                        self.totalStaff(result[0][0])
+                        self.activeStaff(result[1][0])
+                        self.inactiveStaff(result[2][0])
+                        self.pendingStaff(result[3][0])
+                        var data = JSON.parse(result[4]);
+                        //console.log(data)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
+                        csvContent += headers.join(',') + '\n';
+                        $("#loaderViewPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            if(data[i][17] == "Deactive"){
+                                data[i][17] = "Inactive"
+                            }
+                            self.TotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
+                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                }
+                })
+            }
+
+            function getLastMonthTotalStaffList(){
+                $("#loaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL+ "/jpLastMonthTotalStaffGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (result) {
+                        //self.TotalStaffDet([]);
+                        //console.log(result)
+                        self.totalStaff(result[0][0])
+                        var data = JSON.parse(result[1]);
+                        console.log(data)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
+                        csvContent += headers.join(',') + '\n';
+                        $("#loaderViewPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            if(data[i][17] == "Deactive"){
+                                data[i][17] = "Inactive"
+                            }
+                            self.TotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
+                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                }
+                })
+            }
+
+            self.TotalStaffDateFilter = function (event,data) {
+                var validSec = self._checkValidationGroup("dateFilterTotalStaff");
+                if (validSec) {
+                    self.CustomTotalStaffDet([]);
+                    $("#customLoaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL + "/jpTotalStaffDateFilter",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        start_date : self.start_date(),
+                        end_date : self.end_date()
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#loaderViewPopup').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                    success: function (result) {
+                        var data = JSON.parse(result);
+                        console.log(data)
+                        $("#customLoaderViewPopup").hide();
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
+                        csvContent += headers.join(',') + '\n';
+                        $("#customLoaderViewPopup").hide();
+                        self.CustomTotalStaffDet([]);
+                         for (var i = 0; i < data.length; i++) {
+                            if(data[i][17] == "Deactive"){
+                                data[i][17] = "Inactive"
+                            }
+                            self.CustomTotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
+                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                    }
+                })  
+                }
+            }; 
+
+            self._checkValidationGroup = (value) => {
+                var tracker = document.getElementById(value);
+                if (tracker.valid === "valid") {
+                    return true;
+                }
+                else {
+
+                    tracker.showMessages();
+                    tracker.focusOn("@firstInvalidShown");
+                    return false;
+                }
+            };
+
+            //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
+            self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
+            self.ActiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.ActiveStaffDet, {keyAttributes: 'id'}));   
+            self.InactiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.InactiveStaffDet, {keyAttributes: 'id'}));   
+            self.PendingStaffData = new PagingDataProviderView(new ArrayDataProvider(self.PendingStaffDet, {keyAttributes: 'id'}));   
+            self.CustomTotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalStaffDet, {keyAttributes: 'id'}));   
+
         }
     }
     return  dasboardAdminfViewModel;

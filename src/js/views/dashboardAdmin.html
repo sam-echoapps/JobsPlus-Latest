@@ -37,7 +37,7 @@
                                     <oj-option
                                     value="[[$current.data.label]]"
                                     id="[[$current.data.id + 1]]">
-                                    <span slot="startIcon" :class="[[$current.data.icon]]"></span>
+                                    <!-- <span slot="startIcon" :class="[[$current.data.icon]]"></span> -->
                                     <span>
                                         <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
                                     </span>
@@ -79,8 +79,8 @@
                                     <oj-option
                                     value="[[$current.data.id]]"
                                     id="[[$current.data.id + 1]]">
-                                    <span slot="startIcon" :class="[[$current.data.icon]]"></span>
-                                    <span>
+<!--                                     <span slot="startIcon" :class="[[$current.data.icon]]"></span>
+ -->                                    <span>
                                         <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
                                     </span>
                                     </oj-option>
@@ -121,8 +121,8 @@
                                     <oj-option
                                     value="[[$current.data.id]]"
                                     id="[[$current.data.id + 1]]">
-                                    <span slot="startIcon" :class="[[$current.data.icon]]"></span>
-                                    <span>
+<!--                                     <span slot="startIcon" :class="[[$current.data.icon]]"></span>
+ -->                                    <span>
                                         <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
                                     </span>
                                     </oj-option>
@@ -163,8 +163,8 @@
                                     <oj-option
                                     value="[[$current.data.id]]"
                                     id="[[$current.data.id + 1]]">
-                                    <span slot="startIcon" :class="[[$current.data.icon]]"></span>
-                                    <span>
+<!--                                     <span slot="startIcon" :class="[[$current.data.icon]]"></span>
+ -->                                    <span>
                                         <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
                                     </span>
                                     </oj-option>
@@ -379,7 +379,7 @@
                         page-size="10"
                         slot="bottom">
                     </oj-paging-control>
-                    <div class="" id="loaderInctivePopup" style="display:none">
+                    <div class="" id="loaderInactivePopup" style="display:none">
                         <div class="loader"></div>
                     </div> 
                     
@@ -450,5 +450,100 @@
     </div>
     </div>
 </oj-popup>
+
+<oj-popup
+id="customStaffPopup"
+class="demo-popup"
+auto-dismiss="none"
+modality="modal"
+position.my.horizontal="center"
+position.my.vertical="center"
+position.at.horizontal="center"
+position.at.vertical="center"
+position.of="window"
+tail="none">
+<div class="demo-popup-body">
+    <div class="demo-popup-header">
+        <div class="button-row">
+          <div class="button-box">
+            <span class="export-button" on-click="[[downloadData]]">
+              Export
+              <i class="fas fa-download"></i>
+            </span>
+          </div>
+          <oj-validation-group id="dateFilterTotalStaff" role="group" valid="{{groupValid}}"
+          aria-labelledby="grouplabelid">
+          <div class="search-container">
+            <div class="date-input">
+              <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+            </div>
+            <div class="date-input">
+              <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+            </div>
+            <span class="search-button demo-icon-search" on-click="[[TotalStaffDateFilter]]"> Search</span>
+          </div>
+        </oj-validation-group>
+          
+        <div class="button-box">
+            <span class="close-button" on-click="[[closeTotalStaffPopup]]" title="Close">
+              <i class="fas fa-times"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+              
+<div class="demo-popup-content oj-sm-padding-2x">
+    <div class="oj-panel oj-xl-margin-4x" id="actionView5"> 
+        <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
+            <oj-table id='customTotalStaffTable' aria-label='All Table' data='[[CustomTotalStaffData]]' display='list'
+                selection-mode='{"row": "single"}'  columns='[
+                { "headerClassName" : "table-header-style",
+                "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
+                { "headerClassName" : "table-header-style",
+                "headerText": "Name", "field": "name", "id": "name", "template": "profileTemplate"},
+                { "headerClassName" : "table-header-style",
+                "headerText": "Email", "field": "email", "id": "email" },
+                { "headerClassName" : "table-header-style",
+                "headerText": "Contact", "field": "contact", "id": "contact" },
+                { "headerClassName" : "table-header-style",
+                "headerText": "Job Role", "field": "role", "id": "role" },
+                { "headerClassName" : "table-header-style",
+                "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" }
+                ]' style='width: 100%;' class="demo-table-container">
+                <template slot="bgTemplate" data-oj-as="cell">
+                    <oj-bind-if test="[[cell.row.status == 'Pending' ]]">
+                        <div class="oj-table-element-pending"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                    </oj-bind-if>
+                    <oj-bind-if test="[[cell.row.status == 'Active' ]]">
+                        <div class="oj-table-element-active"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                    </oj-bind-if>
+                    <oj-bind-if test="[[cell.row.status == 'Inactive' ]]">
+                        <div class="oj-table-element-inactive"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                    </oj-bind-if>
+                  </template>
+                  <template slot="profileTemplate" data-oj-as="cell">
+                 <!--    <a on-click= "[[goToProfile]]" target="_blank" title="Go To Profile">
+                        <oj-bind-text value="[[cell.row.name]]"></oj-bind-text>
+                      </a> -->
+                        <oj-bind-text value="[[cell.row.name]]"></oj-bind-text>
+                  </template>
+                </oj-table>
+                <oj-paging-control
+                id="paging5"
+                data="[[CustomTotalStaffData]]"
+                page-size="10"
+                slot="bottom">
+            </oj-paging-control>
+                <div class="" id="customLoaderViewPopup" style="display:none">
+                    <div class="loader"></div>
+                </div> 
+                
+        </div>
+        </div>
+        </div>
+</div>
+</div>
+</oj-popup>
+
 
    
