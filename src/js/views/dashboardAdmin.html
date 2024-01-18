@@ -473,6 +473,7 @@ tail="none">
           </div>
           <oj-validation-group id="dateFilterTotalStaff" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
+          <oj-bind-if test="[[flag() == '0' ]]">
           <div class="search-container">
             <div class="date-input">
               <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
@@ -480,8 +481,20 @@ tail="none">
             <div class="date-input">
               <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
             </div>
-            <span class="search-button demo-icon-search" on-click="[[TotalStaffDateFilter]]"> Search</span>
+            <span class="search-button demo-icon-search" on-click="[[TotalStaffDateFilter]]"> Show</span>
           </div>
+          </oj-bind-if>
+          <oj-bind-if test="[[flag() == '1' ]]">
+          <div class="search-container">
+            <div class="date-input">
+              <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+            </div>
+            <div class="date-input">
+              <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+            </div>
+            <span class="search-button demo-icon-search" on-click="[[TotalStaffDateFilterClear]]"> Show</span>
+          </div>
+          </oj-bind-if>
         </oj-validation-group>
           
         <div class="button-box">
