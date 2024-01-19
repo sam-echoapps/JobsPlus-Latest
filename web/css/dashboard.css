@@ -287,3 +287,23 @@ body {
   }
   
 
+  .oj-inputdatetime-input {
+	background-color: #e9f2ff !important;
+  }
+
+  .oj-text-field-input{
+	color: #242121 !important;
+  }
+
+  .oj-inputdatetime-calendar-icon{
+	color: #1b00ff !important;
+	background-color: #e9f2ff !important;
+  }
+
+  .oj-inputdatetime-input-trigger{
+	background-color: #e9f2ff !important;
+  }
+  
+
+
+  
