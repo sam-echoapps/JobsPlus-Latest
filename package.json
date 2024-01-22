@@ -7,10 +7,11 @@
   },
   "private": true,
   "dependencies": {
-    "@ideal-postcodes/postcode-lookup-bundled": "^2.2.7",
+    "@ideal-postcodes/postcode-lookup-bundled": "^2.3.0",
     "@oracle/oraclejet": "^12.1.2",
     "@oracle/oraclejet-tooling": "^12.1.1",
     "bootstrap-icons": "^1.10.3",
+    "chart.js": "^4.4.1",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
     "pdfmake": "^0.2.7"
@@ -18,7 +19,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.2",
     "node-sass": "^7.0.1",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.33",
     "postcss-calc": "^8.0.1",
     "postcss-cli": "^8.1.0",
     "tailwindcss": "^1.9.2"

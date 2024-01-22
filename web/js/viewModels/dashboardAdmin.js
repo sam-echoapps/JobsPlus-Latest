@@ -85,13 +85,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                    app.onAppSuccess();
                    self.username(sessionStorage.getItem("userName"));
                    getTotalStaff();
+                   getChart();
                 }
             };
             self.context = context;
             self.router = self.context.parentRouter;
 
+
             function getTotalStaff() {
-                $("#mainView").hide();
+                $("#staffView").hide();
                 $("#loaderView").show();
                 $.ajax({
                     url: BaseURL + "/jpDashboardCountGet",
@@ -105,7 +107,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         }
                     },
                     success: function (data) {
-                        $("#mainView").show();
+                        $("#staffView").show();
                         $("#loaderView").hide();
                         console.log(data)
                         self.totalStaff(data[0][0][0])
@@ -115,6 +117,61 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
                 })
             }
+
+            function getChart() {
+                // $("#chartView").hide();
+                // $("#loaderView").show();
+                
+                /*Chart Properties*/
+
+                $.ajax({
+                    url: BaseURL + "/jpDashboardShiftInfoGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        $("#staffView").show();
+                        $("#loaderView").hide();
+                        console.log(data)
+                }
+                })
+            self.stackValue = ko.observable('off');
+            self.orientationValue = ko.observable('vertical');
+            /* chart data */
+            var pieSeries = [
+            {name : "Pending Shifts", items : [42000, 55000]},
+            {name : "Ongoing Shifts", items : [55000, 70000]},
+            {name : "Confirmed Shifts", items : [36000, 50000]},
+            {name : "Completed Shifts", items : [28000, 65000]},
+            ];
+            
+            var pieGroups = ["Average Salary", "Max Salary"];
+            self.pieSeriesValue = ko.observableArray(pieSeries);
+            self.pieGroupsValue = ko.observableArray(pieGroups);
+
+
+            self.stackValue = ko.observable('off');
+            self.orientationValue = ko.observable('vertical');
+            /* chart data */
+            var barSeries = [
+            {name : "Finance", items : [42000, 55000]},
+            {name : "Purchase", items : [55000, 70000]},
+            {name : "Service", items : [36000, 50000]},
+            {name : "Administration", items : [28000, 65000]},
+            {name : "HR", items : [25000, 60000]}
+            ];
+            
+            var barGroups = ["Average Salary", "Max Salary"];
+            self.barSeriesValue = ko.observableArray(barSeries);
+            self.barGroupsValue = ko.observableArray(barGroups);
+            }
+
 
 
             self.totalStaffPopup = function (event) {

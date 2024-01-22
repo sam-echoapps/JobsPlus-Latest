@@ -135,6 +135,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'download', detail : {label: 'Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'appDownload', detail : {label: 'App Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'dashboardAdmin', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+          { path: 'dashboardChart', detail : {label: 'Dashboard Chart',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
 /*           { path: 'postcode', detail : {label: 'Postcode',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} }
  */
         ];
