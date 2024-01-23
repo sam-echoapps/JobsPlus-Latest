@@ -77,6 +77,16 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             ];
             self.flag = ko.observable('0');
 
+            var totalShifts;
+            self.stackValue = ko.observable();
+            self.orientationValue = ko.observable();
+            /* chart data */
+            var pieSeries;
+            
+            var pieGroups;
+            self.pieSeriesValue = ko.observableArray();
+            self.pieGroupsValue = ko.observableArray();
+
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
                     self.router.go({ path: 'signin' });
@@ -119,7 +129,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             }
 
             function getChart() {
-                // $("#chartView").hide();
+                 $("#chartView").hide();
                 // $("#loaderView").show();
                 
                 /*Chart Properties*/
@@ -136,24 +146,26 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         }
                     },
                     success: function (data) {
-                        $("#staffView").show();
+                        $("#chartView").show();
                         $("#loaderView").hide();
                         console.log(data)
+                        totalShifts = data[0][0] + data[1][0] + data [2][0], data [3][0]
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        pieSeries = [
+                        {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
+                        {name : "Confirmed", items : [data[1][0], totalShifts], color: "#33cc33"},
+                        {name : "Completed", items : [data[2][0], totalShifts],color: "#3366cc"},
+                        {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                        ];
+                        
+                        pieGroups = ["Average Salary", "Max Salary"];
+                        self.pieSeriesValue(pieSeries);
+                        self.pieGroupsValue(pieGroups);
                 }
                 })
-            self.stackValue = ko.observable('off');
-            self.orientationValue = ko.observable('vertical');
-            /* chart data */
-            var pieSeries = [
-            {name : "Pending Shifts", items : [42000, 55000]},
-            {name : "Ongoing Shifts", items : [55000, 70000]},
-            {name : "Confirmed Shifts", items : [36000, 50000]},
-            {name : "Completed Shifts", items : [28000, 65000]},
-            ];
             
-            var pieGroups = ["Average Salary", "Max Salary"];
-            self.pieSeriesValue = ko.observableArray(pieSeries);
-            self.pieGroupsValue = ko.observableArray(pieGroups);
 
 
             self.stackValue = ko.observable('off');
