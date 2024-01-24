@@ -23,6 +23,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.start_date = ko.observable('');
             self.end_date = ko.observable('');
             self.groupValid = ko.observable();
+            self.totalShifts = ko.observable('0');
 
             self.menuItems = [
                 {
@@ -149,7 +150,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         $("#chartView").show();
                         $("#loaderView").hide();
                         console.log(data)
-                        totalShifts = data[0][0] + data[1][0] + data [2][0], data [3][0]
+                        totalShifts = data[0][0] + data[1][0] + data [2][0] + data [3][0]
+                        self.totalShifts(totalShifts)
                         self.stackValue('off');
                         self.orientationValue('vertical');
                         /* chart data */

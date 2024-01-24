@@ -188,12 +188,43 @@
 
     <!-- Widget Style 2 Start -->
     <div class="row"  id="chartView">
-        <div class="col-xl-3 mb-50">
+        <div class="col-xl-4 mb-50">
             <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
-                <div class="d-flex flex-wrap align-items-center">
+                <div class="widget-container">
+                <div class="circle-icon">
+                    <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                </div>
+                <div class="chart-widget-data">
+                    <div class="weight-800 font-18"><oj-bind-text value="[[totalShifts]]"></oj-bind-text></div>
+                    <div class="weight-500">Total Shifts</div>
+                </div>
+                <div class="menu-icon">
+                    <oj-menu-button
+                    chroming="borderless"
+                    id="menu-item-list"
+                    class="oj-button-sm"
+                    display="icons">
+                    <oj-menu slot="menu"  on-oj-action="[[menuItemPendingSelect]]">
+                        <oj-bind-for-each data="[[menuItemPending]]">
+                        <template>
+                            <oj-option
+                            value="[[$current.data.id]]"
+                            id="[[$current.data.id + 1]]">
+                                   <span>
+                                <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                            </span>
+                            </oj-option>
+                        </template>
+                        </oj-bind-for-each>
+                    </oj-menu>
+                    </oj-menu-button>  
+                </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center">        
             <div class="oj-hybrid-padding">
                 <div>
                     <oj-chart
+                    class="chart"
                     id="shiftsChart"
                     type="pie"
                     orientation="[[orientationValue]]"
@@ -210,28 +241,112 @@
         </div>
               </div>     
         </div>
-       <!--  <div class="col-xl-3 mb-50">
+        <div class="col-xl-4 mb-50">
             <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
-                <div class="d-flex flex-wrap align-items-center">
+                <div class="widget-container">
+                <div class="circle-icon">
+                    <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                </div>
+                <div class="chart-widget-data">
+                    <div class="weight-800 font-18"><oj-bind-text value="[[pendingStaff]]"></oj-bind-text></div>
+                    <div class="weight-500">Pending Users</div>
+                </div>
+                <div class="menu-icon">
+                    <oj-menu-button
+                    chroming="borderless"
+                    id="menu-item-list"
+                    class="oj-button-sm"
+                    display="icons">
+                    <oj-menu slot="menu"  on-oj-action="[[menuItemPendingSelect]]">
+                        <oj-bind-for-each data="[[menuItemPending]]">
+                        <template>
+                            <oj-option
+                            value="[[$current.data.id]]"
+                            id="[[$current.data.id + 1]]">
+                                   <span>
+                                <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                            </span>
+                            </oj-option>
+                        </template>
+                        </oj-bind-for-each>
+                    </oj-menu>
+                    </oj-menu-button>  
+                </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center">        
             <div class="oj-hybrid-padding">
                 <div>
                     <oj-chart
-                    id="barChart"
+                    class="chart"
+                    id="shiftsChart"
                     type="pie"
                     orientation="[[orientationValue]]"
                     stack="[[stackValue]]"
-                    series="[[barSeriesValue]]"
-                    groups="[[barGroupsValue]]"
+                    series="[[pieSeriesValue]]"
+                    groups="[[pieGroupsValue]]"
                     animation-on-display="auto"
                     animation-on-data-change="auto"
                     hover-behavior="dim"
-                    style="max-width:650px;width:100%;height:350px;">
+                    >
                     </oj-chart>
                 </div>
             </div>     
         </div>
               </div>     
-        </div> -->
+        </div>
+        <div class="col-xl-4 mb-50">
+            <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
+                <div class="widget-container">
+                <div class="circle-icon">
+                    <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                </div>
+                <div class="chart-widget-data">
+                    <div class="weight-800 font-18"><oj-bind-text value="[[pendingStaff]]"></oj-bind-text></div>
+                    <div class="weight-500">Pending Users</div>
+                </div>
+                <div class="menu-icon">
+                    <oj-menu-button
+                    chroming="borderless"
+                    id="menu-item-list"
+                    class="oj-button-sm"
+                    display="icons">
+                    <oj-menu slot="menu"  on-oj-action="[[menuItemPendingSelect]]">
+                        <oj-bind-for-each data="[[menuItemPending]]">
+                        <template>
+                            <oj-option
+                            value="[[$current.data.id]]"
+                            id="[[$current.data.id + 1]]">
+                                   <span>
+                                <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                            </span>
+                            </oj-option>
+                        </template>
+                        </oj-bind-for-each>
+                    </oj-menu>
+                    </oj-menu-button>  
+                </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center">        
+            <div class="oj-hybrid-padding">
+                <div>
+                    <oj-chart
+                    class="chart"
+                    id="shiftsChart"
+                    type="pie"
+                    orientation="[[orientationValue]]"
+                    stack="[[stackValue]]"
+                    series="[[pieSeriesValue]]"
+                    groups="[[pieGroupsValue]]"
+                    animation-on-display="auto"
+                    animation-on-data-change="auto"
+                    hover-behavior="dim"
+                    >
+                    </oj-chart>
+                </div>
+            </div>     
+        </div>
+              </div>     
+        </div>
     </div>
 <!-- Widget Style 2 End -->
 </div>

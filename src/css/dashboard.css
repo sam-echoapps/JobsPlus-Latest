@@ -304,6 +304,28 @@ body {
 	background-color: #e9f2ff !important;
   }
 
+  .chart{
+	margin-top:-60px;
+  }
+
+  .widget-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the start */
+}
+
+.circle-icon {
+    display: flex;
+}
+
+.chart-widget-data{
+	padding: 8px 16px;
+}
+
+
+
+
+
   
 
 

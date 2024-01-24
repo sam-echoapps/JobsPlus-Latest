@@ -57,10 +57,12 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 { id: "pending", label: "Pending Shifts" },
                 { id: "confirmed", label: "Confirmed Shifts" },
                 { id: "completed", label: "Completed Shifts" },
+                { id: "incompleted", label: "Incompleted Shifts" },
             ]; 
             self.shiftList = ko.observable('pending');  
             self.ConfirmedShiftPostDet = ko.observableArray([]);  
             self.CompletedShiftPostDet = ko.observableArray([]);  
+            self.IncompletedShiftPostDet = ko.observableArray([]);  
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -144,10 +146,18 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             self.CompletedShiftPostDet.push({'id': data3[i][0],'shift_name': data3[i][1], 'department_name' : data3[i][2], 'job_role' : data3[i][3], 'shift_date' : data3[i][4], 'start_time': data3[i][5], 'end_time' : data3[i][6], 'required_staff' : data3[i][7], 'requested_by' : data3[i][8], 'gender' : data3[i][9], 'staff_extra_pay' : data3[i][10], 'client_extra_pay' : data3[i][11], 'comments' : data3[i][12], 'client_name' : data3[i][13], 'shift_id' : data3[i][14], 'shift_status' : data3[i][15], 'booking_status' : data3[i][16], 'client_id' : data3[i][17], 'shift_time' : data3[i][5] + "-" + data3[i][6]  });
                         }
                 }
+                var data4 = JSON.parse(result[4]);
+                console.log(data4)
+                if(data4.length !=0){ 
+                    for (var i = 0; i < data4.length; i++) {
+                        self.IncompletedShiftPostDet.push({'id': data4[i][0],'shift_name': data4[i][1], 'department_name' : data4[i][2], 'job_role' : data4[i][3], 'shift_date' : data4[i][4], 'start_time': data4[i][5], 'end_time' : data4[i][6], 'required_staff' : data4[i][7], 'requested_by' : data4[i][8], 'gender' : data4[i][9], 'staff_extra_pay' : data4[i][10], 'client_extra_pay' : data4[i][11], 'comments' : data4[i][12], 'client_name' : data4[i][13], 'shift_id' : data4[i][14], 'shift_status' : data4[i][15], 'booking_status' : data4[i][16], 'client_id' : data4[i][17], 'shift_time' : data4[i][5] + "-" + data4[i][6]  });
+                    }
+            }
                     self.ShiftPostDet.valueHasMutated();  
                     self.ClientDet.valueHasMutated();
                     self.ConfirmedShiftPostDet.valueHasMutated();  
                     self.CompletedShiftPostDet.valueHasMutated();
+                    self.IncompletedShiftPostDet.valueHasMutated();
                     return self; 
                 }
                 })
@@ -190,6 +200,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
            self.dataProvider1 = new ArrayDataProvider(this.ShiftPostDet, { keyAttributes: "id"});
            self.dataProvider2 = new ArrayDataProvider(this.ConfirmedShiftPostDet, { keyAttributes: "id"});
            self.dataProvider3 = new ArrayDataProvider(this.CompletedShiftPostDet, { keyAttributes: "id"});
+           self.dataProvider4 = new ArrayDataProvider(this.IncompletedShiftPostDet, { keyAttributes: "id"});
 
             self.postNewShift = function () {
                 document.querySelector('#openPostNewShiftDialog').open();
