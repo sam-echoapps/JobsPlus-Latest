@@ -167,23 +167,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         self.pieGroupsValue(pieGroups);
                 }
                 })
-            
-
-
-            self.stackValue = ko.observable('off');
-            self.orientationValue = ko.observable('vertical');
-            /* chart data */
-            var barSeries = [
-            {name : "Finance", items : [42000, 55000]},
-            {name : "Purchase", items : [55000, 70000]},
-            {name : "Service", items : [36000, 50000]},
-            {name : "Administration", items : [28000, 65000]},
-            {name : "HR", items : [25000, 60000]}
-            ];
-            
-            var barGroups = ["Average Salary", "Max Salary"];
-            self.barSeriesValue = ko.observableArray(barSeries);
-            self.barGroupsValue = ko.observableArray(barGroups);
             }
 
 
@@ -773,6 +756,175 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
            /*  this.dataProvider = new ArrayDataProvider(JSON.parse(data), {
                 keyAttributes: "id",
             }); */
+
+            self.chartMenuItemSelect = function (event) {
+                var target = event.target;
+                var itemValue = target.value;
+                console.log(itemValue)
+                if(itemValue == 'this-week'){
+                    getThisWeekShift();
+                }
+                if(itemValue == 'this-month'){
+                    getThisMonthShift();
+                }
+                if(itemValue == 'last-week'){
+                    getLastWeekShift();
+                }
+                if(itemValue == 'last-month'){
+                    getLastMonthShift();
+                }
+                // if(itemValue == 'Custom'){
+                //     //getTotalStaffList();
+                //     let popup = document.getElementById("customStaffPopup");
+                //     popup.open();
+                //     //self.CustomTotalStaffDet([]);
+                //     //refresh()
+                // }
+            }
+
+            function getThisWeekShift() {
+                //$("#chartView").hide();
+               $.ajax({
+                   url: BaseURL + "/jpThisWeekDashboardShiftInfoGet",
+                   type: 'GET',
+                   dataType: 'json',
+                   timeout: sessionStorage.getItem("timeInetrval"),
+                   context: self,
+                   error: function (xhr, textStatus, errorThrown) {
+                       if(textStatus == 'timeout' || textStatus == 'error'){
+                           document.querySelector('#TimeoutSup').open();
+                       }
+                   },
+                   success: function (data) {
+                       $("#chartView").show();
+                       $("#loaderView").hide();
+                       console.log(data)
+                       totalShifts = data[0][0] + data[1][0] + data [2][0] + data [3][0]
+                       self.totalShifts(totalShifts)
+                       self.stackValue('off');
+                       self.orientationValue('vertical');
+                       /* chart data */
+                       pieSeries = [
+                       {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
+                       {name : "Confirmed", items : [data[1][0], totalShifts], color: "#33cc33"},
+                       {name : "Completed", items : [data[2][0], totalShifts],color: "#3366cc"},
+                       {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                       ];
+                       
+                       pieGroups = ["Average Salary", "Max Salary"];
+                       self.pieSeriesValue(pieSeries);
+                       self.pieGroupsValue(pieGroups);
+               }
+               })
+           }
+
+           function getThisMonthShift() {
+            //$("#chartView").hide();
+           $.ajax({
+               url: BaseURL + "/jpThisMonthDashboardShiftInfoGet",
+               type: 'GET',
+               dataType: 'json',
+               timeout: sessionStorage.getItem("timeInetrval"),
+               context: self,
+               error: function (xhr, textStatus, errorThrown) {
+                   if(textStatus == 'timeout' || textStatus == 'error'){
+                       document.querySelector('#TimeoutSup').open();
+                   }
+               },
+               success: function (data) {
+                   $("#chartView").show();
+                   $("#loaderView").hide();
+                   console.log(data)
+                   totalShifts = data[0][0] + data[1][0] + data [2][0] + data [3][0]
+                   self.totalShifts(totalShifts)
+                   self.stackValue('off');
+                   self.orientationValue('vertical');
+                   /* chart data */
+                   pieSeries = [
+                   {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
+                   {name : "Confirmed", items : [data[1][0], totalShifts], color: "#33cc33"},
+                   {name : "Completed", items : [data[2][0], totalShifts],color: "#3366cc"},
+                   {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                   ];
+                   
+                   pieGroups = ["Average Salary", "Max Salary"];
+                   self.pieSeriesValue(pieSeries);
+                   self.pieGroupsValue(pieGroups);
+           }
+           })
+       }
+
+                function getLastWeekShift() {
+                    //$("#chartView").hide();
+                $.ajax({
+                    url: BaseURL + "/jpLastWeekDashboardShiftInfoGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(data)
+                        totalShifts = data[0][0] + data[1][0] + data [2][0] + data [3][0]
+                        self.totalShifts(totalShifts)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        pieSeries = [
+                        {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
+                        {name : "Confirmed", items : [data[1][0], totalShifts], color: "#33cc33"},
+                        {name : "Completed", items : [data[2][0], totalShifts],color: "#3366cc"},
+                        {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                        ];
+                        
+                        pieGroups = ["Average Salary", "Max Salary"];
+                        self.pieSeriesValue(pieSeries);
+                        self.pieGroupsValue(pieGroups);
+                }
+                })
+            }
+
+            function getLastMonthShift() {
+                //$("#chartView").hide();
+            $.ajax({
+                url: BaseURL + "/jpLastMonthDashboardShiftInfoGet",
+                type: 'GET',
+                dataType: 'json',
+                timeout: sessionStorage.getItem("timeInetrval"),
+                context: self,
+                error: function (xhr, textStatus, errorThrown) {
+                    if(textStatus == 'timeout' || textStatus == 'error'){
+                        document.querySelector('#TimeoutSup').open();
+                    }
+                },
+                success: function (data) {
+                    $("#chartView").show();
+                    $("#loaderView").hide();
+                    console.log(data)
+                    totalShifts = data[0][0] + data[1][0] + data [2][0] + data [3][0]
+                    self.totalShifts(totalShifts)
+                    self.stackValue('off');
+                    self.orientationValue('vertical');
+                    /* chart data */
+                    pieSeries = [
+                    {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
+                    {name : "Confirmed", items : [data[1][0], totalShifts], color: "#33cc33"},
+                    {name : "Completed", items : [data[2][0], totalShifts],color: "#3366cc"},
+                    {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                    ];
+                    
+                    pieGroups = ["Average Salary", "Max Salary"];
+                    self.pieSeriesValue(pieSeries);
+                    self.pieGroupsValue(pieGroups);
+            }
+            })
+        }
 
         }
     }

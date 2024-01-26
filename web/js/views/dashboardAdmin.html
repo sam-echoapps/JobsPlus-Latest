@@ -204,8 +204,8 @@
                     id="menu-item-list"
                     class="oj-button-sm"
                     display="icons">
-                    <oj-menu slot="menu"  on-oj-action="[[menuItemPendingSelect]]">
-                        <oj-bind-for-each data="[[menuItemPending]]">
+                    <oj-menu slot="menu"  on-oj-action="[[chartMenuItemSelect]]">
+                        <oj-bind-for-each data="[[menuItems]]">
                         <template>
                             <oj-option
                             value="[[$current.data.id]]"
