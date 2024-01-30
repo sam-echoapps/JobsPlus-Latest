@@ -306,6 +306,7 @@ body {
 
   .chart{
 	margin-top:-60px;
+	margin-left:35px;
   }
 
   .widget-container {
@@ -351,6 +352,25 @@ body {
 	padding: 5px;
   }
 
+ .oj-legend-section {
+	font-size: 50px !important;
+	font-weight: bold !important;
+}
+
+.viewOption {
+	margin-top: 30px;;
+}
+
+.chartTab{
+	margin-left:300px;
+}
+
+.oj-button-toggle.oj-selected.oj-button-outlined-chrome, .oj-button.oj-selected.oj-button-outlined-chrome .oj-button-button  {
+	color: rgb(255 255 255) !important;
+	background-color: blue;
+	border-color: rgb(170 171 171);
+  }
+  
 
 
 

@@ -26,6 +26,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.totalShifts = ko.observable('0');
             self.TotalShiftDet = ko.observableArray([]);
             self.CustomTotalShiftDet = ko.observableArray([]);
+            self.totalTimesheet= ko.observable('0');
 
             self.menuItems = [
                 {
@@ -81,6 +82,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.flag = ko.observable('0');
 
             var totalShifts;
+            var customShifts;
             self.stackValue = ko.observable();
             self.orientationValue = ko.observable();
             /* chart data */
@@ -97,6 +99,21 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.LastWeekShiftDet = ko.observableArray();
             self.LastMonthShiftDet = ko.observableArray();
             self.ThisMonthShiftDet = ko.observableArray();
+            this.formatValues = [
+                { id: "list", label: "List" },
+                { id: "chart", label: "Chart" },
+            ]; 
+            self.viewOption = ko.observable('list');  
+            self.customPieSeriesValue = ko.observableArray();
+            var totalTimesheet;
+
+            var timesheetPieSeries;
+            
+            var timesheetPieGroups;
+            self.timesheetPieSeriesValue = ko.observableArray();
+            self.timesheetPieGroupsValue = ko.observableArray();
+            self.viewTimesheet = ko.observable('All');
+
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -106,7 +123,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                    app.onAppSuccess();
                    self.username(sessionStorage.getItem("userName"));
                    getTotalStaff();
-                   getChart();
+                   getShiftChart();
+                   getTimesheetChart();
                 }
             };
             self.context = context;
@@ -139,7 +157,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 })
             }
 
-            function getChart() {
+            function getShiftChart() {
                  $("#chartView").hide();
                 // $("#loaderView").show();
                 
@@ -1081,6 +1099,24 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 var fileName = 'Total_Shifts_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
                 self.blob(blob);
                 self.fileName(fileName);
+
+                $("#chartView").show();
+                $("#loaderView").hide();
+                customShifts = result[2][0] + result[3][0] + result [4][0] + result [5][0]
+                self.totalShifts(customShifts)
+                self.stackValue('off');
+                self.orientationValue('vertical');
+                /* chart data */
+                pieSeries = [
+                {name : "Pending", items : [result[2][0], customShifts], color: "#ffcc00"},
+                {name : "Confirmed", items : [result[3][0], customShifts], color: "#33cc33"},
+                {name : "Completed", items : [result[4][0], customShifts],color: "#3366cc"},
+                {name : "Incompleted", items : [result[5][0], customShifts],color: "#FF0000"},
+                ];
+                
+                pieGroups = ["Average Salary", "Max Salary"];
+                self.customPieSeriesValue(pieSeries);
+                self.pieGroupsValue(pieGroups);
                 }
             })  
             }
@@ -1130,6 +1166,24 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             var fileName = 'Total_Shifts_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
             self.blob(blob);
             self.fileName(fileName);
+
+            $("#chartView").show();
+            $("#loaderView").hide();
+            customShifts = result[2][0] + result[3][0] + result [4][0] + result [5][0]
+            self.totalShifts(customShifts)
+            self.stackValue('off');
+            self.orientationValue('vertical');
+            /* chart data */
+            pieSeries = [
+            {name : "Pending", items : [result[2][0], customShifts], color: "#ffcc00"},
+            {name : "Confirmed", items : [result[3][0], customShifts], color: "#33cc33"},
+            {name : "Completed", items : [result[4][0], customShifts],color: "#3366cc"},
+            {name : "Incompleted", items : [result[5][0], customShifts],color: "#FF0000"},
+            ];
+            
+            pieGroups = ["Average Salary", "Max Salary"];
+            self.customPieSeriesValue(pieSeries);
+            self.pieGroupsValue(pieGroups);
                 }
             })  
             }
@@ -1162,6 +1216,126 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             let popup = document.getElementById("ThisMonthShiftPopup");
             popup.open();
         }
+
+        
+        function getTimesheetChart() {
+            $("#chartView").hide();
+           // $("#loaderView").show();
+           
+           /*Chart Properties*/
+
+           $.ajax({
+               url: BaseURL + "/jpDashboardTimesheetInfoGet",
+               type: 'GET',
+               dataType: 'json',
+               timeout: sessionStorage.getItem("timeInetrval"),
+               context: self,
+               error: function (xhr, textStatus, errorThrown) {
+                   if(textStatus == 'timeout' || textStatus == 'error'){
+                       document.querySelector('#TimeoutSup').open();
+                   }
+               },
+               success: function (data) {
+                   $("#chartView").show();
+                   $("#loaderView").hide();
+                   console.log(data)
+                   totalTimesheet = data[0][0] 
+                   self.totalTimesheet(totalTimesheet)
+                   self.stackValue('off');
+                   self.orientationValue('vertical');
+                   /* chart data */
+                   timesheetPieSeries = [
+                   {name : "Pending", items : [data[1][0], totalTimesheet], color: "#ffcc00"},
+                   {name : "Submitted", items : [data[2][0], totalTimesheet], color: "#33cc33"},
+                   {name : "Approved", items : [data[3][0], totalTimesheet],color: "#3366cc"}
+                   ];
+                   
+                   timesheetPieGroups = ["Average Salary", "Max Salary"];
+                   self.timesheetPieSeriesValue(timesheetPieSeries);
+                   self.timesheetPieGroupsValue(timesheetPieGroups);
+           }
+           })
+       }
+
+       self.chartMenuItemSelect = function (event) {
+        var target = event.target;
+        var itemValue = target.value;
+        console.log(itemValue)
+        if(itemValue == 'this-week'){
+            self.viewTimesheet('this-week')
+            getThisWeekTimesheet();
+        }
+        if(itemValue == 'this-month'){
+            self.viewTimesheet('this-month')
+            getThisMonthShift();
+        }
+        if(itemValue == 'last-week'){
+            self.viewTimesheet('last-week')
+            getLastWeekShift();
+        }
+        if(itemValue == 'last-month'){
+            self.viewTimesheet('last-month')
+            getLastMonthShift();
+        }
+        if(itemValue == 'custom'){
+            self.viewTimesheet('')
+            //getTotalStaffList();
+            let popup = document.getElementById("customShiftPopup");
+            popup.open();
+        }
+    }
+
+    function getThisWeekTimesheet() {
+        //$("#chartView").hide();
+       $.ajax({
+           url: BaseURL + "/jpThisWeekDashboardTimesheetInfoGet",
+           type: 'GET',
+           dataType: 'json',
+           timeout: sessionStorage.getItem("timeInetrval"),
+           context: self,
+           error: function (xhr, textStatus, errorThrown) {
+               if(textStatus == 'timeout' || textStatus == 'error'){
+                   document.querySelector('#TimeoutSup').open();
+               }
+           },
+           success: function (result1) {
+               $("#chartView").show();
+               $("#loaderView").hide();
+               console.log(result1)
+               totalTimesheet = result1[0][0] 
+               self.totalTimesheet(totalTimesheet)
+               self.stackValue('off');
+               self.orientationValue('vertical');
+               /* chart data */
+               timesheetPieSeries = [
+                {name : "Pending", items : [result1[1][0], totalTimesheet], color: "#ffcc00"},
+                {name : "Submitted", items : [result1[2][0], totalTimesheet], color: "#33cc33"},
+                {name : "Approved", items : [result1[3][0], totalTimesheet],color: "#3366cc"}
+                ];
+                
+                timesheetPieGroups = ["Average Salary", "Max Salary"];
+                self.timesheetPieSeriesValue(timesheetPieSeries);
+                self.timesheetPieGroupsValue(timesheetPieGroups);
+
+            //    $("#customLoaderViewPopup").hide();
+            //     var datas = JSON.parse(data[4]);
+            //     console.log(data)
+            //     var csvContent = '';
+            //     var headers = ['SL.No', 'Client Name', 'Shift Name','Shift Date','Shift Time','Status'];
+            //     csvContent += headers.join(',') + '\n';
+            //      for (var i = 0; i < datas.length; i++) {
+            //         self.ThisMonthShiftDet.push({'no': i+1,'id': datas[i][0],'client_name' : datas[i][1],'shift_name' : datas[i][2],'shift_date' : datas[i][3], 'shift_time': datas[i][4] + " - " + datas[i][5], 'status': datas[i][6]  });
+            //         var rowData = [i+1, datas[i][1],  datas[i][2],  datas[i][3], datas[i][4] + "-"  + datas[i][5], datas[i][6]];
+            //         csvContent += rowData.join(',') + '\n';
+            // }
+            // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            // var today = new Date();
+            // var fileName = 'Total_Shifts_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+            // self.blob(blob);
+            // self.fileName(fileName);
+       }
+       })
+   }
 
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
