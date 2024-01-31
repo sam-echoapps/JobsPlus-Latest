@@ -332,14 +332,14 @@ body {
   }
   
   .oj-table-element-confirmed-shifts {
-	background-color:#30795b;
+	background-color: rgb(69, 79, 213);
 	color: #ffffff;
 	border-radius: 10px; 
 	padding: 5px;
   }
   
   .oj-table-element-completed-shifts {
-	background-color: rgb(69, 79, 213);
+	background-color:#30795b;
 	color: #ffffff;
 	border-radius: 10px; 
 	padding: 5px;
