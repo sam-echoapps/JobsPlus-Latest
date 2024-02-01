@@ -126,6 +126,26 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.timesheetCustomPieSeriesValue = ko.observableArray();
             self.timesheetCustomPieGroupsValue = ko.observableArray();
 
+            var totalInvoice;
+            var invoicePieSeries;
+            var invoicePieGroups;
+            self.invoicePieSeriesValue = ko.observableArray();
+            self.invoicePieGroupsValue = ko.observableArray();
+            self.totalInvoice= ko.observable('0');
+            self.viewInvoice = ko.observable('All');
+            self.TotalInvoiceDet = ko.observableArray();
+            self.ThisWeekInvoiceDet = ko.observableArray();
+            self.ThisMonthInvoiceDet = ko.observableArray();
+            self.LastWeekInvoiceDet = ko.observableArray();
+            self.LastMonthInvoiceDet = ko.observableArray();
+            self.InvoiceFlag = ko.observable('0');
+            self.CustomTotalInvoiceDet = ko.observableArray();
+            var invoiceCustomPieSeries;
+            var invoiceCustomPieGroups;
+            self.invoiceCustomPieSeriesValue = ko.observableArray();
+            self.invoiceCustomPieGroupsValue = ko.observableArray();
+            self.customInvoiceCount= ko.observable('0');
+
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
                     self.router.go({ path: 'signin' });
@@ -136,7 +156,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                    getTotalStaff();
                    getShiftChart();
                    getTimesheetChart();
-                }
+                   getInvoiceChart();                }
             };
             self.context = context;
             self.router = self.context.parentRouter;
@@ -1119,10 +1139,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 self.orientationValue('vertical');
                 /* chart data */
                 pieSeries = [
-                    {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
-                    {name : "Confirmed", items : [data[1][0], totalShifts], color: "#3366cc"},
-                    {name : "Completed", items : [data[2][0], totalShifts],color: "#33cc33"},
-                    {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                    {name : "Pending", items : [result[2][0], customShifts], color: "#ffcc00"},
+                    {name : "Confirmed", items : [result[3][0], customShifts], color: "#3366cc"},
+                    {name : "Completed", items : [result[4][0], customShifts],color: "#33cc33"},
+                    {name : "Incompleted", items : [result[5][0], customShifts],color: "#FF0000"},
                 ];
                 
                 pieGroups = ["Average Salary", "Max Salary"];
@@ -1186,10 +1206,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.orientationValue('vertical');
             /* chart data */
             pieSeries = [
-                {name : "Pending", items : [data[0][0], totalShifts], color: "#ffcc00"},
-                {name : "Confirmed", items : [data[1][0], totalShifts], color: "#3366cc"},
-                {name : "Completed", items : [data[2][0], totalShifts],color: "#33cc33"},
-                {name : "Incompleted", items : [data[3][0], totalShifts],color: "#FF0000"},
+                {name : "Pending", items : [result[2][0], customShifts], color: "#ffcc00"},
+                {name : "Confirmed", items : [result[3][0], customShifts], color: "#3366cc"},
+                {name : "Completed", items : [result[4][0], customShifts],color: "#33cc33"},
+                {name : "Incompleted", items : [result[5][0], customShifts],color: "#FF0000"},
             ];
             
             pieGroups = ["Average Salary", "Max Salary"];
@@ -1779,6 +1799,489 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         }; 
 
 
+        self.chartInvoiceMenuItemSelect = function (event) {
+            var target = event.target;
+            var itemValue = target.value;
+            console.log(itemValue)
+            if(itemValue == 'this-week'){
+                self.viewInvoice('this-week')
+                getThisWeekInvoice();
+            }
+            if(itemValue == 'this-month'){
+                self.viewInvoice('this-month')
+                getThisMonthInvoice();
+            }
+            if(itemValue == 'last-week'){
+                self.viewInvoice('last-week')
+                getLastWeekInvoice();
+            }
+            if(itemValue == 'last-month'){
+                self.viewInvoice('last-month')
+                getLastMonthInvoice();
+            }
+            if(itemValue == 'custom'){
+                self.viewInvoice('')
+                let popup = document.getElementById("customInvoicePopup");
+                popup.open();
+            }
+        }
+    
+
+        function getInvoiceChart() {
+            $("#chartView").hide();
+           // $("#loaderView").show();
+           
+           /*Chart Properties*/
+
+           $.ajax({
+               url: BaseURL + "/jpDashboardInvoiceInfoGet",
+               type: 'GET',
+               dataType: 'json',
+               timeout: sessionStorage.getItem("timeInetrval"),
+               context: self,
+               error: function (xhr, textStatus, errorThrown) {
+                   if(textStatus == 'timeout' || textStatus == 'error'){
+                       document.querySelector('#TimeoutSup').open();
+                   }
+               },
+               success: function (dataInvoice) {
+                   $("#chartView").show();
+                   $("#loaderView").hide();
+                   console.log(dataInvoice)
+                   //totalInvoice = dataInvoice[0][0] 
+                   totalInvoice = dataInvoice[1][0] + dataInvoice[2][0] + dataInvoice[3][0]; 
+                   self.totalInvoice(totalInvoice)
+                   self.stackValue('off');
+                   self.orientationValue('vertical');
+                   /* chart data */
+                   invoicePieSeries = [
+                   {name : "Unpublished", items : [dataInvoice[1][0], totalInvoice], color: "#ffcc00"},
+                   {name : "Published", items : [dataInvoice[2][0], totalInvoice], color: "#3366cc"},
+                   {name : "Paid", items : [dataInvoice[3][0], totalInvoice],color: "#33cc33"}
+                   ];
+                   
+                   invoicePieGroups = ["Average Salary", "Max Salary"];
+                   self.invoicePieSeriesValue(invoicePieSeries);
+                   self.invoicePieGroupsValue(invoicePieGroups);
+           }
+           })
+       }
+
+            self.TotalInvoicePopup = function (event) {
+                getTotalInvoiceList();
+                let popup = document.getElementById("TotalInvoicePopup");
+                popup.open();
+            }
+        
+            function getTotalInvoiceList() {
+                //$("#chartView").hide();
+                $.ajax({
+                    url: BaseURL + "/jpDashboardTotalInvoiceListGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (resultTotalInvoice) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+        
+                        $("#customLoaderViewPopup").hide();
+                        var dataTotalInvoice = JSON.parse(resultTotalInvoice[0]);
+                        console.log(dataTotalInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataTotalInvoice.length; i++) {
+                            self.TotalInvoiceDet.push({'no': i+1,'id': dataTotalInvoice[i][0],'client_name' : dataTotalInvoice[i][1],'timesheet_date' : dataTotalInvoice[i][2] + " - " + dataTotalInvoice[i][3],'invoice_date' : dataTotalInvoice[i][4],'due_date' : dataTotalInvoice[i][5], 'grand_total' : dataTotalInvoice[i][6], 'status': dataTotalInvoice[i][7]  });
+                            var rowData = [i+1, dataTotalInvoice[i][1], dataTotalInvoice[i][2] + "-"  + dataTotalInvoice[i][3], dataTotalInvoice[i][4], dataTotalInvoice[i][5], dataTotalInvoice[i][6], dataTotalInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                }
+                })
+            }
+
+            self.ThisWeekInvoicePopup = function (event) {
+                let popup = document.getElementById("ThisWeekInvoicePopup");
+                popup.open();
+            }
+            
+                function getThisWeekInvoice() {
+                    //$("#chartView").hide();
+                   $.ajax({
+                       url: BaseURL + "/jpThisWeekDashboardInvoiceInfoGet",
+                       type: 'GET',
+                       dataType: 'json',
+                       timeout: sessionStorage.getItem("timeInetrval"),
+                       context: self,
+                       error: function (xhr, textStatus, errorThrown) {
+                           if(textStatus == 'timeout' || textStatus == 'error'){
+                               document.querySelector('#TimeoutSup').open();
+                           }
+                       },
+                       success: function (resultThisWeek) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(resultThisWeek)
+                        //totalInvoice = dataInvoice[0][0] 
+                        totalInvoice = resultThisWeek[1][0] + resultThisWeek[2][0] + resultThisWeek[3][0]; 
+                        self.totalInvoice(totalInvoice)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        invoicePieSeries = [
+                        {name : "Unpublished", items : [resultThisWeek[1][0], totalInvoice], color: "#ffcc00"},
+                        {name : "Published", items : [resultThisWeek[2][0], totalInvoice], color: "#3366cc"},
+                        {name : "Paid", items : [resultThisWeek[3][0], totalInvoice],color: "#33cc33"}
+                        ];
+                        
+                        invoicePieGroups = ["Average Salary", "Max Salary"];
+                        self.invoicePieSeriesValue(invoicePieSeries);
+                        self.invoicePieGroupsValue(invoicePieGroups);
+            
+                        $("#customLoaderViewPopup").hide();
+                        var dataThisWeekInvoice = JSON.parse(resultThisWeek[4]);
+                        console.log(dataThisWeekInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataThisWeekInvoice.length; i++) {
+                            self.ThisWeekInvoiceDet.push({'no': i+1,'id': dataThisWeekInvoice[i][0],'client_name' : dataThisWeekInvoice[i][1],'timesheet_date' : dataThisWeekInvoice[i][2] + " - " + dataThisWeekInvoice[i][3],'invoice_date' : dataThisWeekInvoice[i][4],'due_date' : dataThisWeekInvoice[i][5], 'grand_total' : dataThisWeekInvoice[i][6], 'status': dataThisWeekInvoice[i][7]  });
+                            var rowData = [i+1, dataThisWeekInvoice[i][1], dataThisWeekInvoice[i][2] + "-"  + dataThisWeekInvoice[i][3], dataThisWeekInvoice[i][4], dataThisWeekInvoice[i][5], dataThisWeekInvoice[i][6], dataThisWeekInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'This_Week_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                   }
+                   })
+               }
+
+               self.ThisMonthInvoicePopup = function (event) {
+                let popup = document.getElementById("ThisMonthInvoicePopup");
+                popup.open();
+            }
+            
+                function getThisMonthInvoice() {
+                    //$("#chartView").hide();
+                   $.ajax({
+                       url: BaseURL + "/jpThisMonthDashboardInvoiceInfoGet",
+                       type: 'GET',
+                       dataType: 'json',
+                       timeout: sessionStorage.getItem("timeInetrval"),
+                       context: self,
+                       error: function (xhr, textStatus, errorThrown) {
+                           if(textStatus == 'timeout' || textStatus == 'error'){
+                               document.querySelector('#TimeoutSup').open();
+                           }
+                       },
+                       success: function (resultThisMonth) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(resultThisMonth)
+                        //totalInvoice = dataInvoice[0][0] 
+                        totalInvoice = resultThisMonth[1][0] + resultThisMonth[2][0] + resultThisMonth[3][0]; 
+                        self.totalInvoice(totalInvoice)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        invoicePieSeries = [
+                        {name : "Unpublished", items : [resultThisMonth[1][0], totalInvoice], color: "#ffcc00"},
+                        {name : "Published", items : [resultThisMonth[2][0], totalInvoice], color: "#3366cc"},
+                        {name : "Paid", items : [resultThisMonth[3][0], totalInvoice],color: "#33cc33"}
+                        ];
+                        
+                        invoicePieGroups = ["Average Salary", "Max Salary"];
+                        self.invoicePieSeriesValue(invoicePieSeries);
+                        self.invoicePieGroupsValue(invoicePieGroups);
+            
+                        $("#customLoaderViewPopup").hide();
+                        var dataThisMonthInvoice = JSON.parse(resultThisMonth[4]);
+                        console.log(dataThisMonthInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataThisMonthInvoice.length; i++) {
+                            self.ThisMonthInvoiceDet.push({'no': i+1,'id': dataThisMonthInvoice[i][0],'client_name' : dataThisMonthInvoice[i][1],'timesheet_date' : dataThisMonthInvoice[i][2] + " - " + dataThisMonthInvoice[i][3],'invoice_date' : dataThisMonthInvoice[i][4],'due_date' : dataThisMonthInvoice[i][5], 'grand_total' : dataThisMonthInvoice[i][6], 'status': dataThisMonthInvoice[i][7]  });
+                            var rowData = [i+1, dataThisMonthInvoice[i][1], dataThisMonthInvoice[i][2] + "-"  + dataThisMonthInvoice[i][3], dataThisMonthInvoice[i][4], dataThisMonthInvoice[i][5], dataThisMonthInvoice[i][6], dataThisMonthInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'This_Month_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                   }
+                   })
+               }
+
+               self.LastWeekInvoicePopup = function (event) {
+                let popup = document.getElementById("LastWeekInvoicePopup");
+                popup.open();
+            }
+            
+                function getLastWeekInvoice() {
+                    //$("#chartView").hide();
+                   $.ajax({
+                       url: BaseURL + "/jpLastWeekDashboardInvoiceInfoGet",
+                       type: 'GET',
+                       dataType: 'json',
+                       timeout: sessionStorage.getItem("timeInetrval"),
+                       context: self,
+                       error: function (xhr, textStatus, errorThrown) {
+                           if(textStatus == 'timeout' || textStatus == 'error'){
+                               document.querySelector('#TimeoutSup').open();
+                           }
+                       },
+                       success: function (resultLastWeek) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(resultLastWeek)
+                        //totalInvoice = dataInvoice[0][0] 
+                        totalInvoice = resultLastWeek[1][0] + resultLastWeek[2][0] + resultLastWeek[3][0]; 
+                        self.totalInvoice(totalInvoice)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        invoicePieSeries = [
+                        {name : "Unpublished", items : [resultLastWeek[1][0], totalInvoice], color: "#ffcc00"},
+                        {name : "Published", items : [resultLastWeek[2][0], totalInvoice], color: "#3366cc"},
+                        {name : "Paid", items : [resultLastWeek[3][0], totalInvoice],color: "#33cc33"}
+                        ];
+                        
+                        invoicePieGroups = ["Average Salary", "Max Salary"];
+                        self.invoicePieSeriesValue(invoicePieSeries);
+                        self.invoicePieGroupsValue(invoicePieGroups);
+            
+                        $("#customLoaderViewPopup").hide();
+                        var dataLastWeekInvoice = JSON.parse(resultLastWeek[4]);
+                        console.log(dataLastWeekInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataLastWeekInvoice.length; i++) {
+                            self.LastWeekInvoiceDet.push({'no': i+1,'id': dataLastWeekInvoice[i][0],'client_name' : dataLastWeekInvoice[i][1],'timesheet_date' : dataLastWeekInvoice[i][2] + " - " + dataLastWeekInvoice[i][3],'invoice_date' : dataLastWeekInvoice[i][4],'due_date' : dataLastWeekInvoice[i][5], 'grand_total' : dataLastWeekInvoice[i][6], 'status': dataLastWeekInvoice[i][7]  });
+                            var rowData = [i+1, dataLastWeekInvoice[i][1], dataLastWeekInvoice[i][2] + "-"  + dataLastWeekInvoice[i][3], dataLastWeekInvoice[i][4], dataLastWeekInvoice[i][5], dataLastWeekInvoice[i][6], dataLastWeekInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Last_Week_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                   }
+                   })
+               }
+
+
+               self.LastMonthInvoicePopup = function (event) {
+                let popup = document.getElementById("LastMonthInvoicePopup");
+                popup.open();
+            }
+            
+                function getLastMonthInvoice() {
+                    //$("#chartView").hide();
+                   $.ajax({
+                       url: BaseURL + "/jpLastMonthDashboardInvoiceInfoGet",
+                       type: 'GET',
+                       dataType: 'json',
+                       timeout: sessionStorage.getItem("timeInetrval"),
+                       context: self,
+                       error: function (xhr, textStatus, errorThrown) {
+                           if(textStatus == 'timeout' || textStatus == 'error'){
+                               document.querySelector('#TimeoutSup').open();
+                           }
+                       },
+                       success: function (resultLastMonth) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(resultLastMonth)
+                        //totalInvoice = dataInvoice[0][0] 
+                        totalInvoice = resultLastMonth[1][0] + resultLastMonth[2][0] + resultLastMonth[3][0]; 
+                        self.totalInvoice(totalInvoice)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        invoicePieSeries = [
+                        {name : "Unpublished", items : [resultLastMonth[1][0], totalInvoice], color: "#ffcc00"},
+                        {name : "Published", items : [resultLastMonth[2][0], totalInvoice], color: "#3366cc"},
+                        {name : "Paid", items : [resultLastMonth[3][0], totalInvoice],color: "#33cc33"}
+                        ];
+                        
+                        invoicePieGroups = ["Average Salary", "Max Salary"];
+                        self.invoicePieSeriesValue(invoicePieSeries);
+                        self.invoicePieGroupsValue(invoicePieGroups);
+            
+                        $("#customLoaderViewPopup").hide();
+                        var dataLastMonthInvoice = JSON.parse(resultLastMonth[4]);
+                        console.log(dataLastWeekInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataLastMonthInvoice.length; i++) {
+                            self.LastMonthInvoiceDet.push({'no': i+1,'id': dataLastMonthInvoice[i][0],'client_name' : dataLastMonthInvoice[i][1],'timesheet_date' : dataLastMonthInvoice[i][2] + " - " + dataLastMonthInvoice[i][3],'invoice_date' : dataLastMonthInvoice[i][4],'due_date' : dataLastMonthInvoice[i][5], 'grand_total' : dataLastMonthInvoice[i][6], 'status': dataLastMonthInvoice[i][7]  });
+                            var rowData = [i+1, dataLastMonthInvoice[i][1], dataLastMonthInvoice[i][2] + "-"  + dataLastMonthInvoice[i][3], dataLastMonthInvoice[i][4], dataLastMonthInvoice[i][5], dataLastMonthInvoice[i][6], dataLastMonthInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Last_Month_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                   }
+                   })
+               }
+
+               self.TotalInvoiceDateFilter = function (event,data) {
+                self.InvoiceFlag('1');
+                var validSec = self._checkValidationGroup("dateFilterTotalInvoice");
+                if (validSec) {
+                    $("#customLoaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL + "/jpDashboardTotalInvoiceDateFilter",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        start_date : self.start_date(),
+                        end_date : self.end_date()
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#loaderViewPopup').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                    success: function (resultCustom) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(resultCustom)
+                        //totalInvoice = dataInvoice[0][0] 
+                        totalInvoice = resultCustom[1][0] + resultCustom[2][0] + resultCustom[3][0]; 
+                        self.customInvoiceCount(totalInvoice)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        invoiceCustomPieSeries = [
+                        {name : "Unpublished", items : [resultCustom[1][0], totalInvoice], color: "#ffcc00"},
+                        {name : "Published", items : [resultCustom[2][0], totalInvoice], color: "#3366cc"},
+                        {name : "Paid", items : [resultCustom[3][0], totalInvoice],color: "#33cc33"}
+                        ];
+                        
+                        invoiceCustomPieGroups = ["Average Salary", "Max Salary"];
+                        self.invoiceCustomPieSeriesValue(invoiceCustomPieSeries);
+                        self.invoiceCustomPieGroupsValue(invoiceCustomPieGroups);
+            
+                        $("#customLoaderViewPopup").hide();
+                        var dataCustomInvoice = JSON.parse(resultCustom[4]);
+                        console.log(dataCustomInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataCustomInvoice.length; i++) {
+                            self.CustomTotalInvoiceDet.push({'no': i+1,'id': dataCustomInvoice[i][0],'client_name' : dataCustomInvoice[i][1],'timesheet_date' : dataCustomInvoice[i][2] + " - " + dataCustomInvoice[i][3],'invoice_date' : dataCustomInvoice[i][4],'due_date' : dataCustomInvoice[i][5], 'grand_total' : dataCustomInvoice[i][6], 'status': dataCustomInvoice[i][7]  });
+                            var rowData = [i+1, dataCustomInvoice[i][1], dataCustomInvoice[i][2] + "-"  + dataCustomInvoice[i][3], dataCustomInvoice[i][4], dataCustomInvoice[i][5], dataCustomInvoice[i][6], dataCustomInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                    }
+                })  
+                }
+            }; 
+           
+            self.TotalInvoiceDateFilterClear = function (event,data) {
+                console.log(self.CustomTotalInvoiceDet())
+                var validSec = self._checkValidationGroup("dateFilterTotalStaff");
+                if(validSec == false){
+                 self.CustomTotalInvoiceDet([])
+                }
+                if (validSec) {
+                 self.CustomTotalInvoiceDet([])
+                 $("#customLoaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL + "/jpDashboardTotalInvoiceDateFilter",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        start_date : self.start_date(),
+                        end_date : self.end_date()
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#loaderViewPopup').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                    success: function (resultCustom) {
+                        $("#chartView").show();
+                        $("#loaderView").hide();
+                        console.log(resultCustom)
+                        //totalInvoice = dataInvoice[0][0] 
+                        totalInvoice = resultCustom[1][0] + resultCustom[2][0] + resultCustom[3][0]; 
+                        self.customInvoiceCount(totalInvoice)
+                        self.stackValue('off');
+                        self.orientationValue('vertical');
+                        /* chart data */
+                        invoiceCustomPieSeries = [
+                        {name : "Unpublished", items : [resultCustom[1][0], totalInvoice], color: "#ffcc00"},
+                        {name : "Published", items : [resultCustom[2][0], totalInvoice], color: "#3366cc"},
+                        {name : "Paid", items : [resultCustom[3][0], totalInvoice],color: "#33cc33"}
+                        ];
+                        
+                        invoiceCustomPieGroups = ["Average Salary", "Max Salary"];
+                        self.invoiceCustomPieSeriesValue(invoiceCustomPieSeries);
+                        self.invoiceCustomPieGroupsValue(invoiceCustomPieGroups);
+            
+                        $("#customLoaderViewPopup").hide();
+                        var dataCustomInvoice = JSON.parse(resultCustom[4]);
+                        console.log(dataCustomInvoice)
+                        var csvContent = '';
+                        var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        var status;
+                        self.CustomTotalInvoiceDet([])
+                        csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataCustomInvoice.length; i++) {
+                            self.CustomTotalInvoiceDet.push({'no': i+1,'id': dataCustomInvoice[i][0],'client_name' : dataCustomInvoice[i][1],'timesheet_date' : dataCustomInvoice[i][2] + " - " + dataCustomInvoice[i][3],'invoice_date' : dataCustomInvoice[i][4],'due_date' : dataCustomInvoice[i][5], 'grand_total' : dataCustomInvoice[i][6], 'status': dataCustomInvoice[i][7]  });
+                            var rowData = [i+1, dataCustomInvoice[i][1], dataCustomInvoice[i][2] + "-"  + dataCustomInvoice[i][3], dataCustomInvoice[i][4], dataCustomInvoice[i][5], dataCustomInvoice[i][6], dataCustomInvoice[i][7]];
+                            csvContent += rowData.join(',') + '\n';
+                    }
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    var today = new Date();
+                    var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    self.blob(blob);
+                    self.fileName(fileName);
+                    }
+                })  
+                }
+            }; 
+    
+    
+
+
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
         self.ActiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.ActiveStaffDet, {keyAttributes: 'id'}));   
@@ -1800,6 +2303,12 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         self.LastMonthTimesheetData = new PagingDataProviderView(new ArrayDataProvider(self.LastMonthTimesheetDet, {keyAttributes: 'id'}));       
         self.CustomTotalTimesheetData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalTimesheetDet, {keyAttributes: 'id'}));       
 
+        self.TotalInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.TotalInvoiceDet, {keyAttributes: 'id'}));    
+        self.ThisWeekInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.ThisWeekInvoiceDet, {keyAttributes: 'id'}));    
+        self.ThisMonthInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.ThisMonthInvoiceDet, {keyAttributes: 'id'}));    
+        self.LastWeekInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.LastWeekInvoiceDet, {keyAttributes: 'id'}));    
+        self.LastMonthInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.LastMonthInvoiceDet, {keyAttributes: 'id'}));    
+        self.CustomTotalInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalInvoiceDet, {keyAttributes: 'id'}));       
         }
     }
     return  dasboardAdminfViewModel;
