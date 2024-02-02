@@ -146,6 +146,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.invoiceCustomPieGroupsValue = ko.observableArray();
             self.customInvoiceCount= ko.observable('0');
 
+            self.StaffWorkHoursDet = ko.observableArray();
+
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
                     self.router.go({ path: 'signin' });
@@ -156,7 +158,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                    getTotalStaff();
                    getShiftChart();
                    getTimesheetChart();
-                   getInvoiceChart();                }
+                   getInvoiceChart(); 
+                   getStaffWorkHours();  
+                }
             };
             self.context = context;
             self.router = self.context.parentRouter;
@@ -2279,7 +2283,46 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
             }; 
     
+            function getStaffWorkHours() {
+                $("#workView").hide();
+               // $("#loaderView").show();
+               
+               /*Chart Properties*/
     
+               $.ajax({
+                   url: BaseURL + "/jpDashboardTotalStaffWorkHoursGet",
+                   type: 'GET',
+                   dataType: 'json',
+                   timeout: sessionStorage.getItem("timeInetrval"),
+                   context: self,
+                   error: function (xhr, textStatus, errorThrown) {
+                       if(textStatus == 'timeout' || textStatus == 'error'){
+                           document.querySelector('#TimeoutSup').open();
+                       }
+                   },
+                   success: function (dataStaffWork) {
+                       $("#workView").show();
+                       $("#loaderView").hide();
+                       console.log(dataStaffWork)
+                       $("#customLoaderViewPopup").hide();
+                        var dataStaffHours = JSON.parse(dataStaffWork[0]);
+                        console.log(dataStaffHours)
+                        // var csvContent = '';
+                        // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        // csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataStaffHours.length; i++) {
+                            self.StaffWorkHoursDet.push({'no': i+1, 'staff_name': dataStaffHours[i][0] + " " + dataStaffHours[i][1], 'job_role': dataStaffHours[i][2], 'total_hours': dataStaffHours[i][3]  });
+                            // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                            // csvContent += rowData.join(',') + '\n';
+                    }
+                    // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    // var today = new Date();
+                    // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    // self.blob(blob);
+                    // self.fileName(fileName);
+               }
+               })
+           }
 
 
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
@@ -2308,7 +2351,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         self.ThisMonthInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.ThisMonthInvoiceDet, {keyAttributes: 'id'}));    
         self.LastWeekInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.LastWeekInvoiceDet, {keyAttributes: 'id'}));    
         self.LastMonthInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.LastMonthInvoiceDet, {keyAttributes: 'id'}));    
-        self.CustomTotalInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalInvoiceDet, {keyAttributes: 'id'}));       
+        self.CustomTotalInvoiceData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalInvoiceDet, {keyAttributes: 'id'}));     
+        
+        self.StaffWorkHoursData = new PagingDataProviderView(new ArrayDataProvider(self.StaffWorkHoursDet, {keyAttributes: 'id'}));       
+
         }
     }
     return  dasboardAdminfViewModel;

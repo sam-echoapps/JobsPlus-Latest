@@ -56,6 +56,8 @@ body {
 .mb-30{margin-bottom: 30px;}
 .mb-50{margin-bottom: 50px;}
 .ml-50{margin-left: 50px;}
+.ml-75{margin-left: 75px;}
+.ml-100{margin-left: 100px;}
 
 
 .font-30{font-size: 30px; line-height: 1.46em;}
@@ -378,17 +380,52 @@ body {
   .link-container-chart {
 	margin-top: -50px; 
 	padding-top: 10px;
+	position: relative;
   }
+
+  
 
   .chart-size{
 	width:400px !important;
   }
 
-  @media only screen and (max-width: 600px) {
+  .oj-table-align{
+	margin-left:100px;
+	width:100%;
+  }
+
+  .oj-pagination-align{
+	margin-left:50px;
+  }
+
+  @media only screen and (max-width: 1370px) {
 	.chart{
 		margin-top:-60px !important;
 		margin-left:-25px !important;
+	  }	 
+	
+  }
+
+  
+  @media only screen and (min-width: 120px) and (max-width: 1370px) {
+	.oj-table-align{
+	  margin-left:60px;
+	  width:100%;
+	}	
+	.oj-pagination-align{
+		margin-left:40px;
 	  }
+}
+
+  @media only screen and (max-width: 600px) {
+	  .oj-table-align{
+		margin-left:0px;
+		width:75%;
+	  }	
+	  .oj-pagination-align{
+		margin-left:0px;
+	  }
+	  
   }
 
 
