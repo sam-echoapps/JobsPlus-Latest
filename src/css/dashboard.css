@@ -389,14 +389,23 @@ body {
 	width:400px !important;
   }
 
+  .oj-pagination-align{
+	margin-left:150px;
+  }
+
   .oj-table-align{
-	margin-left:100px;
 	width:100%;
   }
 
-  .oj-pagination-align{
-	margin-left:50px;
+  .oj-table-col-width{
+	width:16.5rem !important;
   }
+
+  
+  .oj-table-align-client{
+	width:100%;
+  }
+
 
   @media only screen and (max-width: 1370px) {
 	.chart{
@@ -407,23 +416,39 @@ body {
   }
 
   
-  @media only screen and (min-width: 120px) and (max-width: 1370px) {
+  @media only screen and (min-width: 1200px) and (max-width: 1340px) {
+
+	  .oj-table-align{
+		width:95%;
+	  }
+
+	  .oj-table-align-client{
+		width:85%;
+	  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+	
 	.oj-table-align{
-	  margin-left:60px;
-	  width:100%;
-	}	
-	.oj-pagination-align{
-		margin-left:40px;
+		width:100%;
+	  }
+	  .oj-table-align-client{
+		width:100%;
 	  }
 }
 
   @media only screen and (max-width: 600px) {
 	  .oj-table-align{
 		margin-left:0px;
-		width:75%;
+		width:85%;
 	  }	
 	  .oj-pagination-align{
 		margin-left:0px;
+	  }
+
+	  .oj-table-align-client{
+		margin-left:0px;
+		width:57.5%;
 	  }
 	  
   }

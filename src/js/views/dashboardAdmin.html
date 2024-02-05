@@ -482,7 +482,7 @@
                       <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-users" aria-hidden="true"></i></div>
                   </div> --> 
                   <div class="widget-data">
-                      <div class="weight-800 font-18">Staff Work Info</div>
+                      <div class="weight-800 font-18">Staff Hours</div>
                   </div> 
                   <div class="menu-icon">
                       <oj-menu-button
@@ -496,7 +496,6 @@
                               <oj-option
                               value="[[$current.data.label]]"
                               id="[[$current.data.id + 1]]">
-                              <!-- <span slot="startIcon" :class="[[$current.data.icon]]"></span> -->
                               <span>
                                   <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
                               </span>
@@ -506,15 +505,29 @@
                       </oj-menu>
                       </oj-menu-button>  
                   </div>
+                  <oj-bind-if test="[[StaffWork() == 'Custom' ]]"> 
+                    <oj-validation-group id="dateFilterStaffWorkHour" role="group" valid="{{groupValid}}"
+                    aria-labelledby="grouplabelid">
+                    <div class="search-container">
+                      <div class="date-input">
+                        <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                      </div>
+                      <div class="date-input">
+                        <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                      </div>
+                      <span class="search-button demo-icon-search" on-click="[[getStaffWorkFilterInfo]]"> Show</span>
+                    </div>
+                  </oj-validation-group>
+                  </oj-bind-if>
                   <div class="oj-flex oj-md-justify-content-space-around oj-sm-align-items-center">
                      <oj-table id='staffWorkTable' aria-label='All Table' data='[[StaffWorkHoursData]]' display='list'
                     selection-mode='{"row": "single"}'  columns='[
                     { "headerClassName" : "table-header-style",
                     "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
-                    { "headerClassName" : "table-header-style",
+                    { "headerClassName" : "table-header-style oj-table-col-width",
                     "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
-                    { "headerClassName" : "table-header-style",
-                    "headerText": "Job Role", "field": "job_role", "id": "job_role" },
+                    { "headerClassName" : "table-header-style oj-table-col-width",
+                    "headerText": "Job Role", "field": "job_role", "id": "job_role"},
                     { "headerClassName" : "table-header-style",
                     "headerText": "Total Hours", "field": "total_hours", "id": "total_hours" }
                     ]' class="demo-table-container oj-table-align">
@@ -522,7 +535,7 @@
                         class="oj-pagination-align"
                         id="paging"
                         data="[[StaffWorkHoursData]]"
-                        page-size="10"
+                        page-size="5"
                         slot="bottom">
                     </oj-paging-control> 
                         <div class="centered-container" id="loaderViewPopup" style="display:none">
@@ -530,58 +543,74 @@
                         </div> 
                         
                 </div>
-                  <!-- <div class="link-container">
-                      <a class="link" on-click="[[totalStaffPopup]]">
-                        View All
-                        <i class="fas fa-arrow-right arrow-icon"></i>
-                      </a>
-                  </div>
-                  <img src="../../css/images/bar-chart.gif" class="bar-chart-icon" alt="Bar Chart Gif"> -->
               </div>
           </div>
       </div>
-      <div class="col-xl-6 mb-50" style="display:none">
-          <div class="bg-white widget-style1 border-radius-10 height-100-p box-shadow">
-              <div class="d-flex flex-wrap align-items-center">
-                  <div class="circle-icon">
-                      <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-user-check" aria-hidden="true"></i></div>
-                  </div>
-                  <div class="widget-data">
-                      <div class="weight-800 font-18"><oj-bind-text value="[[activeStaff]]"></oj-bind-text></div>
-                      <div class="weight-500">Active Staff</div>
-                  </div>
-                  <div class="menu-icon">
-                      <oj-menu-button
-                      chroming="borderless"
-                      id="menu-item-list"
-                      class="oj-button-sm"
-                      display="icons">
-                      <oj-menu slot="menu"  on-oj-action="[[menuItemActiveSelect]]">
-                          <oj-bind-for-each data="[[menuItemActive]]">
-                          <template>
-                              <oj-option
-                              value="[[$current.data.id]]"
-                              id="[[$current.data.id + 1]]">
-<!--                                     <span slot="startIcon" :class="[[$current.data.icon]]"></span>
--->                                    <span>
-                                  <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
-                              </span>
-                              </oj-option>
-                          </template>
-                          </oj-bind-for-each>
-                      </oj-menu>
-                      </oj-menu-button>  
-                  </div>
-                  <div class="link-container">
-                      <a class="link" on-click="[[activeStaffPopup]]">
-                          View All
-                        <i class="fas fa-arrow-right arrow-icon"></i>
-                      </a>
-                  </div>
-                  <img src="../../css/images/bar-chart.gif" class="bar-chart-icon" alt="Bar Chart Gif">
+      <div class="col-xl-6 mb-50">
+        <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
+            <div class="d-flex flex-wrap align-items-center">
+             <!--    <div class="circle-icon">
+                    <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-users" aria-hidden="true"></i></div>
+                </div> --> 
+                <div class="widget-data">
+                    <div class="weight-800 font-18">Client Hours</div>
+                </div> 
+                <div class="menu-icon">
+                    <oj-menu-button
+                    chroming="borderless"
+                    id="menu-item-list"
+                    class="oj-button-sm"
+                    display="icons">
+                    <oj-menu slot="menu"  on-oj-action="[[menuItemSelect]]">
+                        <oj-bind-for-each data="[[menuItems]]">
+                        <template>
+                            <oj-option
+                            value="[[$current.data.label]]"
+                            id="[[$current.data.id + 1]]">
+                            <!-- <span slot="startIcon" :class="[[$current.data.icon]]"></span> -->
+                            <span>
+                                <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                            </span>
+                            </oj-option>
+                        </template>
+                        </oj-bind-for-each>
+                    </oj-menu>
+                    </oj-menu-button>  
+                </div>
+                <div class="oj-flex oj-md-justify-content-space-around oj-sm-align-items-center">
+                   <oj-table id='clientShiftHourTable' aria-label='All Table' data='[[ClientShiftHoursData]]' display='list'
+                  selection-mode='{"row": "single"}'  columns='[
+                  { "headerClassName" : "table-header-style",
+                  "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
+                  { "headerClassName" : "table-header-style oj-table-col-width",
+                  "headerText": "Client Name", "field": "client_name", "id": "client_name" },
+                  { "headerClassName" : "table-header-style oj-table-col-width",
+                  "headerText": "Shift Name", "field": "shift_name", "id": "shift_name"},
+                  { "headerClassName" : "table-header-style",
+                  "headerText": "Total Hours", "field": "total_hours", "id": "total_hours" }
+                  ]' class="demo-table-container oj-table-align-client">
+                      <oj-paging-control
+                      class="oj-pagination-align"
+                      id="paging"
+                      data="[[ClientShiftHoursData]]"
+                      page-size="5"
+                      slot="bottom">
+                  </oj-paging-control> 
+                      <div class="centered-container" id="loaderViewPopup" style="display:none">
+                          <div class="loader"></div>
+                      </div> 
+                      
               </div>
-          </div>
-      </div>
+                <!-- <div class="link-container">
+                    <a class="link" on-click="[[totalStaffPopup]]">
+                      View All
+                      <i class="fas fa-arrow-right arrow-icon"></i>
+                    </a>
+                </div>
+                <img src="../../css/images/bar-chart.gif" class="bar-chart-icon" alt="Bar Chart Gif"> -->
+            </div>
+        </div>
+    </div>
   </div>
 <!-- Widget Style 3 End -->
 </div>
