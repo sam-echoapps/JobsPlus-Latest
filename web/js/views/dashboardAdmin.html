@@ -490,7 +490,7 @@
                       id="menu-item-list"
                       class="oj-button-sm"
                       display="icons">
-                      <oj-menu slot="menu"  on-oj-action="[[menuItemSelect]]">
+                      <oj-menu slot="menu"  on-oj-action="[[menuItemSelectStaffHour]]">
                           <oj-bind-for-each data="[[menuItems]]">
                           <template>
                               <oj-option
@@ -505,18 +505,31 @@
                       </oj-menu>
                       </oj-menu-button>  
                   </div>
-                  <oj-bind-if test="[[StaffWork() == 'Custom' ]]"> 
+                  <oj-bind-if test="[[StaffWork() == 'Custom' ]]">
                     <oj-validation-group id="dateFilterStaffWorkHour" role="group" valid="{{groupValid}}"
                     aria-labelledby="grouplabelid">
-                    <div class="search-container">
-                      <div class="date-input">
-                        <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                    <oj-bind-if test="[[StaffWorkFlag() == '0' ]]">
+                      <div class="search-container">
+                        <div class="date-input">
+                          <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                        </div>
+                        <div class="date-input">
+                          <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                        </div>
+                        <span class="search-button demo-icon-search" on-click="[[getStaffWorkFilterInfo]]"> Show</span>
                       </div>
-                      <div class="date-input">
-                        <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                      </oj-bind-if>
+                      <oj-bind-if test="[[StaffWorkFlag() == '1' ]]">
+                      <div class="search-container">
+                        <div class="date-input">
+                          <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                        </div>
+                        <div class="date-input">
+                          <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                        </div>
+                        <span class="search-button demo-icon-search" on-click="[[getStaffWorkFilterInfoClear]]"> Show</span>
                       </div>
-                      <span class="search-button demo-icon-search" on-click="[[getStaffWorkFilterInfo]]"> Show</span>
-                    </div>
+                      </oj-bind-if>
                   </oj-validation-group>
                   </oj-bind-if>
                   <div class="oj-flex oj-md-justify-content-space-around oj-sm-align-items-center">
@@ -561,7 +574,7 @@
                     id="menu-item-list"
                     class="oj-button-sm"
                     display="icons">
-                    <oj-menu slot="menu"  on-oj-action="[[menuItemSelect]]">
+                    <oj-menu slot="menu"  on-oj-action="[[menuItemSelectClientHour]]">
                         <oj-bind-for-each data="[[menuItems]]">
                         <template>
                             <oj-option
@@ -577,6 +590,33 @@
                     </oj-menu>
                     </oj-menu-button>  
                 </div>
+                <oj-bind-if test="[[ClientWork() == 'Custom' ]]">
+                  <oj-validation-group id="dateFilterClientWorkHour" role="group" valid="{{groupValid}}"
+                  aria-labelledby="grouplabelid">
+                  <oj-bind-if test="[[ClientWorkFlag() == '0' ]]">
+                    <div class="search-container">
+                      <div class="date-input">
+                        <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                      </div>
+                      <div class="date-input">
+                        <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                      </div>
+                      <span class="search-button demo-icon-search" on-click="[[getClientWorkFilterInfo]]"> Show</span>
+                    </div>
+                    </oj-bind-if>
+                    <oj-bind-if test="[[ClientWorkFlag() == '1' ]]">
+                    <div class="search-container">
+                      <div class="date-input">
+                        <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                      </div>
+                      <div class="date-input">
+                        <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                      </div>
+                      <span class="search-button demo-icon-search" on-click="[[getClientWorkFilterInfoClear]]"> Show</span>
+                    </div>
+                    </oj-bind-if>
+                </oj-validation-group>
+                </oj-bind-if>
                 <div class="oj-flex oj-md-justify-content-space-around oj-sm-align-items-center">
                    <oj-table id='clientShiftHourTable' aria-label='All Table' data='[[ClientShiftHoursData]]' display='list'
                   selection-mode='{"row": "single"}'  columns='[
@@ -585,8 +625,6 @@
                   { "headerClassName" : "table-header-style oj-table-col-width",
                   "headerText": "Client Name", "field": "client_name", "id": "client_name" },
                   { "headerClassName" : "table-header-style oj-table-col-width",
-                  "headerText": "Shift Name", "field": "shift_name", "id": "shift_name"},
-                  { "headerClassName" : "table-header-style",
                   "headerText": "Total Hours", "field": "total_hours", "id": "total_hours" }
                   ]' class="demo-table-container oj-table-align-client">
                       <oj-paging-control

@@ -398,7 +398,7 @@ body {
   }
 
   .oj-table-col-width{
-	width:16.5rem !important;
+	width:22rem !important;
   }
 
   
@@ -423,7 +423,7 @@ body {
 	  }
 
 	  .oj-table-align-client{
-		width:85%;
+		width:90%;
 	  }
 }
 
@@ -448,7 +448,7 @@ body {
 
 	  .oj-table-align-client{
 		margin-left:0px;
-		width:57.5%;
+		width:90%;
 	  }
 	  
   }

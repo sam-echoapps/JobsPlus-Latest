@@ -29,6 +29,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.totalTimesheet= ko.observable('0');
             self.customTimesheetCount= ko.observable('0');
             self.StaffWork= ko.observable('');
+            self.ClientWork= ko.observable('');
 
             self.menuItems = [
                 {
@@ -149,6 +150,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
 
             self.StaffWorkHoursDet = ko.observableArray();
             self.ClientShiftHoursDet = ko.observableArray();
+
+            self.StaffWorkFlag = ko.observable('0');
+            self.ClientWorkFlag = ko.observable('0');
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -2355,7 +2359,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
                     // csvContent += headers.join(',') + '\n';
                     for (var i = 0; i < dataClientHours.length; i++) {
-                        self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'shift_name': dataClientHours[i][1], 'total_hours': dataClientHours[i][2]  });
+                        self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
                         // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
                         // csvContent += rowData.join(',') + '\n';
                 }
@@ -2368,24 +2372,30 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
            })
        }
 
-       self.menuItemSelect = function (event) {
+       self.menuItemSelectStaffHour = function (event) {
         self.StaffWorkHoursDet([]);
         var target = event.target;
         var itemValue = target.value;
         console.log(itemValue)
         if(itemValue == 'This Week'){
+            self.StaffWork('')
             getThisWeekStaffWorkInfo();
         }
         if(itemValue == 'This Month'){
+            self.StaffWork('')
             getThisMonthStaffWorkInfo();
         }
         if(itemValue == 'Last Week'){
+            self.StaffWork('')
             getLastWeekStaffWorkInfo();
         }
         if(itemValue == 'Last Month'){
+            self.StaffWork('')
             getLastMonthStaffWorkInfo();
         }
         if(itemValue == 'Custom'){
+            self.start_date('')
+            self.end_date('')
             self.StaffWork('Custom')
         }
     }
@@ -2602,7 +2612,395 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         }
         }
 
+        self.getStaffWorkFilterInfo = function (event,data) {
+            self.StaffWorkFlag('1');
+            console.log(self.CustomTotalStaffDet())
+            var validSec = self._checkValidationGroup("dateFilterStaffWorkHour");
+            if (validSec) {
+                $("#customLoaderViewPopup").show();
+            $.ajax({
+                url: BaseURL + "/jpDashboardStaffWorkHoursGetFilter",
+                type: 'POST',
+                data: JSON.stringify({
+                    start_date : self.start_date(),
+                    end_date : self.end_date()
+                }),
+                dataType: 'json',
+                timeout: sessionStorage.getItem("timeInetrval"),
+                context: self,
+                error: function (xhr, textStatus, errorThrown) {
+                    if(textStatus == 'timeout'){
+                        document.querySelector('#loaderViewPopup').close();
+                        document.querySelector('#Timeout').open();
+                    }
+                },
+                success: function (dataStaffWorkFilter) {
+                    $("#workView").show();
+                    $("#loaderView").hide();
+                    console.log(dataStaffWorkFilter)
+                    $("#customLoaderViewPopup").hide();
+                        var dataStaffHoursFilter = JSON.parse(dataStaffWorkFilter[0]);
+                        console.log(dataStaffHoursFilter)
+                        // var csvContent = '';
+                        // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        // csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataStaffHoursFilter.length; i++) {
+                            self.StaffWorkHoursDet.push({'no': i+1, 'staff_name': dataStaffHoursFilter[i][0] + " " + dataStaffHoursFilter[i][1], 'job_role': dataStaffHoursFilter[i][2], 'total_hours': dataStaffHoursFilter[i][3]  });
+                            // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                            // csvContent += rowData.join(',') + '\n';
+                    }
+                    // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    // var today = new Date();
+                    // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    // self.blob(blob);
+                    // self.fileName(fileName);
+                }
+            })  
+            }
+        }; 
 
+        self.getStaffWorkFilterInfoClear = function (event,data) {
+           //alert(self.flag())
+           console.log(self.CustomTotalStaffDet())
+           var validSec = self._checkValidationGroup("dateFilterStaffWorkHour");
+           if(validSec == false){
+            self.StaffWorkHoursDet([])
+           }
+           if (validSec) {
+            self.StaffWorkHoursDet([])
+            $("#customLoaderViewPopup").show();
+           $.ajax({
+               url: BaseURL + "/jpDashboardStaffWorkHoursGetFilter",
+               type: 'POST',
+               data: JSON.stringify({
+                   start_date : self.start_date(),
+                   end_date : self.end_date()
+               }),
+               dataType: 'json',
+               timeout: sessionStorage.getItem("timeInetrval"),
+               context: self,
+               error: function (xhr, textStatus, errorThrown) {
+                   if(textStatus == 'timeout'){
+                       document.querySelector('#loaderViewPopup').close();
+                       document.querySelector('#Timeout').open();
+                   }
+               },
+               success: function (dataStaffWorkFilter) {
+                   self.StaffWorkHoursDet([])
+                   $("#workView").show();
+                    $("#loaderView").hide();
+                    console.log(dataStaffWorkFilter)
+                    $("#customLoaderViewPopup").hide();
+                        var dataStaffHoursFilter = JSON.parse(dataStaffWorkFilter[0]);
+                        console.log(dataStaffHoursFilter)
+                        // var csvContent = '';
+                        // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        // csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataStaffHoursFilter.length; i++) {
+                            self.StaffWorkHoursDet.push({'no': i+1, 'staff_name': dataStaffHoursFilter[i][0] + " " + dataStaffHoursFilter[i][1], 'job_role': dataStaffHoursFilter[i][2], 'total_hours': dataStaffHoursFilter[i][3]  });
+                            // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                            // csvContent += rowData.join(',') + '\n';
+                    }
+                    // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    // var today = new Date();
+                    // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    // self.blob(blob);
+                    // self.fileName(fileName);
+               }
+           })  
+           }
+       }; 
+
+       self.menuItemSelectClientHour = function (event) {
+        self.ClientShiftHoursDet([]);
+        var target = event.target;
+        var itemValue = target.value;
+        console.log(itemValue)
+        if(itemValue == 'This Week'){
+            self.ClientWork('')
+            getThisWeekClientWorkInfo();
+        }
+        if(itemValue == 'This Month'){
+            self.ClientWork('')
+            getThisMonthClientWorkInfo();
+        }
+        if(itemValue == 'Last Week'){
+            self.ClientWork('')
+            getLastWeekClientWorkInfo();
+        }
+        if(itemValue == 'Last Month'){
+            self.ClientWork('')
+            getLastMonthClientWorkInfo();
+        }
+        if(itemValue == 'Custom'){
+            self.start_date('')
+            self.end_date('')
+            self.ClientWork('Custom')
+        }
+    }
+
+                    function getThisWeekClientWorkInfo() {
+                        $("#workView").hide();
+                    // $("#loaderView").show();
+                    
+                    /*Chart Properties*/
+
+                    $.ajax({
+                        url: BaseURL + "/jpDashboardThisWeekClientWorkHoursGet",
+                        type: 'GET',
+                        dataType: 'json',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            if(textStatus == 'timeout' || textStatus == 'error'){
+                                document.querySelector('#TimeoutSup').open();
+                            }
+                        },
+                        success: function (dataClientShift) {
+                            $("#workView").show();
+                            $("#loaderView").hide();
+                            console.log(dataClientShift)
+                            $("#customLoaderViewPopup").hide();
+                            var dataClientHours = JSON.parse(dataClientShift[0]);
+                            console.log(dataClientHours)
+                            // var csvContent = '';
+                            // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                            // csvContent += headers.join(',') + '\n';
+                            for (var i = 0; i < dataClientHours.length; i++) {
+                                self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
+                                // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                                // csvContent += rowData.join(',') + '\n';
+                        }
+                        // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                        // var today = new Date();
+                        // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                        // self.blob(blob);
+                        // self.fileName(fileName);
+                    }
+                    })
+                }
+
+                function getThisMonthClientWorkInfo() {
+                    $("#workView").hide();
+                // $("#loaderView").show();
+                
+                /*Chart Properties*/
+
+                $.ajax({
+                    url: BaseURL + "/jpDashboardThisMonthClientWorkHoursGet",
+                    type: 'GET',
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (dataClientShift) {
+                        $("#workView").show();
+                        $("#loaderView").hide();
+                        console.log(dataClientShift)
+                        $("#customLoaderViewPopup").hide();
+                        var dataClientHours = JSON.parse(dataClientShift[0]);
+                        console.log(dataClientHours)
+                        // var csvContent = '';
+                        // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                        // csvContent += headers.join(',') + '\n';
+                        for (var i = 0; i < dataClientHours.length; i++) {
+                            self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
+                            // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                            // csvContent += rowData.join(',') + '\n';
+                    }
+                    // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    // var today = new Date();
+                    // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                    // self.blob(blob);
+                    // self.fileName(fileName);
+                }
+                })
+            }
+
+            function getLastWeekClientWorkInfo() {
+                $("#workView").hide();
+            // $("#loaderView").show();
+            
+            /*Chart Properties*/
+
+            $.ajax({
+                url: BaseURL + "/jpDashboardLastWeekClientWorkHoursGet",
+                type: 'GET',
+                dataType: 'json',
+                timeout: sessionStorage.getItem("timeInetrval"),
+                context: self,
+                error: function (xhr, textStatus, errorThrown) {
+                    if(textStatus == 'timeout' || textStatus == 'error'){
+                        document.querySelector('#TimeoutSup').open();
+                    }
+                },
+                success: function (dataClientShift) {
+                    $("#workView").show();
+                    $("#loaderView").hide();
+                    console.log(dataClientShift)
+                    $("#customLoaderViewPopup").hide();
+                    var dataClientHours = JSON.parse(dataClientShift[0]);
+                    console.log(dataClientHours)
+                    // var csvContent = '';
+                    // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                    // csvContent += headers.join(',') + '\n';
+                    for (var i = 0; i < dataClientHours.length; i++) {
+                        self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
+                        // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                        // csvContent += rowData.join(',') + '\n';
+                }
+                // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                // var today = new Date();
+                // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+                // self.blob(blob);
+                // self.fileName(fileName);
+            }
+            })
+        }
+
+        function getLastMonthClientWorkInfo() {
+            $("#workView").hide();
+        // $("#loaderView").show();
+        
+        /*Chart Properties*/
+
+        $.ajax({
+            url: BaseURL + "/jpDashboardLastMonthClientWorkHoursGet",
+            type: 'GET',
+            dataType: 'json',
+            timeout: sessionStorage.getItem("timeInetrval"),
+            context: self,
+            error: function (xhr, textStatus, errorThrown) {
+                if(textStatus == 'timeout' || textStatus == 'error'){
+                    document.querySelector('#TimeoutSup').open();
+                }
+            },
+            success: function (dataClientShift) {
+                $("#workView").show();
+                $("#loaderView").hide();
+                console.log(dataClientShift)
+                $("#customLoaderViewPopup").hide();
+                var dataClientHours = JSON.parse(dataClientShift[0]);
+                console.log(dataClientHours)
+                // var csvContent = '';
+                // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                // csvContent += headers.join(',') + '\n';
+                for (var i = 0; i < dataClientHours.length; i++) {
+                    self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
+                    // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                    // csvContent += rowData.join(',') + '\n';
+            }
+            // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            // var today = new Date();
+            // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+            // self.blob(blob);
+            // self.fileName(fileName);
+        }
+        })
+    }
+
+    self.getClientWorkFilterInfo = function (event,data) {
+        self.ClientWorkFlag('1');
+        console.log(self.ClientShiftHoursDet())
+        var validSec = self._checkValidationGroup("dateFilterClientWorkHour");
+        if (validSec) {
+            $("#customLoaderViewPopup").show();
+        $.ajax({
+            url: BaseURL + "/jpDashboardClientWorkHoursGetFilter",
+            type: 'POST',
+            data: JSON.stringify({
+                start_date : self.start_date(),
+                end_date : self.end_date()
+            }),
+            dataType: 'json',
+            timeout: sessionStorage.getItem("timeInetrval"),
+            context: self,
+            error: function (xhr, textStatus, errorThrown) {
+                if(textStatus == 'timeout'){
+                    document.querySelector('#loaderViewPopup').close();
+                    document.querySelector('#Timeout').open();
+                }
+            },
+            success: function (dataClientShift) {
+                $("#workView").show();
+                $("#loaderView").hide();
+                console.log(dataClientShift)
+                $("#customLoaderViewPopup").hide();
+                var dataClientHours = JSON.parse(dataClientShift[0]);
+                console.log(dataClientHours)
+                // var csvContent = '';
+                // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+                // csvContent += headers.join(',') + '\n';
+                for (var i = 0; i < dataClientHours.length; i++) {
+                    self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
+                    // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                    // csvContent += rowData.join(',') + '\n';
+            }
+            // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            // var today = new Date();
+            // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+            // self.blob(blob);
+            // self.fileName(fileName);
+            }
+        })  
+        }
+    }; 
+
+    self.getClientWorkFilterInfoClear = function (event,data) {
+       //alert(self.flag())
+       console.log(self.ClientShiftHoursDet())
+       var validSec = self._checkValidationGroup("dateFilterClientWorkHour");
+       if(validSec == false){
+        self.ClientShiftHoursDet([])
+       }
+       if (validSec) {
+        self.ClientShiftHoursDet([])
+        $("#customLoaderViewPopup").show();
+       $.ajax({
+           url: BaseURL + "/jpDashboardClientWorkHoursGetFilter",
+           type: 'POST',
+           data: JSON.stringify({
+               start_date : self.start_date(),
+               end_date : self.end_date()
+           }),
+           dataType: 'json',
+           timeout: sessionStorage.getItem("timeInetrval"),
+           context: self,
+           error: function (xhr, textStatus, errorThrown) {
+               if(textStatus == 'timeout'){
+                   document.querySelector('#loaderViewPopup').close();
+                   document.querySelector('#Timeout').open();
+               }
+           },
+           success: function (dataClientShift) {
+               self.ClientShiftHoursDet([])
+               $("#workView").show();
+               $("#loaderView").hide();
+               console.log(dataClientShift)
+               $("#customLoaderViewPopup").hide();
+               var dataClientHours = JSON.parse(dataClientShift[0]);
+               console.log(dataClientHours)
+               // var csvContent = '';
+               // var headers = ['SL.No', 'Client Name', 'Timesheet Date','Invoice Date','Due date','Grand Total','Status'];
+               // csvContent += headers.join(',') + '\n';
+               for (var i = 0; i < dataClientHours.length; i++) {
+                   self.ClientShiftHoursDet.push({'no': i+1, 'client_name': dataClientHours[i][0], 'total_hours': dataClientHours[i][1]  });
+                   // var rowData = [i+1, dataStaffHours[i][1], dataStaffHours[i][2] + "-"  + dataStaffHours[i][3], dataStaffHours[i][4], dataStaffHours[i][5], dataStaffHours[i][6], dataStaffHours[i][7]];
+                   // csvContent += rowData.join(',') + '\n';
+           }
+           // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+           // var today = new Date();
+           // var fileName = 'Total_Invoice_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+           // self.blob(blob);
+           // self.fileName(fileName);
+           }
+       })  
+       }
+   }; 
 
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
