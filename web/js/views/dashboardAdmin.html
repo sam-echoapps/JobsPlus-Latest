@@ -484,6 +484,18 @@
                   <div class="widget-data">
                       <div class="weight-800 font-18">Staff Hours</div>
                   </div> 
+                  <oj-bind-if test="[[StaffWork() != 'Custom' ]]">
+                  <span class="export-button1" on-click="[[downloadData]]">
+                    Export &nbsp;
+                    <i class="fas fa-download"></i>
+                  </span>
+                  </oj-bind-if>
+                  <oj-bind-if test="[[StaffWork() == 'Custom' ]]">
+                    <span class="export-button1" on-click="[[downloadDataCustom]]">
+                      Export &nbsp;
+                      <i class="fas fa-download"></i>
+                    </span>
+                    </oj-bind-if>
                   <div class="menu-icon">
                       <oj-menu-button
                       chroming="borderless"
@@ -568,6 +580,18 @@
                 <div class="widget-data">
                     <div class="weight-800 font-18">Client Hours</div>
                 </div> 
+                <oj-bind-if test="[[ClientWork() != 'Custom' ]]">
+                <span class="export-button1" on-click="[[downloadData1]]">
+                  Export &nbsp;
+                  <i class="fas fa-download"></i>
+                </span>
+              </oj-bind-if>
+                <oj-bind-if test="[[ClientWork() == 'Custom' ]]">
+                  <span class="export-button1" on-click="[[downloadDataCustom]]">
+                    Export &nbsp;
+                    <i class="fas fa-download"></i>
+                  </span>
+                </oj-bind-if>
                 <div class="menu-icon">
                     <oj-menu-button
                     chroming="borderless"

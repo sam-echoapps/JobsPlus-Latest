@@ -407,6 +407,18 @@ body {
   }
 
 
+  .export-button1 {
+	margin: 0;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	display: flex;
+	align-items: center; 
+	background-color: #1b00ff;
+	color: #ffffff;
+}
+
   @media only screen and (max-width: 1370px) {
 	.chart{
 		margin-top:-60px !important;
