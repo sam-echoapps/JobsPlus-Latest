@@ -34,6 +34,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.fileName1 = ko.observable();
             self.blobCustom = ko.observable();
             self.fileNameCustom = ko.observable();
+            self.blobReminder = ko.observable();
+            self.fileNameReminder = ko.observable();
 
             self.menuItems = [
                 {
@@ -522,6 +524,23 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
             }
 
+            self.downloadReminder = ()=>{
+                if(self.blobReminder() != undefined && self.fileNameReminder() != undefined){
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                        // For Internet Explorer
+                        window.navigator.msSaveOrOpenBlob(self.blobReminder(), self.fileNameReminder());
+                    } else {
+                        // For modern browsers
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(self.blobReminder());
+                        link.download = self.fileNameReminder();
+                        link.style.display = 'none';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+            }
 
             self.goToProfilePending = function (event,data) {
                 console.log(data.item.data.id)
@@ -3068,19 +3087,19 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
            $("#customLoaderViewPopup").hide();
             var StaffReminder = JSON.parse(dataStaffReminder[0]);
             console.log(StaffReminder)
-        //     var csvContent = '';
-        //     var headers = ['SL.No', 'Client Name', 'Total Hours'];
-        //     csvContent += headers.join(',') + '\n';
+            var csvContent = '';
+            var headers = ['SL.No', 'Staff Name', 'Email', 'Contact', 'File Type', 'Job Role', 'Expiry Date', 'File Name'];
+            csvContent += headers.join(',') + '\n';
             for (var i = 0; i < StaffReminder.length; i++) {
-                self.StaffReminderDet.push({'no': i+1,'id': StaffReminder[i][0],'name' : StaffReminder[i][2] + " " + StaffReminder[i][3], 'email': StaffReminder[i][5],'contact': StaffReminder[i][6],'role': StaffReminder[i][4],'file': StaffReminder[i][7],'expiry_date': StaffReminder[i][8]  });
-                // var rowData = [i+1, dataClientHours[i][0], dataClientHours[i][1]];
-                // csvContent += rowData.join(',') + '\n';
+                self.StaffReminderDet.push({'no': i+1,'id': StaffReminder[i][0],'name' : StaffReminder[i][2] + " " + StaffReminder[i][3], 'email': StaffReminder[i][5],'contact': StaffReminder[i][6],'role': StaffReminder[i][4],'file_type': StaffReminder[i][7],'expiry_date': StaffReminder[i][8],'file_name': StaffReminder[i][9]  });
+                var rowData = [i+1, StaffReminder[i][2] + " " + StaffReminder[i][3], StaffReminder[i][5], StaffReminder[i][6], StaffReminder[i][4], StaffReminder[i][7], StaffReminder[i][8], StaffReminder[i][9]];
+                csvContent += rowData.join(',') + '\n';
         }
-        // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        // var today = new Date();
-        // var fileName = 'Total_Client_Hours_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-        // self.blob1(blob);
-        // self.fileName1(fileName);
+        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        var today = new Date();
+        var fileName = 'Staff_File_Expiry_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+        self.blobReminder(blob);
+        self.fileNameReminder(fileName);
    }
    })
 }
