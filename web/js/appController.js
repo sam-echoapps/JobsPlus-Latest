@@ -89,6 +89,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'clientViewPublishInvoice', detail : {label: 'Client View Publish Invoice',iconClass: 'oj-navigationlist-item-icon fa fa-user'}},
           { path: 'clientPaidInvoiceList', detail : {label: 'Client Paid Invoice List',iconClass: 'oj-navigationlist-item-icon fa fa-user'}},
           { path: 'clientViewPaidInvoice', detail : {label: 'Client View Paid Invoice',iconClass: 'oj-navigationlist-item-icon fa fa-user'}},
+          { path: 'dashboardClient', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
         ];  
       }
       else{
@@ -136,6 +137,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'appDownload', detail : {label: 'App Download',iconClass: 'oj-navigationlist-item-icon fa fa-file-invoice'}},
           { path: 'dashboardAdmin', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'dashboardChart', detail : {label: 'Dashboard Chart',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+          { path: 'dashboardClient', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
 /*           { path: 'postcode', detail : {label: 'Postcode',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} }
  */
         ];
@@ -161,6 +163,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         ]
       }else if (sessionStorage.getItem("userRole") == "Manager") {
         self.navMenu = [
+          {"name": "Dashboard","id": "dashboardClient","icons": "fa-solid fa fa-home", "path":"dashboardClient"},
           {"name": "Shift Manager","id": "clientShiftManager","icons": "fa-solid fa fa-clock", "path":"clientShiftManager"},
           {"name": "Upcoming Shifts","id": "clientUpcomingShifts","icons": "fa-solid fa fa-clock", "path":"clientUpcomingShifts"},
           {"name": "Completed Shifts","id": "clientCompletedShifts","icons": "fa-solid fa fa-clock", "path":"clientCompletedShifts"},
@@ -278,7 +281,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         router.go({path : 'clientProfileAccounts'});
       }else if(sessionStorage.getItem("userRole")=="Manager"){
   
-        router.go({path : 'clientShiftManager'});
+        router.go({path : 'dashboardClient'});
       }
       else{
         router.go({path : 'dashboardAdmin'});

@@ -53,10 +53,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.gender = ko.observable();  
             self.clientNameCap = ko.observable(); 
 
-            var routerLength = args.parentRouter._routes.length;
-            if(routerLength!=17){
+        /*     var routerLength = args.parentRouter._routes.length;
+            if(routerLength!=18){
                 location.reload();
-            }         
+            } */         
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {

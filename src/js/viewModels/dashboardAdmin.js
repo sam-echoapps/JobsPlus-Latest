@@ -36,6 +36,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.fileNameCustom = ko.observable();
             self.blobReminder = ko.observable();
             self.fileNameReminder = ko.observable();
+            self.currentDate = ko.observable();
 
             self.menuItems = [
                 {
@@ -3087,11 +3088,26 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
            $("#customLoaderViewPopup").hide();
             var StaffReminder = JSON.parse(dataStaffReminder[0]);
             console.log(StaffReminder)
+            const currentDate = new Date();
+
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+            const day = String(currentDate.getDate()).padStart(2, '0');
+
+            const formattedDate = `${year}-${month}-${day}`;
+            console.log(formattedDate);
+            self.currentDate(formattedDate)
             var csvContent = '';
             var headers = ['SL.No', 'Staff Name', 'Email', 'Contact', 'File Type', 'Job Role', 'Expiry Date', 'File Name'];
             csvContent += headers.join(',') + '\n';
+            var checkDate;
             for (var i = 0; i < StaffReminder.length; i++) {
-                self.StaffReminderDet.push({'no': i+1,'id': StaffReminder[i][0],'name' : StaffReminder[i][2] + " " + StaffReminder[i][3], 'email': StaffReminder[i][5],'contact': StaffReminder[i][6],'role': StaffReminder[i][4],'file_type': StaffReminder[i][7],'expiry_date': StaffReminder[i][8],'file_name': StaffReminder[i][9]  });
+                if(StaffReminder[i][8] >= self.currentDate()){
+                    checkDate = 'Yes';
+                }else{
+                    checkDate = 'No';
+                }
+                self.StaffReminderDet.push({'no': i+1,'id': StaffReminder[i][0],'name' : StaffReminder[i][2] + " " + StaffReminder[i][3], 'email': StaffReminder[i][5],'contact': StaffReminder[i][6],'role': StaffReminder[i][4],'file_type': StaffReminder[i][7],'expiry_date': StaffReminder[i][8],'file_name': StaffReminder[i][9], 'check_date': checkDate  });
                 var rowData = [i+1, StaffReminder[i][2] + " " + StaffReminder[i][3], StaffReminder[i][5], StaffReminder[i][6], StaffReminder[i][4], StaffReminder[i][7], StaffReminder[i][8], StaffReminder[i][9]];
                 csvContent += rowData.join(',') + '\n';
         }

@@ -697,7 +697,7 @@
                     { "headerClassName" : "table-header-style",
                     "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
                     { "headerClassName" : "table-header-style oj-table-col-width",
-                    "headerText": "Staff Name", "field": "name", "id": "name" },
+                    "headerText": "Staff Name", "field": "name", "id": "name", "template": "profileTemplate" },
                     { "headerClassName" : "table-header-style oj-table-col-width",
                     "headerText": "Email", "field": "email", "id": "email"},
                     { "headerClassName" : "table-header-style oj-table-col-width",
@@ -709,8 +709,22 @@
                     { "headerClassName" : "table-header-style oj-table-col-width",
                     "headerText": "File Type", "field": "file_type", "id": "file_type"},
                     { "headerClassName" : "table-header-style oj-table-col-width",
-                    "headerText": "Expiry Date", "field": "expiry_date", "id": "expiry_date"}
+                    "headerText": "Expiry Date", "field": "expiry_date", "id": "expiry_date", "template": "bgTemplate"}
                     ]' class="demo-table-container oj-table-align">
+                    <template slot="profileTemplate" data-oj-as="cell">
+                          <a on-click= "[[goToProfileActive]]" target="_blank" title="Go To Profile">
+                              <oj-bind-text value="[[cell.row.name]]"></oj-bind-text>
+                          </a>                            
+                    </template>
+                    <template slot="bgTemplate" data-oj-as="cell">
+                      <oj-bind-if test="[[cell.row.check_date == 'No' ]]">
+                          <div class="oj-table-element-expired"><oj-bind-text value="[[cell.row.expiry_date]]"></oj-bind-text></div>
+                      </oj-bind-if>
+                      <oj-bind-if test="[[cell.row.check_date == 'Yes' ]]">
+                        <div class="oj-table-element-expiry"><oj-bind-text value="[[cell.row.expiry_date]]"></oj-bind-text></div>
+                    </oj-bind-if>
+                    </template>
+                    </oj-table>
                         <oj-paging-control
                         class="oj-pagination-align"
                         id="paging"

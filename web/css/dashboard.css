@@ -419,6 +419,20 @@ body {
 	color: #ffffff;
 }
 
+.oj-table-element-expired {
+	background-color: red;
+	color : #ffffff;
+	border-radius: 10px; 
+	padding: 5px;
+  }
+
+  .oj-table-element-expiry {
+	background-color: orange;
+	color : #ffffff;
+	border-radius: 10px; 
+	padding: 5px;
+  }
+
   @media only screen and (max-width: 1370px) {
 	.chart{
 		margin-top:-60px !important;
