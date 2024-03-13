@@ -8,6 +8,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
 <!--   <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
  -->  <link rel="icon" href="css/images/jobsplus.png" type="image/x-icon" />
 <!-- Status icons in drawer menu bootstrap -->
@@ -62,7 +63,7 @@
                 <oj-menu-button id="userMenu">
                     <span>
 <!--                   <oj-bind-text value="[[onepDepName]]"></oj-bind-text>
- -->                  <oj-bind-text value="[[username]]"></oj-bind-text>
+ -->                  <oj-bind-text value="[[fullname]]"></oj-bind-text>
                 </span>
                 <span slot="endIcon"
                   :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>

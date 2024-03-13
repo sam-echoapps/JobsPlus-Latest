@@ -9,12 +9,17 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.allocatedStaff = ko.observable('');
             self.totalShiftPost = ko.observable('');
             self.confirmedShiftPost = ko.observable('');
+            self.completedShiftPost = ko.observable('');
+            self.PostShiftDet = ko.observableArray([]);
+            self.CustomPostShiftDet = ko.observableArray([]);
+            self.customShiftCount = ko.observable('0');
 
             self.customStaffCount = ko.observable('0');
             self.activeStaff = ko.observable('');
             self.inactiveStaff = ko.observable('');
             self.pendingStaff = ko.observable('');
             self.username = ko.observable('');
+            self.fullname = ko.observable('');
             self.CancelBehaviorOpt = ko.observable('icon'); 
             self.TotalStaffDet = ko.observableArray([]);
             self.ActiveStaffDet = ko.observableArray([]);
@@ -56,9 +61,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
             ];
 
-            self.menuItemActive = [
+            self.menuItemPost = [
                 {
-                    id: 'active-view',
+                    id: 'post-shift',
                     label: 'View All',
                     icon: 'oj-ux-ico-save'
                 },
@@ -95,6 +100,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 else {
                    app.onAppSuccess();
                    self.username(sessionStorage.getItem("userName"));
+                   self.fullname(sessionStorage.getItem("fullName"));
                    getShiftInfo();
                 }
             };
@@ -148,7 +154,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         self.totalShiftPost(data[0])
                         self.confirmedShiftPost(data[1])
                         self.allocatedStaff(data[2])
-
+                        self.completedShiftPost(data[3])
                     }
                 })
             }
@@ -206,7 +212,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 })
             }
 
-            self.menuItemActiveSelect = function (event) {
+            self.menuItemPostShift = function (event) {
                 //self.ActiveStaffDet([]);
                 var target = event.target;
                 var itemValue = target.value;
@@ -216,25 +222,28 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 popup.open();
             }
 
-            self.activeStaffPopup = function (event) {
+            self.postShiftPopup = function (event) {
                 //self.ActiveStaffDet([]);
-                getActiveStaffList();
-                let popup = document.getElementById("activeStaffPopup");
+                getPostShiftList();
+                let popup = document.getElementById("postShiftPopup");
                 popup.open();
             }
         
-            self.closeActiveStaffPopup = function (event) {
+            self.closePostShiftPopup = function (event) {
                 //self.ActiveStaffDet([]);
-                let popup = document.getElementById("activeStaffPopup");
+                let popup = document.getElementById("postShiftPopup");
                 popup.close();
                 location.reload();
             }
 
-            function getActiveStaffList(){
-                $("#loaderActivePopup").show();
+            function getPostShiftList(){
+                $("#loaderPostShiftPopup").show();
                 $.ajax({
-                    url: BaseURL + "/jpActiveStaffDashboardGet",
-                    type: 'GET',
+                    url: BaseURL  + "/jpPostShiftDashboardGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
                     context: self,
@@ -244,21 +253,13 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         }
                     },
                     success: function (data) {
-                        //self.ActiveStaffDet([]);
-                        $("#loaderActivePopup").hide();
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role'];
-                        csvContent += headers.join(',') + '\n';
-                         for (var i = 0; i < data[0].length; i++) {
-                            self.ActiveStaffDet.push({'no': i+1,'id': data[0][i][0],'name' : data[0][i][2] + " " + data[0][i][3], 'email': data[0][i][11],'contact': data[0][i][15] + data[0][i][12], 'role': data[0][i][4]  });
-                            var rowData = [i+1, data[0][i][2] + " " +  data[0][i][3],  data[0][i][11],  data[0][i][15], data[0][i][12], data[0][i][4]] ;
-                            csvContent += rowData.join(',') + '\n';
+                        console.log(data)
+                        var data = JSON.parse(data[0]);
+                        console.log(data)
+                        $("#loaderPostShiftPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.PostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
                     }
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Active_Staff_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
                 }
                 })
             }
@@ -415,29 +416,29 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 var target = event.target;
                 var itemValue = target.value;
                 console.log(itemValue)
-                if(itemValue == 'This Week'){
-                    getThisWeekTotalStaffList();
-                    let popup = document.getElementById("totalStaffPopup");
+                if(itemValue == 'this-week'){
+                    getThisWeekTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
                     popup.open();
                 }
-                if(itemValue == 'This Month'){
-                    getThisMonthTotalStaffList();
-                    let popup = document.getElementById("totalStaffPopup");
+                if(itemValue == 'this-month'){
+                    getThisMonthTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
                     popup.open();
                 }
-                if(itemValue == 'Last Week'){
-                    getLastWeekTotalStaffList();
-                    let popup = document.getElementById("totalStaffPopup");
+                if(itemValue == 'last-week'){
+                    getLastWeekTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
                     popup.open();
                 }
-                if(itemValue == 'Last Month'){
-                    getLastMonthTotalStaffList();
-                    let popup = document.getElementById("totalStaffPopup");
+                if(itemValue == 'last-month'){
+                    getLastMonthTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
                     popup.open();
                 }
-                if(itemValue == 'Custom'){
+                if(itemValue == 'custom'){
                     //getTotalStaffList();
-                    let popup = document.getElementById("customStaffPopup");
+                    let popup = document.getElementById("customPostShiftPopup");
                     popup.open();
                     //self.CustomTotalStaffDet([]);
                     //refresh()
@@ -530,16 +531,17 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 })
             }
             
-            self.TotalStaffDateFilter = function (event,data) {
+            self.TotalPostShiftDateFilter = function (event,data) {
                 self.flag('1');
-                console.log(self.CustomTotalStaffDet())
-                var validSec = self._checkValidationGroup("dateFilterTotalStaff");
+                console.log(self.CustomPostShiftDet())
+                var validSec = self._checkValidationGroup("dateFilterTotalPostShift");
                 if (validSec) {
                     $("#customLoaderViewPopup").show();
                 $.ajax({
-                    url: BaseURL + "/jpTotalStaffDateFilter",
+                    url: BaseURL + "/jpCustomTotalPostShiftGet",
                     type: 'POST',
                     data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId"),
                         start_date : self.start_date(),
                         end_date : self.end_date()
                     }),
@@ -552,84 +554,56 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                             document.querySelector('#Timeout').open();
                         }
                     },
-                    success: function (result) {
-                        var data = JSON.parse(result[0]);
-                        self.customStaffCount(result[1][0])
+                    success: function (data) {
+                        console.log(data)
+                        self.customShiftCount(data[0])
+                        var data = JSON.parse(data[1]);
                         console.log(data)
                         $("#customLoaderViewPopup").hide();
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
-                        csvContent += headers.join(',') + '\n';
-                        $("#customLoaderViewPopup").hide();
                          for (var i = 0; i < data.length; i++) {
-                            if(data[i][17] == "Deactive"){
-                                data[i][17] = "Inactive"
-                            }
-                            self.CustomTotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
-                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
-                            csvContent += rowData.join(',') + '\n';
+                            self.CustomPostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
                     }
-
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
-                    }
+                }
                 })  
                 }
             }; 
 
-            self.TotalStaffDateFilterClear = function (event,data) {
+            self.TotalPostShiftDateFilterClear = function (event,data) {
                //alert(self.flag())
-               console.log(self.CustomTotalStaffDet())
-               var validSec = self._checkValidationGroup("dateFilterTotalStaff");
+               console.log(self.CustomPostShiftDet())
+               var validSec = self._checkValidationGroup("dateFilterTotalPostShift");
                if(validSec == false){
-                self.CustomTotalStaffDet([])
+                self.CustomPostShiftDet([])
                }
                if (validSec) {
-                self.CustomTotalStaffDet([])
+                self.CustomPostShiftDet([])
                 $("#customLoaderViewPopup").show();
-               $.ajax({
-                   url: BaseURL + "/jpTotalStaffDateFilter",
-                   type: 'POST',
-                   data: JSON.stringify({
-                       start_date : self.start_date(),
-                       end_date : self.end_date()
-                   }),
-                   dataType: 'json',
-                   timeout: sessionStorage.getItem("timeInetrval"),
-                   context: self,
-                   error: function (xhr, textStatus, errorThrown) {
-                       if(textStatus == 'timeout'){
-                           document.querySelector('#loaderViewPopup').close();
-                           document.querySelector('#Timeout').open();
-                       }
-                   },
-                   success: function (result) {
-                       var data = JSON.parse(result[0]);
-                       self.customStaffCount(result[1][0])
-                       console.log(data)
-                       $("#customLoaderViewPopup").hide();
-                       var csvContent = '';
-                       var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
-                       csvContent += headers.join(',') + '\n';
-                       $("#customLoaderViewPopup").hide();
-                       self.CustomTotalStaffDet([])
-                        for (var i = 0; i < data.length; i++) {
-                           if(data[i][17] == "Deactive"){
-                               data[i][17] = "Inactive"
-                           }
-                           self.CustomTotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
-                           var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
-                           csvContent += rowData.join(',') + '\n';
-                   }
-
-                   var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                   var today = new Date();
-                   var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                   self.blob(blob);
-                   self.fileName(fileName);
+                $.ajax({
+                    url: BaseURL + "/jpCustomTotalPostShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId"),
+                        start_date : self.start_date(),
+                        end_date : self.end_date()
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#loaderViewPopup').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                   success: function (data) {
+                    console.log(data)
+                    self.customShiftCount(data[0])
+                    var data = JSON.parse(data[1]);
+                    console.log(data)
+                    $("#customLoaderViewPopup").hide();
+                     for (var i = 0; i < data.length; i++) {
+                        self.CustomPostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
                    }
                })  
                }
@@ -648,11 +622,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
             };
 
-            function getThisWeekTotalStaffList(){
+            function getThisWeekTotalPostShift(){
                 $("#loaderViewPopup").show();
                 $.ajax({
-                    url: BaseURL+ "/jpThisWeekTotalStaffGet",
-                    type: 'GET',
+                    url: BaseURL  + "/jpThisWeekTotalPostShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
                     context: self,
@@ -661,38 +638,27 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                             document.querySelector('#TimeoutSup').open();
                         }
                     },
-                    success: function (result) {
-                        //self.TotalStaffDet([]);
-                        console.log(result)
-                        self.totalStaff(result[0][0])
-                        var data = JSON.parse(result[1]);
-                        //console.log(data)
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
-                        csvContent += headers.join(',') + '\n';
-                        $("#loaderViewPopup").hide();
+                    success: function (data) {
+                        console.log(data)
+                        self.totalShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#loaderPostShiftPopup").hide();
                          for (var i = 0; i < data.length; i++) {
-                            if(data[i][17] == "Deactive"){
-                                data[i][17] = "Inactive"
-                            }
-                            self.TotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
-                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
-                            csvContent += rowData.join(',') + '\n';
+                            self.PostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
                     }
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
                 }
                 })
             }
 
-            function getThisMonthTotalStaffList(){
+            function getThisMonthTotalPostShift(){
                 $("#loaderViewPopup").show();
                 $.ajax({
-                    url: BaseURL+ "/jpThisMonthTotalStaffGet",
-                    type: 'GET',
+                    url: BaseURL  + "/jpThisMonthTotalPostShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
                     context: self,
@@ -701,37 +667,83 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                             document.querySelector('#TimeoutSup').open();
                         }
                     },
-                    success: function (result) {
-                        //self.TotalStaffDet([]);
-                        console.log(result)
-                        self.totalStaff(result[0][0])
-                        var data = JSON.parse(result[1]);
-                        //console.log(data)
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
-                        csvContent += headers.join(',') + '\n';
-                        $("#loaderViewPopup").hide();
+                    success: function (data) {
+                        console.log(data)
+                        self.totalShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#loaderPostShiftPopup").hide();
                          for (var i = 0; i < data.length; i++) {
-                            if(data[i][17] == "Deactive"){
-                                data[i][17] = "Inactive"
-                            }
-                            self.TotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
-                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
-                            csvContent += rowData.join(',') + '\n';
+                            self.PostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
                     }
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
+                }
+                })
+            }
+
+            function getLastWeekTotalPostShift(){
+                $("#loaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL  + "/jpLastWeekTotalPostShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        self.totalShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#loaderPostShiftPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.PostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
+                }
+                })
+            }
+
+            function getLastMonthTotalPostShift(){
+                $("#loaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL  + "/jpLastMonthTotalPostShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        self.totalShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#loaderPostShiftPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.PostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
                 }
                 })
             }
 
     
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
+        self.PostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.PostShiftDet, {keyAttributes: 'id'}));   
+        self.CustomPostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.CustomPostShiftDet, {keyAttributes: 'id'}));   
+
         self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
-        self.ActiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.ActiveStaffDet, {keyAttributes: 'id'}));   
         self.InactiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.InactiveStaffDet, {keyAttributes: 'id'}));   
         self.PendingStaffData = new PagingDataProviderView(new ArrayDataProvider(self.PendingStaffDet, {keyAttributes: 'id'}));   
         self.CustomTotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalStaffDet, {keyAttributes: 'id'}));   

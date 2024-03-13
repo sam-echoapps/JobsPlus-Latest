@@ -24,7 +24,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
         };
       
         self.username = ko.observable();
-        
+        self.fullname = ko.observable();
+
         self.manner = ko.observable('polite');
         self.message = ko.observable();
         document.getElementById('globalBody').addEventListener('announce', announcementHandler, false);
@@ -269,6 +270,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
 
     ControllerViewModel.prototype.onAppSuccess = function() {
       self.username(sessionStorage.getItem("userName"));
+      self.fullname(sessionStorage.getItem("fullName"));
       self.SignIn('Y');
     };
 

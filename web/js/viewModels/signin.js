@@ -65,6 +65,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                                     sessionStorage.setItem("userName", data[3]);
                                     sessionStorage.setItem("userRole", data[4]);
                                     sessionStorage.setItem("clientId", data[5]);
+                                    sessionStorage.setItem("fullName", data[6]);
                                     var login = localStorage.getItem('login');
                                     self.SignIn('Y');
                                     if(login == "yes"){

@@ -10,8 +10,8 @@
 <div class="container-fluid pt-10 mt-5 pb-5">
 
     <div class="ml-50 py-20">
-        <h2 class="welcome-text">Hi,Welcome <oj-bind-text value="[[username]]"></oj-bind-text>!</h2>
-        <p class="welcome-caption">Manage and track information about staff, clients, and shifts.</p>
+        <h2 class="welcome-text">Hi,Welcome <oj-bind-text value="[[fullname]]"></oj-bind-text>!</h2>
+        <p class="welcome-caption">Manage and track information about staff and shifts.</p>
     </div>
     <!-- Widget Style 1 Start -->
         <div class="row"  id="staffView">
@@ -73,8 +73,8 @@
                             id="menu-item-list"
                             class="oj-button-sm"
                             display="icons">
-                            <oj-menu slot="menu"  on-oj-action="[[menuItemActiveSelect]]">
-                                <oj-bind-for-each data="[[menuItemActive]]">
+                            <oj-menu slot="menu"  on-oj-action="[[menuItemSelect]]">
+                                <oj-bind-for-each data="[[menuItems]]">
                                 <template>
                                     <oj-option
                                     value="[[$current.data.id]]"
@@ -90,7 +90,7 @@
                             </oj-menu-button>  
                         </div>
                         <div class="link-container">
-                            <a class="link" on-click="[[activeStaffPopup]]">
+                            <a class="link" on-click="[[postShiftPopup]]">
                                 View All
                               <i class="fas fa-arrow-right arrow-icon"></i>
                             </a>
@@ -148,8 +148,8 @@
                             <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-user-edit" aria-hidden="true"></i></div>
                         </div>
                         <div class="widget-data">
-                            <div class="weight-800 font-18"><oj-bind-text value="[[pendingStaff]]"></oj-bind-text></div>
-                            <div class="weight-500">Work History</div>
+                            <div class="weight-800 font-18"><oj-bind-text value="[[completedShiftPost]]"></oj-bind-text></div>
+                            <div class="weight-500">Completed Shift</div>
                         </div>
                         <div class="menu-icon">
                             <oj-menu-button
@@ -281,7 +281,7 @@
     </oj-popup>
        
     <oj-popup
-        id="activeStaffPopup"
+        id="postShiftPopup"
         class="demo-popup"
         auto-dismiss="none"
         modality="modal"
@@ -295,42 +295,58 @@
             <div class="demo-popup-header">
                 <div class="button-row">
                     <div class="button-box">
-                      <span class="export-button" on-click="[[downloadData]]">
+                      <!-- <span class="export-button" on-click="[[downloadData]]">
                         Export
                         <i class="fas fa-download"></i>
-                      </span>
+                      </span> -->
                     </div>
                     <div class="button-box">
-                      <span class="close-button" on-click="[[closeActiveStaffPopup]]" title="Close">
+                      <span class="close-button" on-click="[[closePostShiftPopup]]" title="Close">
                         <i class="fas fa-times"></i>
                       </span>
                     </div>
                   </div>
         </div>           
         <div class="demo-popup-content oj-sm-padding-2x">
-            <div class="oj-panel oj-xl-margin-4x" id="actionView"> 
+            <div class="oj-panel oj-xl-margin-4x" id="postShiftView"> 
                 <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
-                    <oj-table id='activeStaffTable' aria-label='All Table' data='[[ActiveStaffData]]' display='list'
+                    <oj-table id='postShiftTable' aria-label='All Table' data='[[PostShiftData]]' display='list'
                         selection-mode='{"row": "single"}'  columns='[
                         { "headerClassName" : "table-header-style",
                         "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
                         { "headerClassName" : "table-header-style",
-                        "headerText": "Name", "field": "name", "id": "name" },
+                        "headerText": "Shift Name", "field": "shift_name", "id": "shift_name" },
                         { "headerClassName" : "table-header-style",
-                        "headerText": "Email", "field": "email", "id": "email" },
+                        "headerText": "Shift Date", "field": "shift_date", "id": "shift_date" },
                         { "headerClassName" : "table-header-style",
-                        "headerText": "Contact", "field": "contact", "id": "contact" },
+                        "headerText": "Start Time", "field": "start_time", "id": "start_time" },
                         { "headerClassName" : "table-header-style",
-                        "headerText": "Job Role", "field": "role", "id": "role" }
+                        "headerText": "End Time", "field": "end_time", "id": "end_time" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" }
                         ]' style='width: 100%;' class="demo-table-container">
+                        <template slot="bgTemplate" data-oj-as="cell">
+                            <oj-bind-if test="[[cell.row.status == 'Pending' ]]">
+                                <div class="oj-table-element-pending-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[cell.row.status == 'Confirmed' ]]">
+                                <div class="oj-table-element-confirmed-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[cell.row.status == 'Completed' ]]">
+                                <div class="oj-table-element-completed-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[cell.row.status == 'Incompleted' ]]">
+                                <div class="oj-table-element-incompleted-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                          </template>
                         </oj-table>
                         <oj-paging-control
                             id="paging"
-                            data="[[ActiveStaffData]]"
+                            data="[[PostShiftData]]"
                             page-size="10"
                             slot="bottom">
                         </oj-paging-control>
-                        <div class="centered-container" id="loaderActivePopup" style="display:none">
+                        <div class="centered-container" id="loaderPostShiftPopup" style="display:none">
                             <div class="loader"></div>
                         </div> 
                         
@@ -464,7 +480,7 @@
 </oj-popup>
 
 <oj-popup
-id="customStaffPopup"
+id="customPostShiftPopup"
 class="demo-popup"
 auto-dismiss="none"
 modality="modal"
@@ -478,16 +494,16 @@ tail="none">
     <div class="demo-popup-header">
         <div class="button-row oj-flex">
           <div class="button-box">
-            <span class="export-button" on-click="[[downloadData]]">
+            <!-- <span class="export-button" on-click="[[downloadData]]">
               Export
               <i class="fas fa-download"></i>
-            </span>
+            </span> -->
           </div>
           <div class="widget-data">
             <div class="weight-800 font-18"></div>
-            <div class="weight-500 export-button">Registered Users : <oj-bind-text value="[[customStaffCount]]"></oj-bind-text></div>
+            <div class="weight-500 export-button">Registered Users : <oj-bind-text value="[[customShiftCount]]"></oj-bind-text></div>
         </div> 
-          <oj-validation-group id="dateFilterTotalStaff" role="group" valid="{{groupValid}}"
+          <oj-validation-group id="dateFilterTotalPostShift" role="group" valid="{{groupValid}}"
           aria-labelledby="grouplabelid">
           <oj-bind-if test="[[flag() == '0' ]]">
           <div class="search-container">
@@ -497,7 +513,7 @@ tail="none">
             <div class="date-input">
               <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
             </div>
-            <span class="search-button demo-icon-search" on-click="[[TotalStaffDateFilter]]"> Show</span>
+            <span class="search-button demo-icon-search" on-click="[[TotalPostShiftDateFilter]]"> Show</span>
           </div>
           </oj-bind-if>
           <oj-bind-if test="[[flag() == '1' ]]">
@@ -508,13 +524,13 @@ tail="none">
             <div class="date-input">
               <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
             </div>
-            <span class="search-button demo-icon-search" on-click="[[TotalStaffDateFilterClear]]"> Show</span>
+            <span class="search-button demo-icon-search" on-click="[[TotalPostShiftDateFilterClear]]"> Show</span>
           </div>
           </oj-bind-if>
         </oj-validation-group>
           
         <div class="button-box">
-            <span class="close-button" on-click="[[closeTotalStaffPopup]]" title="Close">
+            <span class="close-button" on-click="[[closePostShiftPopup]]" title="Close">
               <i class="fas fa-times"></i>
             </span>
           </div>
@@ -524,45 +540,42 @@ tail="none">
 <div class="demo-popup-content oj-sm-padding-2x">
     <div class="oj-panel oj-xl-margin-4x" id="actionView5"> 
         <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
-            <oj-table id='customTotalStaffTable' aria-label='All Table' data='[[CustomTotalStaffData]]' display='list'
-                selection-mode='{"row": "single"}'  columns='[
-                { "headerClassName" : "table-header-style",
-                "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
-                { "headerClassName" : "table-header-style",
-                "headerText": "Name", "field": "name", "id": "name", "template": "profileTemplate"},
-                { "headerClassName" : "table-header-style",
-                "headerText": "Email", "field": "email", "id": "email" },
-                { "headerClassName" : "table-header-style",
-                "headerText": "Contact", "field": "contact", "id": "contact" },
-                { "headerClassName" : "table-header-style",
-                "headerText": "Job Role", "field": "role", "id": "role" },
-                { "headerClassName" : "table-header-style",
-                "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" }
-                ]' style='width: 100%;' class="demo-table-container">
-                <template slot="bgTemplate" data-oj-as="cell">
-                    <oj-bind-if test="[[cell.row.status == 'Pending' ]]">
-                        <div class="oj-table-element-pending"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
-                    </oj-bind-if>
-                    <oj-bind-if test="[[cell.row.status == 'Active' ]]">
-                        <div class="oj-table-element-active"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
-                    </oj-bind-if>
-                    <oj-bind-if test="[[cell.row.status == 'Inactive' ]]">
-                        <div class="oj-table-element-inactive"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
-                    </oj-bind-if>
-                  </template>
-                  <template slot="profileTemplate" data-oj-as="cell">
-                 <!--    <a on-click= "[[goToProfile]]" target="_blank" title="Go To Profile">
-                        <oj-bind-text value="[[cell.row.name]]"></oj-bind-text>
-                      </a> -->
-                        <oj-bind-text value="[[cell.row.name]]"></oj-bind-text>
-                  </template>
-                </oj-table>
-                <oj-paging-control
-                id="paging5"
-                data="[[CustomTotalStaffData]]"
-                page-size="10"
-                slot="bottom">
-            </oj-paging-control>
+            <oj-table id='customPostShiftTable' aria-label='All Table' data='[[CustomPostShiftData]]' display='list'
+                        selection-mode='{"row": "single"}'  columns='[
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "Shift Name", "field": "shift_name", "id": "shift_name" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "Shift Date", "field": "shift_date", "id": "shift_date" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "Start Time", "field": "start_time", "id": "start_time" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "End Time", "field": "end_time", "id": "end_time" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" }
+                        ]' style='width: 100%;' class="demo-table-container">
+                        <template slot="bgTemplate" data-oj-as="cell">
+                            <oj-bind-if test="[[cell.row.status == 'Pending' ]]">
+                                <div class="oj-table-element-pending-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[cell.row.status == 'Confirmed' ]]">
+                                <div class="oj-table-element-confirmed-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[cell.row.status == 'Completed' ]]">
+                                <div class="oj-table-element-completed-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                            <oj-bind-if test="[[cell.row.status == 'Incompleted' ]]">
+                                <div class="oj-table-element-incompleted-shifts"><oj-bind-text value="[[cell.row.status]]"></oj-bind-text></div>
+                            </oj-bind-if>
+                          </template>
+                        </oj-table>
+                        <oj-paging-control
+                            id="paging"
+                            data="[[CustomPostShiftData]]"
+                            page-size="10"
+                            slot="bottom">
+                        </oj-paging-control>
                 <div class="centered-container" id="customLoaderViewPopup" style="display:none">
                     <div class="loader"></div>
                 </div> 
