@@ -13,6 +13,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.PostShiftDet = ko.observableArray([]);
             self.CustomPostShiftDet = ko.observableArray([]);
             self.customShiftCount = ko.observable('0');
+            self.ConfirmedShiftDet = ko.observableArray([]);
+            self.CustomConfirmedShiftDet = ko.observableArray([]);
+            self.CompletedShiftDet = ko.observableArray([]);
 
             self.customStaffCount = ko.observable('0');
             self.activeStaff = ko.observable('');
@@ -53,6 +56,24 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     id: 'last-month',
                     label: 'Last Month',
                     icon: 'oj-ux-ico-download'
+                },
+                {
+                    id: 'custom',
+                    label: 'Custom',
+                    icon: 'oj-ux-ico-print'
+                }
+            ];
+
+            self.menuItemsConfirmed = [
+                {
+                    id: 'this-week',
+                    label: 'This Week',
+                    icon: 'oj-ux-ico-save'
+                },
+                {
+                    id: 'this-month',
+                    label: 'This Month',
+                    icon: 'oj-ux-ico-save'
                 },
                 {
                     id: 'custom',
@@ -106,33 +127,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             };
             self.context = context;
             self.router = self.context.parentRouter;
-
-
-            function getTotalStaff() {
-                $("#staffView").hide();
-                $("#loaderView").show();
-                $.ajax({
-                    url: BaseURL + "/jpDashboardCountGet",
-                    type: 'GET',
-                    dataType: 'json',
-                    timeout: sessionStorage.getItem("timeInetrval"),
-                    context: self,
-                    error: function (xhr, textStatus, errorThrown) {
-                        if(textStatus == 'timeout' || textStatus == 'error'){
-                            document.querySelector('#TimeoutSup').open();
-                        }
-                    },
-                    success: function (data) {
-                        $("#staffView").show();
-                        $("#loaderView").hide();
-                        console.log(data)
-                        self.activeStaff(data[1][0][0])
-                        self.inactiveStaff(data[2][0][0])
-                        self.pendingStaff(data[3][0][0])
-                }
-                })
-            }
-
 
             function getShiftInfo() {
                 $.ajax({
@@ -264,20 +258,31 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 })
             }
             
-            self.menuItemInactiveSelect = function (event) {
-                //self.InactiveStaffDet([]);
+            self.menuItemConfirmedSelect = function (event) {
+                self.TotalStaffDet([]);
                 var target = event.target;
                 var itemValue = target.value;
                 console.log(itemValue)
-                getInactiveStaffList();
-                let popup = document.getElementById("inactiveStaffPopup");
-                popup.open();
+                if(itemValue == 'this-week'){
+                    getThisWeekConfirmedPostShift();
+                    let popup = document.getElementById("confirmedShiftPopup");
+                    popup.open();
+                }
+                if(itemValue == 'this-month'){
+                    getThisMonthConfirmedPostShift();
+                    let popup = document.getElementById("confirmedShiftPopup");
+                    popup.open();
+                }
+                if(itemValue == 'custom'){
+                    let popup = document.getElementById("customConfirmedShiftPopup");
+                    popup.open();
+                }
             }
 
-            self.inactiveStaffPopup = function (event) {
+            self.confirmedShiftPopup = function (event) {
                 //self.InactiveStaffDet([]);
-                getInactiveStaffList();
-                let popup = document.getElementById("inactiveStaffPopup");
+                getConfirmedShiftList();
+                let popup = document.getElementById("confirmedShiftPopup");
                 popup.open();
             }
         
@@ -287,11 +292,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 popup.close();
                 location.reload();
             }
-            function getInactiveStaffList(){
-                $("#loaderInactivePopup").show();
+            function getConfirmedShiftList(){
+                $("#loaderPostShiftPopup").show();
                 $.ajax({
-                    url: BaseURL + "/jpInactiveStaffDashboardGet",
-                    type: 'GET',
+                    url: BaseURL  + "/jpConfirmedShiftDashboardGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
                     context: self,
@@ -301,21 +309,13 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         }
                     },
                     success: function (data) {
-                        //self.InactiveStaffDet([]);
-                        $("#loaderInactivePopup").hide();
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role'];
-                        csvContent += headers.join(',') + '\n';
-                         for (var i = 0; i < data[0].length; i++) {
-                            self.InactiveStaffDet.push({'no': i+1,'id': data[0][i][0],'name' : data[0][i][2] + " " + data[0][i][3], 'email': data[0][i][11],'contact': data[0][i][15] + data[0][i][12], 'role': data[0][i][4]  });
-                            var rowData = [i+1, data[0][i][2] + " " +  data[0][i][3],  data[0][i][11],  data[0][i][15], data[0][i][12], data[0][i][4]];
-                            csvContent += rowData.join(',') + '\n';
+                        console.log(data)
+                        var data = JSON.parse(data[0]);
+                        console.log(data)
+                        $("#loaderPostShiftPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.ConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
                     }
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Inactive_Staff_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
                 }
                 })
             }
@@ -412,7 +412,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             }; 
 
             self.menuItemSelect = function (event) {
-                self.TotalStaffDet([]);
+                self.PostShiftDet([]);
                 var target = event.target;
                 var itemValue = target.value;
                 console.log(itemValue)
@@ -444,92 +444,41 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     //refresh()
                 }
             }
-            function refresh(){
-                self.CustomTotalStaffDet([]);
-            }
 
-            function getLastWeekTotalStaffList(){
-                $("#loaderViewPopup").show();
-                $.ajax({
-                    url: BaseURL+ "/jpLastWeekTotalStaffGet",
-                    type: 'GET',
-                    dataType: 'json',
-                    timeout: sessionStorage.getItem("timeInetrval"),
-                    context: self,
-                    error: function (xhr, textStatus, errorThrown) {
-                        if(textStatus == 'timeout' || textStatus == 'error'){
-                            document.querySelector('#TimeoutSup').open();
-                        }
-                    },
-                    success: function (result) {
-                        //self.TotalStaffDet([]);
-                        console.log(result)
-                        self.totalStaff(result[0][0])
-                        self.activeStaff(result[1][0])
-                        self.inactiveStaff(result[2][0])
-                        self.pendingStaff(result[3][0])
-                        var data = JSON.parse(result[4]);
-                        //console.log(data)
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
-                        csvContent += headers.join(',') + '\n';
-                        $("#loaderViewPopup").hide();
-                         for (var i = 0; i < data.length; i++) {
-                            if(data[i][17] == "Deactive"){
-                                data[i][17] = "Inactive"
-                            }
-                            self.TotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
-                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
-                            csvContent += rowData.join(',') + '\n';
-                    }
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
+            self.menuItemSelectCompleted = function (event) {
+                self.CompletedShiftDet([]);
+                var target = event.target;
+                var itemValue = target.value;
+                console.log(itemValue)
+                if(itemValue == 'this-week'){
+                    getThisWeekCompletedShift();
+                    let popup = document.getElementById("postShiftPopup");
+                    popup.open();
                 }
-                })
-            }
-
-            function getLastMonthTotalStaffList(){
-                $("#loaderViewPopup").show();
-                $.ajax({
-                    url: BaseURL+ "/jpLastMonthTotalStaffGet",
-                    type: 'GET',
-                    dataType: 'json',
-                    timeout: sessionStorage.getItem("timeInetrval"),
-                    context: self,
-                    error: function (xhr, textStatus, errorThrown) {
-                        if(textStatus == 'timeout' || textStatus == 'error'){
-                            document.querySelector('#TimeoutSup').open();
-                        }
-                    },
-                    success: function (result) {
-                        //self.TotalStaffDet([]);
-                        //console.log(result)
-                        self.totalStaff(result[0][0])
-                        var data = JSON.parse(result[1]);
-                        console.log(data)
-                        var csvContent = '';
-                        var headers = ['SL.No', 'Name', 'Email','Country Code','Contact', 'Job Role', 'Status'];
-                        csvContent += headers.join(',') + '\n';
-                        $("#loaderViewPopup").hide();
-                         for (var i = 0; i < data.length; i++) {
-                            if(data[i][17] == "Deactive"){
-                                data[i][17] = "Inactive"
-                            }
-                            self.TotalStaffDet.push({'no': i+1,'id': data[i][0],'name' : data[i][2] + " " + data[i][3], 'email': data[i][11],'contact': data[i][15] + data[i][12],'role': data[i][4],'status': data[i][17]  });
-                            var rowData = [i+1, data[i][2] + " " +  data[i][3],  data[i][11],   data[i][15], data[i][12],  data[i][4],  data[i][17]] ;
-                            csvContent += rowData.join(',') + '\n';
-                    }
-                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    var today = new Date();
-                    var fileName = 'Registered_Users_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-                    self.blob(blob);
-                    self.fileName(fileName);
+                if(itemValue == 'this-month'){
+                    getThisMonthTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
+                    popup.open();
                 }
-                })
+                if(itemValue == 'last-week'){
+                    getLastWeekTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
+                    popup.open();
+                }
+                if(itemValue == 'last-month'){
+                    getLastMonthTotalPostShift();
+                    let popup = document.getElementById("postShiftPopup");
+                    popup.open();
+                }
+                if(itemValue == 'custom'){
+                    //getTotalStaffList();
+                    let popup = document.getElementById("customPostShiftPopup");
+                    popup.open();
+                    //self.CustomTotalStaffDet([]);
+                    //refresh()
+                }
             }
+         
             
             self.TotalPostShiftDateFilter = function (event,data) {
                 self.flag('1');
@@ -738,10 +687,176 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 })
             }
 
+            function getThisWeekConfirmedPostShift(){
+                $("#loaderConfirmedPopup").show();
+                $.ajax({
+                    url: BaseURL  + "/jpThisWeekConfirmedPostShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        self.confirmedShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#loaderConfirmedPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.ConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
+                }
+                })
+            }
+
+            function getThisMonthConfirmedPostShift(){
+                $("#loaderConfirmedPopup").show();
+                $.ajax({
+                    url: BaseURL  + "/jpThisMonthConfirmedShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId")
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        self.confirmedShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#loaderConfirmedPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.ConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
+                }
+                })
+            }
     
+            self.TotalConfirmedShiftDateFilter = function (event,data) {
+                self.flag('1');
+                console.log(self.CustomConfirmedShiftDet())
+                var validSec = self._checkValidationGroup("dateFilterTotalConfirmedShift");
+                if (validSec) {
+                    $("#customLoaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL + "/jpCustomConfirmedShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId"),
+                        start_date : self.start_date(),
+                        end_date : self.end_date()
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#loaderViewPopup').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        self.confirmedShiftPost(data[0])
+                        var data = JSON.parse(data[1]);
+                        console.log(data)
+                        $("#customLoaderViewPopup").hide();
+                         for (var i = 0; i < data.length; i++) {
+                            self.CustomConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
+                }
+                })  
+                }
+            }; 
+
+            self.TotalConfirmedShiftDateFilterClear = function (event,data) {
+               //alert(self.flag())
+               console.log(self.CustomConfirmedShiftDet())
+               var validSec = self._checkValidationGroup("dateFilterTotalConfirmedShift");
+               if(validSec == false){
+                self.CustomConfirmedShiftDet([])
+               }
+               if (validSec) {
+                self.CustomConfirmedShiftDet([])
+                $("#customLoaderViewPopup").show();
+                $.ajax({
+                    url: BaseURL + "/jpCustomConfirmedShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId"),
+                        start_date : self.start_date(),
+                        end_date : self.end_date()
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#loaderViewPopup').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                   success: function (data) {
+                    console.log(data)
+                    self.confirmedShiftPost(data[0])
+                    var data = JSON.parse(data[1]);
+                    console.log(data)
+                    $("#customLoaderViewPopup").hide();
+                     for (var i = 0; i < data.length; i++) {
+                        self.CustomConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                    }
+                   }
+               })  
+               }
+           }; 
+
+           function getThisWeekCompletedShift(){
+            $("#loaderViewPopup").show();
+            $.ajax({
+                url: BaseURL  + "/jpThisWeekTotalPostShiftGet",
+                type: 'POST',
+                data: JSON.stringify({
+                    clientId : sessionStorage.getItem("clientId")
+                }),
+                dataType: 'json',
+                timeout: sessionStorage.getItem("timeInetrval"),
+                context: self,
+                error: function (xhr, textStatus, errorThrown) {
+                    if(textStatus == 'timeout' || textStatus == 'error'){
+                        document.querySelector('#TimeoutSup').open();
+                    }
+                },
+                success: function (data) {
+                    console.log(data)
+                    self.totalShiftPost(data[0])
+                    var data = JSON.parse(data[1]);
+                    console.log(data)
+                    $("#loaderPostShiftPopup").hide();
+                     for (var i = 0; i < data.length; i++) {
+                        self.PostShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                }
+            }
+            })
+        }
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.PostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.PostShiftDet, {keyAttributes: 'id'}));   
         self.CustomPostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.CustomPostShiftDet, {keyAttributes: 'id'}));   
+        self.ConfirmedShiftData = new PagingDataProviderView(new ArrayDataProvider(self.ConfirmedShiftDet, {keyAttributes: 'id'}));   
+        self.CustomConfirmedShiftData = new PagingDataProviderView(new ArrayDataProvider(self.CustomConfirmedShiftDet, {keyAttributes: 'id'}));   
+        self.CompletedShiftData = new PagingDataProviderView(new ArrayDataProvider(self.CompletedShiftDet, {keyAttributes: 'id'}));   
 
         self.TotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.TotalStaffDet, {keyAttributes: 'id'}));   
         self.InactiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.InactiveStaffDet, {keyAttributes: 'id'}));   
