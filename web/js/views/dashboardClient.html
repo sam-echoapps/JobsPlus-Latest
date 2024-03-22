@@ -202,12 +202,36 @@
                     </div>
                   </div>
                     <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center">
-                        <oj-table id='staffShiftTable' aria-label='All Table' data='[[StaffShiftData]]' display='list'
+                      <h2 class="welcome-text">Shift Info</h2>
+                      <oj-validation-group id="dateFilterStaffShift" role="group" valid="{{groupValid}}"
+                      aria-labelledby="grouplabelid">
+                      <oj-bind-if test="[[flag() == '0' ]]">
+                      <div class="search-container">
+                        <div class="date-input">
+                          <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                        </div>
+                        <div class="date-input">
+                          <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                        </div>
+                        <span class="search-button demo-icon-search" on-click="[[StaffShiftDateFilter]]"> Show</span>
+                      </div>
+                      </oj-bind-if>
+                      <oj-bind-if test="[[flag() == '1' ]]">
+                        <div class="search-container">
+                          <div class="date-input">
+                            <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                          </div>
+                          <div class="date-input">
+                            <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                          </div>
+                          <span class="search-button demo-icon-search" on-click="[[StaffShiftDateFilterClear]]"> Show</span>
+                        </div>
+                        </oj-bind-if>
+                      </oj-validation-group>
+                      <oj-table id='staffShiftTable' aria-label='All Table' data='[[StaffShiftData]]' display='list'
                         selection-mode='{"row": "single"}'  columns='[
                         { "headerClassName" : "table-header-style",
                         "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
-                        { "headerClassName" : "table-header-style",
-                        "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
                         { "headerClassName" : "table-header-style",
                         "headerText": "Shift Name", "field": "shift_name", "id": "shift_name" },
                         { "headerClassName" : "table-header-style",
@@ -216,6 +240,8 @@
                         "headerText": "Start Time", "field": "start_time", "id": "start_time" },
                         { "headerClassName" : "table-header-style",
                         "headerText": "End Time", "field": "end_time", "id": "end_time" },
+                        { "headerClassName" : "table-header-style",
+                        "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
                         { "headerClassName" : "table-header-style",
                         "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" }
                         ]' style='width: 100%;' class="demo-table-container">
@@ -240,6 +266,10 @@
                             page-size="10"
                             slot="bottom">
                         </oj-paging-control>
+                        <div class="centered-container" id="loaderStaffShift" style="display:none">
+                          <div class="loader"></div>
+                      </div> 
+                      
                     </div>
                     </div>
                     </div>
@@ -286,8 +316,6 @@
                     { "headerClassName" : "table-header-style",
                     "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
                     { "headerClassName" : "table-header-style",
-                    "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
-                    { "headerClassName" : "table-header-style",
                     "headerText": "Shift Name", "field": "shift_name", "id": "shift_name" },
                     { "headerClassName" : "table-header-style",
                     "headerText": "Shift Date", "field": "shift_date", "id": "shift_date" },
@@ -295,6 +323,8 @@
                     "headerText": "Start Time", "field": "start_time", "id": "start_time" },
                     { "headerClassName" : "table-header-style",
                     "headerText": "End Time", "field": "end_time", "id": "end_time" },
+                    { "headerClassName" : "table-header-style",
+                    "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
                     { "headerClassName" : "table-header-style",
                     "headerText": "Status", "field": "status", "id": "status", "template": "bgTemplate" }
                     ]' style='width: 100%;' class="demo-table-container">
@@ -886,3 +916,6 @@ tail="none">
 </div>
 </oj-popup>
 
+<div class="centered-container" id="loaderPage" style="display:none">
+  <div class="loader"></div>
+</div> 

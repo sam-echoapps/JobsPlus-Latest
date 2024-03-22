@@ -124,6 +124,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 }
                 else {
                    app.onAppSuccess();
+                   getClientNames()
                    self.username(sessionStorage.getItem("userName"));
                    self.fullname(sessionStorage.getItem("fullName"));
                    getShiftInfo();
@@ -132,7 +133,45 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.context = context;
             self.router = self.context.parentRouter;
 
+            function getClientNames() {
+                var currentDate = new Date();
+                var year = currentDate.getFullYear();
+                var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                var day = currentDate.getDate().toString().padStart(2, '0');
+                var formattedDate = year + "-" + month + "-" + day;
+                console.log("Current Date:", formattedDate);
+                
+                var currentTime = new Date();
+                var hours = currentTime.getHours().toString().padStart(2, '0');
+                var minutes = currentTime.getMinutes().toString().padStart(2, '0');
+                var seconds = currentTime.getSeconds().toString().padStart(2, '0');
+                var formattedTime = hours + ":" + minutes + ":" + seconds;
+                console.log("Formatted Time:", formattedTime);
+
+                $.ajax({
+                    url: BaseURL  + "/jpClientShiftGet",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId"),
+                        currentDate : formattedDate,
+                        currentTime : formattedTime
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout' || textStatus == 'error'){
+                            document.querySelector('#TimeoutSup').open();
+                        }
+                    },
+                    success: function (result) {
+                    console.log(result)
+                }
+                })
+            }
+
             function getShiftInfo() {
+                $("#loaderPage").show();
                 var currentDate = new Date();
                 var year = currentDate.getFullYear();
                 var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -163,15 +202,16 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                         }
                     },
                     success: function (data) {
+                        $("#loaderPage").hide();
                         console.log(data)
                         self.totalShiftPost(data[0])
                         self.confirmedShiftPost(data[1])
                         self.allocatedStaff(data[2])
                         self.completedShiftPost(data[3])
-                        var data = JSON.parse(data[4]);
-                        for (var i = 0; i < data.length; i++) {
-                            self.StaffShiftDet.push({'no': i+1, 'staff_name' : data[i][1], 'shift_name' : data[i][2], 'shift_date': data[i][3],'start_time': data[i][4], 'end_time': data[i][5], 'status': data[i][6]  });
-                    }
+                    //     var data = JSON.parse(data[4]);
+                    //     for (var i = 0; i < data.length; i++) {
+                    //         self.StaffShiftDet.push({'no': i+1, 'staff_name' : data[i][1], 'shift_name' : data[i][2], 'shift_date': data[i][3],'start_time': data[i][4], 'end_time': data[i][5], 'status': data[i][6]  });
+                    // }
                     }
                 })
             }
@@ -272,7 +312,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             }
             
             self.menuItemConfirmedSelect = function (event) {
-                self.TotalStaffDet([]);
+                self.ConfirmedShiftDet([]);
                 var target = event.target;
                 var itemValue = target.value;
                 console.log(itemValue)
@@ -304,7 +344,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             }
 
             self.confirmedShiftPopup = function (event) {
-                //self.InactiveStaffDet([]);
                 getConfirmedShiftList();
                 let popup = document.getElementById("confirmedShiftPopup");
                 popup.open();
@@ -1075,6 +1114,83 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
            })  
            }
        }; 
+
+       self.StaffShiftDateFilter = function (event,data) {
+        self.flag('1');
+        console.log(self.StaffShiftDet())
+        var validSec = self._checkValidationGroup("dateFilterStaffShift");
+        if (validSec) {
+            $("#loaderStaffShift").show();
+        $.ajax({
+            url: BaseURL + "/jpStaffShiftDateFilter",
+            type: 'POST',
+            data: JSON.stringify({
+                clientId : sessionStorage.getItem("clientId"),
+                start_date : self.start_date(),
+                end_date : self.end_date()
+            }),
+            dataType: 'json',
+            timeout: sessionStorage.getItem("timeInetrval"),
+            context: self,
+            error: function (xhr, textStatus, errorThrown) {
+                if(textStatus == 'timeout'){
+                    document.querySelector('#loaderViewPopup').close();
+                    document.querySelector('#Timeout').open();
+                }
+            },
+            success: function (data) {
+                console.log(data)
+                $("#loaderStaffShift").hide();
+                     var data = JSON.parse(data[0]);
+                        for (var i = 0; i < data.length; i++) {
+                            self.StaffShiftDet.push({'no': i+1, 'staff_name' : data[i][1], 'shift_name' : data[i][2], 'shift_date': data[i][3],'start_time': data[i][4], 'end_time': data[i][5], 'status': data[i][6]  });
+                    }
+           
+            }
+        })  
+        }
+    }; 
+
+    self.StaffShiftDateFilterClear = function (event,data) {
+        console.log(self.StaffShiftDet())
+        var validSec = self._checkValidationGroup("dateFilterStaffShift");
+        if(validSec == false){
+         self.StaffShiftDet([])
+        }
+        if (validSec) {
+         self.StaffShiftDet([])
+         $("#loaderStaffShift").show();
+        $.ajax({
+            url: BaseURL + "/jpStaffShiftDateFilter",
+            type: 'POST',
+            data: JSON.stringify({
+                clientId : sessionStorage.getItem("clientId"),
+                start_date : self.start_date(),
+                end_date : self.end_date()
+            }),
+            dataType: 'json',
+            timeout: sessionStorage.getItem("timeInetrval"),
+            context: self,
+            error: function (xhr, textStatus, errorThrown) {
+                if(textStatus == 'timeout'){
+                    document.querySelector('#loaderViewPopup').close();
+                    document.querySelector('#Timeout').open();
+                }
+            },
+            success: function (data) {
+                console.log(data)
+                self.StaffShiftDet([])
+                $("#loaderStaffShift").hide();
+                     var data = JSON.parse(data[0]);
+                        for (var i = 0; i < data.length; i++) {
+                            self.StaffShiftDet.push({'no': i+1, 'staff_name' : data[i][1], 'shift_name' : data[i][2], 'shift_date': data[i][3],'start_time': data[i][4], 'end_time': data[i][5], 'status': data[i][6]  });
+                    }
+           
+            }
+        })  
+        }
+    }; 
+
 
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.PostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.PostShiftDet, {keyAttributes: 'id'}));   
