@@ -54,9 +54,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
             })
 
             var routerLength = args.parentRouter._routes.length;
-            if(routerLength!=16){
-                location.reload();
-            }
+            // if(routerLength!=16){
+            //     location.reload();
+            // }
 
             
             $.ajax({                   

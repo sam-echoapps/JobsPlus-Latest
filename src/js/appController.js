@@ -61,7 +61,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'myworkHistory', detail : {label: 'My Work History',iconClass: 'oj-navigationlist-item-icon fa fa-edit'} },
           { path: 'myCalender', detail : {label: 'My Calendar',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} },
           { path: 'timeSheetStaff', detail : {label: 'Time Sheet',iconClass: 'oj-navigationlist-item-icon fa fa-clock'}},
-          { path: 'help', detail : {label: 'Help',iconClass: 'oj-navigationlist-item-icon fa fa-question-circle'} }
+          { path: 'help', detail : {label: 'Help',iconClass: 'oj-navigationlist-item-icon fa fa-question-circle'} },
+          { path: 'dashboardStaff', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
         ];  
       }else if(sessionStorage.getItem('userRole')=='Accounts'){
         var navData = [
@@ -139,6 +140,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'dashboardAdmin', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'dashboardChart', detail : {label: 'Dashboard Chart',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'dashboardClient', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+          { path: 'dashboardStaff', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
 /*           { path: 'postcode', detail : {label: 'Postcode',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} }
  */
         ];
@@ -148,7 +150,8 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
        
         self.navMenu = [
 /*           {"name": "Home","id": "home","icons": "fa-solid fa fa-home", "path":"home"},
- */          {"name": "My Profile","id": "myprofile","icons": "fa-solid fa fa-user", "path":"myprofile"},
+ */       {"name": "Dashboard","id": "dashboardStaff","icons": "fa-solid fa fa-home", "path":"dashboardStaff"},   
+          {"name": "My Profile","id": "myprofile","icons": "fa-solid fa fa-user", "path":"myprofile"},
           {"name": "Requested Shifts","id": "requestedShiftsUser","icons": "fa-solid fa fa-clock-o", "path":"requestedShiftsUser"},
           {"name": "Upcoming Shifts","id": "upcomingShifts","icons": "fa-solid fa fa-stop-circle", "path":"upcomingShifts"},
           {"name": "Completed Shifts","id": "completedShifts","icons": "fa-solid fa fa-clock", "path":"completedShifts"},
@@ -277,7 +280,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
     ControllerViewModel.prototype.onLoginSuccess = function() {
       if(sessionStorage.getItem("userRole")=="staff"){
         
-        router.go({path : 'myprofile'});
+        router.go({path : 'dashboardStaff'});
       }else if(sessionStorage.getItem("userRole")=="Accounts"){
   
         router.go({path : 'clientProfileAccounts'});
