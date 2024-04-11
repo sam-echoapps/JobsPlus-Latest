@@ -775,10 +775,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             function getThisWeekConfirmedPostShift(){
                 $("#loaderConfirmedPopup").show();
                 $.ajax({
-                    url: BaseURL  + "/jpThisWeekConfirmedPostShiftGet",
+                    url: BaseURL  + "/jpThisWeekConfirmedStaffShiftGet",
                     type: 'POST',
                     data: JSON.stringify({
-                        clientId : sessionStorage.getItem("clientId")
+                        staffId : sessionStorage.getItem("userId"),
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -791,11 +791,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     success: function (data) {
                         console.log(data)
                         self.confirmedShiftPost(data[0])
-                        var data = JSON.parse(data[1]);
-                        console.log(data)
+                        var dataConfirmed = JSON.parse(data[1]);
+                        console.log(dataConfirmed)
                         $("#loaderConfirmedPopup").hide();
-                         for (var i = 0; i < data.length; i++) {
-                            self.ConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                         for (var i = 0; i < dataConfirmed.length; i++) {
+                            self.ConfirmedShiftDet.push({'no': i+1, 'client_name' : dataConfirmed[i][3], 'shift_name' : dataConfirmed[i][4], 'shift_date': dataConfirmed[i][5],'start_time': dataConfirmed[i][6], 'end_time': dataConfirmed[i][7], 'status': dataConfirmed[i][8]  });
                     }
                 }
                 })
@@ -804,10 +804,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             function getThisMonthConfirmedPostShift(){
                 $("#loaderConfirmedPopup").show();
                 $.ajax({
-                    url: BaseURL  + "/jpThisMonthConfirmedShiftGet",
+                    url: BaseURL  + "/jpThisMonthConfirmedStaffShiftGet",
                     type: 'POST',
                     data: JSON.stringify({
-                        clientId : sessionStorage.getItem("clientId")
+                        staffId : sessionStorage.getItem("userId"),
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -820,11 +820,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     success: function (data) {
                         console.log(data)
                         self.confirmedShiftPost(data[0])
-                        var data = JSON.parse(data[1]);
-                        console.log(data)
+                        var dataConfirmed = JSON.parse(data[1]);
+                        console.log(dataConfirmed)
                         $("#loaderConfirmedPopup").hide();
-                         for (var i = 0; i < data.length; i++) {
-                            self.ConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                         for (var i = 0; i < dataConfirmed.length; i++) {
+                            self.ConfirmedShiftDet.push({'no': i+1, 'client_name' : dataConfirmed[i][3], 'shift_name' : dataConfirmed[i][4], 'shift_date': dataConfirmed[i][5],'start_time': dataConfirmed[i][6], 'end_time': dataConfirmed[i][7], 'status': dataConfirmed[i][8]  });
                     }
                 }
                 })
@@ -837,10 +837,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 if (validSec) {
                     $("#customLoaderViewPopup").show();
                 $.ajax({
-                    url: BaseURL + "/jpCustomConfirmedShiftGet",
+                    url: BaseURL + "/jpCustomConfirmedStaffShiftGet",
                     type: 'POST',
                     data: JSON.stringify({
-                        clientId : sessionStorage.getItem("clientId"),
+                        staffId : sessionStorage.getItem("userId"),
                         start_date : self.start_date(),
                         end_date : self.end_date()
                     }),
@@ -856,11 +856,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     success: function (data) {
                         console.log(data)
                         self.confirmedShiftPost(data[0])
-                        var data = JSON.parse(data[1]);
-                        console.log(data)
+                        var dataConfirmed = JSON.parse(data[1]);
+                        console.log(dataConfirmed)
                         $("#customLoaderViewPopup").hide();
-                         for (var i = 0; i < data.length; i++) {
-                            self.CustomConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                         for (var i = 0; i < dataConfirmed.length; i++) {
+                            self.CustomConfirmedShiftDet.push({'no': i+1, 'client_name' : dataConfirmed[i][3], 'shift_name' : dataConfirmed[i][4], 'shift_date': dataConfirmed[i][5],'start_time': dataConfirmed[i][6], 'end_time': dataConfirmed[i][7], 'status': dataConfirmed[i][8]  });
                     }
                 }
                 })  
@@ -878,10 +878,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 self.CustomConfirmedShiftDet([])
                 $("#customLoaderViewPopup").show();
                 $.ajax({
-                    url: BaseURL + "/jpCustomConfirmedShiftGet",
+                    url: BaseURL + "/jpCustomConfirmedStaffShiftGet",
                     type: 'POST',
                     data: JSON.stringify({
-                        clientId : sessionStorage.getItem("clientId"),
+                        staffId : sessionStorage.getItem("userId"),
                         start_date : self.start_date(),
                         end_date : self.end_date()
                     }),
@@ -897,11 +897,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                    success: function (data) {
                     console.log(data)
                     self.confirmedShiftPost(data[0])
-                    var data = JSON.parse(data[1]);
-                    console.log(data)
+                    var dataConfirmed = JSON.parse(data[1]);
+                    console.log(dataConfirmed)
                     $("#customLoaderViewPopup").hide();
-                     for (var i = 0; i < data.length; i++) {
-                        self.CustomConfirmedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                     for (var i = 0; i < dataConfirmed.length; i++) {
+                        self.CustomConfirmedShiftDet.push({'no': i+1, 'client_name' : dataConfirmed[i][3], 'shift_name' : dataConfirmed[i][4], 'shift_date': dataConfirmed[i][5],'start_time': dataConfirmed[i][6], 'end_time': dataConfirmed[i][7], 'status': dataConfirmed[i][8]  });
                     }
                    }
                })  
@@ -946,10 +946,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
            function getThisWeekCompletedShift(){
             $("#loaderCompletedPopup").show();
             $.ajax({
-                url: BaseURL  + "/jpThisWeekCompletedShiftGet",
+                url: BaseURL  + "/jpThisWeekCompletedStaffShiftGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId")
+                    staffId : sessionStorage.getItem("userId"),
                 }),
                 dataType: 'json',
                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -962,11 +962,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 success: function (data) {
                     console.log(data)
                     self.completedShiftPost(data[0])
-                    var data = JSON.parse(data[1]);
-                    console.log(data)
+                    var dataCompleted = JSON.parse(data[1]);
+                    console.log(dataCompleted)
                     $("#loaderCompletedPopup").hide();
-                     for (var i = 0; i < data.length; i++) {
-                        self.CompletedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                     for (var i = 0; i < dataCompleted.length; i++) {
+                        self.CompletedShiftDet.push({'no': i+1, 'client_name' : dataCompleted[i][3], 'shift_name' : dataCompleted[i][4], 'shift_date': dataCompleted[i][5],'start_time': dataCompleted[i][6], 'end_time': dataCompleted[i][7], 'status': dataCompleted[i][8]  });
                 }
             }
             })
@@ -975,10 +975,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         function getThisMonthCompletedShift(){
             $("#loaderCompletedPopup").show();
             $.ajax({
-                url: BaseURL  + "/jpThisMonthCompletedShiftGet",
+                url: BaseURL  + "/jpThisMonthCompletedStaffShiftGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId")
+                    staffId : sessionStorage.getItem("userId"),
                 }),
                 dataType: 'json',
                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -991,11 +991,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 success: function (data) {
                     console.log(data)
                     self.completedShiftPost(data[0])
-                    var data = JSON.parse(data[1]);
-                    console.log(data)
+                    var dataCompleted = JSON.parse(data[1]);
+                    console.log(dataCompleted)
                     $("#loaderCompletedPopup").hide();
-                     for (var i = 0; i < data.length; i++) {
-                        self.CompletedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                     for (var i = 0; i < dataCompleted.length; i++) {
+                        self.CompletedShiftDet.push({'no': i+1, 'client_name' : dataCompleted[i][3], 'shift_name' : dataCompleted[i][4], 'shift_date': dataCompleted[i][5],'start_time': dataCompleted[i][6], 'end_time': dataCompleted[i][7], 'status': dataCompleted[i][8]  });
                 }
             }
             })
@@ -1004,10 +1004,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         function getLastWeekCompletedShift(){
             $("#loaderCompletedPopup").show();
             $.ajax({
-                url: BaseURL  + "/jpLastWeekCompletedShiftGet",
+                url: BaseURL  + "/jpLastWeekCompletedStaffShiftGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId")
+                    staffId : sessionStorage.getItem("userId"),
                 }),
                 dataType: 'json',
                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -1020,11 +1020,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 success: function (data) {
                     console.log(data)
                     self.completedShiftPost(data[0])
-                    var data = JSON.parse(data[1]);
-                    console.log(data)
+                    var dataCompleted = JSON.parse(data[1]);
+                    console.log(dataCompleted)
                     $("#loaderCompletedPopup").hide();
-                     for (var i = 0; i < data.length; i++) {
-                        self.CompletedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                     for (var i = 0; i < dataCompleted.length; i++) {
+                        self.CompletedShiftDet.push({'no': i+1, 'client_name' : dataCompleted[i][3], 'shift_name' : dataCompleted[i][4], 'shift_date': dataCompleted[i][5],'start_time': dataCompleted[i][6], 'end_time': dataCompleted[i][7], 'status': dataCompleted[i][8]  });
                 }
             }
             })
@@ -1033,10 +1033,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         function getLastMonthCompletedShift(){
             $("#loaderCompletedPopup").show();
             $.ajax({
-                url: BaseURL  + "/jpLastMonthCompletedShiftGet",
+                url: BaseURL  + "/jpLastMonthCompletedStaffShiftGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId")
+                    staffId : sessionStorage.getItem("userId"),
                 }),
                 dataType: 'json',
                 timeout: sessionStorage.getItem("timeInetrval"),
@@ -1049,11 +1049,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 success: function (data) {
                     console.log(data)
                     self.completedShiftPost(data[0])
-                    var data = JSON.parse(data[1]);
-                    console.log(data)
+                    var dataCompleted = JSON.parse(data[1]);
+                    console.log(dataCompleted)
                     $("#loaderCompletedPopup").hide();
-                     for (var i = 0; i < data.length; i++) {
-                        self.CompletedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                     for (var i = 0; i < dataCompleted.length; i++) {
+                        self.CompletedShiftDet.push({'no': i+1, 'client_name' : dataCompleted[i][3], 'shift_name' : dataCompleted[i][4], 'shift_date': dataCompleted[i][5],'start_time': dataCompleted[i][6], 'end_time': dataCompleted[i][7], 'status': dataCompleted[i][8]  });
                 }
             }
             })
@@ -1066,10 +1066,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             if (validSec) {
                 $("#customLoaderViewPopup").show();
             $.ajax({
-                url: BaseURL + "/jpCustomCompletedShiftGet",
+                url: BaseURL + "/jpCustomCompletedStaffShiftGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId"),
+                    staffId : sessionStorage.getItem("userId"),
                     start_date : self.start_date(),
                     end_date : self.end_date()
                 }),
@@ -1085,11 +1085,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 success: function (data) {
                     console.log(data)
                     self.customCompletedShiftPost(data[0])
-                    var data = JSON.parse(data[1]);
-                    console.log(data)
+                    var dataCompleted = JSON.parse(data[1]);
+                    console.log(dataCompleted)
                     $("#customLoaderViewPopup").hide();
-                     for (var i = 0; i < data.length; i++) {
-                        self.CustomCompletedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                     for (var i = 0; i < dataCompleted.length; i++) {
+                        self.CustomCompletedShiftDet.push({'no': i+1, 'client_name' : dataCompleted[i][3], 'shift_name' : dataCompleted[i][4], 'shift_date': dataCompleted[i][5],'start_time': dataCompleted[i][6], 'end_time': dataCompleted[i][7], 'status': dataCompleted[i][8]  });
                 }
             }
             })  
@@ -1107,10 +1107,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.CustomCompletedShiftDet([])
             $("#customLoaderViewPopup").show();
             $.ajax({
-                url: BaseURL + "/jpCustomCompletedShiftGet",
+                url: BaseURL + "/jpCustomCompletedStaffShiftGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId"),
+                    staffId : sessionStorage.getItem("userId"),
                     start_date : self.start_date(),
                     end_date : self.end_date()
                 }),
@@ -1126,11 +1126,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                success: function (data) {
                 console.log(data)
                 self.customCompletedShiftPost(data[0])
-                var data = JSON.parse(data[1]);
-                console.log(data)
+                var dataCompleted = JSON.parse(data[1]);
+                console.log(dataCompleted)
                 $("#customLoaderViewPopup").hide();
-                 for (var i = 0; i < data.length; i++) {
-                    self.CustomCompletedShiftDet.push({'no': i+1, 'shift_name' : data[i][1], 'shift_date': data[i][4],'start_time': data[i][5], 'end_time': data[i][6], 'status': data[i][15]  });
+                 for (var i = 0; i < dataCompleted.length; i++) {
+                    self.CustomCompletedShiftDet.push({'no': i+1, 'client_name' : dataCompleted[i][3], 'shift_name' : dataCompleted[i][4], 'shift_date': dataCompleted[i][5],'start_time': dataCompleted[i][6], 'end_time': dataCompleted[i][7], 'status': dataCompleted[i][8]  });
                 }
                }
            })  
