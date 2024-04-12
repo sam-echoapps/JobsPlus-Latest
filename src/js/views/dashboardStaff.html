@@ -187,6 +187,160 @@
     <!-- Widget Style 1 End -->
 
     <!-- Widget Style 2 Start -->
+<div class="row"  id="ReminderView">
+  <div class="col-xl-12 mb-50">
+      <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
+          <div class="d-flex flex-wrap align-items-center">
+            <div class="demo-popup-content oj-sm-padding-2x">
+              <div class="oj-panel oj-xl-margin-4x" id="actionView"> 
+                <div class="button-row" style="padding:10px;">
+                  <div class="button-box">
+                    <!-- <span class="export-button" on-click="[[downloadReminder]]">
+                      Export
+                      <i class="fas fa-download"></i>
+                    </span> -->
+                  </div>
+                </div>
+                  <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center" style="margin-left:8%;width:80%;">
+                    <oj-table id='staffReminderTable' aria-label='All Table' data='[[StaffReminderData]]' display='list'
+                    selection-mode='{"row": "single"}'  columns='[
+                    { "headerClassName" : "table-header-style",
+                    "headerText": "SL.No", "field": "no", "id": "no" },
+                    { "headerClassName" : "table-header-style oj-table-col-width",
+                    "headerText": "File Name", "field": "file_name", "id": "file_name"},
+                    { "headerClassName" : "table-header-style oj-table-col-width",
+                    "headerText": "File Type", "field": "file_type", "id": "file_type"},
+                    { "headerClassName" : "table-header-style oj-table-col-width",
+                    "headerText": "Expiry Date", "field": "expiry_date", "id": "expiry_date", "template": "bgTemplate"}
+                    ]' class="demo-table-container oj-table-align">
+                   
+                    <template slot="bgTemplate" data-oj-as="cell">
+                      <oj-bind-if test="[[cell.row.check_date == 'No' ]]">
+                          <div class="oj-table-element-expired"><oj-bind-text value="[[cell.row.expiry_date]]"></oj-bind-text></div>
+                      </oj-bind-if>
+                      <oj-bind-if test="[[cell.row.check_date == 'Yes' ]]">
+                        <div class="oj-table-element-expiry"><oj-bind-text value="[[cell.row.expiry_date]]"></oj-bind-text></div>
+                    </oj-bind-if>
+                    </template>
+                    </oj-table>
+                        <oj-paging-control
+                        class="oj-pagination-align"
+                        id="paging"
+                        data="[[StaffReminderData]]"
+                        page-size="10"
+                        slot="bottom">
+                    </oj-paging-control> 
+                  </div>
+                  </div>
+                  </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Widget Style 2 End -->
+
+ <!-- Widget Style 3 Start -->
+ <div class="row"  id="workView">
+  <div class="col-xl-12 mb-50">
+      <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">
+          <div class="d-flex flex-wrap align-items-center">
+           <!--    <div class="circle-icon">
+                  <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-users" aria-hidden="true"></i></div>
+              </div> --> 
+              <div class="widget-data">
+                  <div class="weight-800 font-18">Staff Hours</div>
+              </div> 
+              <oj-bind-if test="[[StaffWork() != 'Custom' ]]">
+              <span class="export-button1" on-click="[[downloadData]]">
+                Export &nbsp;
+                <i class="fas fa-download"></i>
+              </span>
+              </oj-bind-if>
+              <oj-bind-if test="[[StaffWork() == 'Custom' ]]">
+                <span class="export-button1" on-click="[[downloadDataCustom]]">
+                  Export &nbsp;
+                  <i class="fas fa-download"></i>
+                </span>
+                </oj-bind-if>
+              <div class="menu-icon">
+                  <oj-menu-button
+                  chroming="borderless"
+                  id="menu-item-list"
+                  class="oj-button-sm"
+                  display="icons">
+                  <oj-menu slot="menu"  on-oj-action="[[menuItemSelectStaffHour]]">
+                      <oj-bind-for-each data="[[menuItems]]">
+                      <template>
+                          <oj-option
+                          value="[[$current.data.label]]"
+                          id="[[$current.data.id + 1]]">
+                          <span>
+                              <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+                          </span>
+                          </oj-option>
+                      </template>
+                      </oj-bind-for-each>
+                  </oj-menu>
+                  </oj-menu-button>  
+              </div>
+              <oj-bind-if test="[[StaffWork() == 'Custom' ]]">
+                <oj-validation-group id="dateFilterStaffWorkHour" role="group" valid="{{groupValid}}"
+                aria-labelledby="grouplabelid">
+                <oj-bind-if test="[[StaffWorkFlag() == '0' ]]">
+                  <div class="search-container">
+                    <div class="date-input">
+                      <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                    </div>
+                    <div class="date-input">
+                      <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                    </div>
+                    <span class="search-button demo-icon-search" on-click="[[getStaffWorkFilterInfo]]"> Show</span>
+                  </div>
+                  </oj-bind-if>
+                  <oj-bind-if test="[[StaffWorkFlag() == '1' ]]">
+                  <div class="search-container">
+                    <div class="date-input">
+                      <oj-input-date required label-hint="From Date" autocomplete="off" value="{{start_date}}"></oj-input-date>
+                    </div>
+                    <div class="date-input">
+                      <oj-input-date required label-hint="To Date" autocomplete="off" value="{{end_date}}"></oj-input-date>
+                    </div>
+                    <span class="search-button demo-icon-search" on-click="[[getStaffWorkFilterInfoClear]]"> Show</span>
+                  </div>
+                  </oj-bind-if>
+              </oj-validation-group>
+              </oj-bind-if>
+              <div class="oj-flex oj-md-justify-content-space-around oj-sm-align-items-center" style="margin-left:8%;width:80%;">
+                 <oj-table id='staffWorkTable' aria-label='All Table' data='[[StaffWorkHoursData]]' display='list'
+                selection-mode='{"row": "single"}'  columns='[
+                { "headerClassName" : "table-header-style",
+                "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
+                { "headerClassName" : "table-header-style oj-table-col-width",
+                "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
+                { "headerClassName" : "table-header-style oj-table-col-width",
+                "headerText": "Job Role", "field": "job_role", "id": "job_role"},
+                { "headerClassName" : "table-header-style",
+                "headerText": "Total Hours", "field": "total_hours", "id": "total_hours" }
+                ]' class="demo-table-container oj-table-align">
+                    <oj-paging-control
+                    class="oj-pagination-align"
+                    id="paging"
+                    data="[[StaffWorkHoursData]]"
+                    page-size="5"
+                    slot="bottom">
+                </oj-paging-control> 
+                    <div class="centered-container" id="loaderViewPopup" style="display:none">
+                        <div class="loader"></div>
+                    </div> 
+                    
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Widget Style 3 End -->
+
+    <!-- Widget Style 2 Start -->
  <!-- <div class="row"  id="StaffShiftView">
     <div class="col-xl-12 mb-50">
         <div class="bg-white box-shadow border-radius-10 height-100-p widget-style1">

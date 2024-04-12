@@ -38,7 +38,13 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.start_date = ko.observable('');
             self.end_date = ko.observable('');
             self.groupValid = ko.observable();
-      
+            self.StaffReminderDet = ko.observableArray();
+            self.blobReminder = ko.observable();
+            self.fileNameReminder = ko.observable();
+            self.currentDate = ko.observable();
+            self.StaffWork= ko.observable('');
+            self.StaffWorkHoursDet = ko.observableArray();
+
 
             self.menuItems = [
                 {
@@ -128,6 +134,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                    self.username(sessionStorage.getItem("userName"));
                    self.fullname(sessionStorage.getItem("fullName"));
                    getStaffInfo();
+                   getStaffFileReminder();  
+                   getStaffWorkHours();  
                 }
             };
             self.context = context;
@@ -1213,6 +1221,151 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         }
     }; 
 
+    self.downloadReminder = ()=>{
+        if(self.blobReminder() != undefined && self.fileNameReminder() != undefined){
+            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                // For Internet Explorer
+                window.navigator.msSaveOrOpenBlob(self.blobReminder(), self.fileNameReminder());
+            } else {
+                // For modern browsers
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(self.blobReminder());
+                link.download = self.fileNameReminder();
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    }
+
+    function getStaffFileReminder() {
+        $("#ReminderView").hide();
+       // $("#loaderView").show();
+       
+       /*Chart Properties*/
+    
+       $.ajax({
+           url: BaseURL + "/jpStaffDashboardStaffFileReminder",
+           type: 'POST',
+           data: JSON.stringify({
+                staffId : sessionStorage.getItem("userId")
+            }),
+           dataType: 'json',
+           timeout: sessionStorage.getItem("timeInetrval"),
+           context: self,
+           error: function (xhr, textStatus, errorThrown) {
+               if(textStatus == 'timeout' || textStatus == 'error'){
+                   document.querySelector('#TimeoutSup').open();
+               }
+           },
+           success: function (dataStaffReminder) {
+               $("#ReminderView").show();
+               $("#loaderView").hide();
+               $("#customLoaderViewPopup").hide();
+                var StaffReminder = JSON.parse(dataStaffReminder[0]);
+                console.log(StaffReminder)
+                const currentDate = new Date();
+    
+                const year = currentDate.getFullYear();
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+                const day = String(currentDate.getDate()).padStart(2, '0');
+    
+                const formattedDate = `${year}-${month}-${day}`;
+                console.log(formattedDate);
+                self.currentDate(formattedDate)
+                var csvContent = '';
+                var headers = ['SL.No', 'Staff Name', 'Email', 'Contact', 'File Type', 'Job Role', 'Expiry Date', 'File Name'];
+                csvContent += headers.join(',') + '\n';
+                var checkDate;
+                for (var i = 0; i < StaffReminder.length; i++) {
+                    if(StaffReminder[i][8] >= self.currentDate()){
+                        checkDate = 'Yes';
+                    }else{
+                        checkDate = 'No';
+                    }
+                    self.StaffReminderDet.push({'no': i+1,'id': StaffReminder[i][0],'name' : StaffReminder[i][2] + " " + StaffReminder[i][3], 'email': StaffReminder[i][5],'contact': StaffReminder[i][6],'role': StaffReminder[i][4],'file_type': StaffReminder[i][7],'expiry_date': StaffReminder[i][8],'file_name': StaffReminder[i][9], 'check_date': checkDate  });
+                    var rowData = [i+1, StaffReminder[i][2] + " " + StaffReminder[i][3], StaffReminder[i][5], StaffReminder[i][6], StaffReminder[i][4], StaffReminder[i][7], StaffReminder[i][8], StaffReminder[i][9]];
+                    csvContent += rowData.join(',') + '\n';
+            }
+            var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            var today = new Date();
+            var fileName = 'Staff_File_Expiry_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+            self.blobReminder(blob);
+            self.fileNameReminder(fileName);
+       }
+       })
+    }
+
+    function getStaffWorkHours() {
+        //$("#workView").hide();
+       // $("#loaderView").show();
+       
+       /*Chart Properties*/
+
+       $.ajax({
+           url: BaseURL + "/jpDashboardTotalStaffWorkHoursGet",
+           type: 'GET',
+           dataType: 'json',
+           timeout: sessionStorage.getItem("timeInetrval"),
+           context: self,
+           error: function (xhr, textStatus, errorThrown) {
+               if(textStatus == 'timeout' || textStatus == 'error'){
+                   document.querySelector('#TimeoutSup').open();
+               }
+           },
+           success: function (dataStaffWork) {
+               $("#workView").show();
+               $("#loaderView").hide();
+               console.log(dataStaffWork)
+               $("#customLoaderViewPopup").hide();
+                var dataStaffHours = JSON.parse(dataStaffWork[0]);
+                console.log(dataStaffHours)
+                var csvContent = '';
+                var headers = ['SL.No', 'Staff Name', 'Job Role','Total hours'];
+                csvContent += headers.join(',') + '\n';
+                for (var i = 0; i < dataStaffHours.length; i++) {
+                    self.StaffWorkHoursDet.push({'no': i+1, 'staff_name': dataStaffHours[i][0] + " " + dataStaffHours[i][1], 'job_role': dataStaffHours[i][2], 'total_hours': dataStaffHours[i][3]  });
+                    var rowData = [i+1, dataStaffHours[i][0] + " " + dataStaffHours[i][1], dataStaffHours[i][2], dataStaffHours[i][3]];
+                    csvContent += rowData.join(',') + '\n';
+            }
+            var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            var today = new Date();
+            var fileName = 'Staff_Work_Total_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+            self.blob(blob);
+            self.fileName(fileName);
+       }
+       })
+   }
+
+
+    self.menuItemSelectStaffHour = function (event) {
+        self.StaffWorkHoursDet([]);
+        var target = event.target;
+        var itemValue = target.value;
+        console.log(itemValue)
+        if(itemValue == 'This Week'){
+            self.StaffWork('')
+            getThisWeekStaffWorkInfo();
+        }
+        if(itemValue == 'This Month'){
+            self.StaffWork('')
+            getThisMonthStaffWorkInfo();
+        }
+        if(itemValue == 'Last Week'){
+            self.StaffWork('')
+            getLastWeekStaffWorkInfo();
+        }
+        if(itemValue == 'Last Month'){
+            self.StaffWork('')
+            getLastMonthStaffWorkInfo();
+        }
+        if(itemValue == 'Custom'){
+            self.start_date('')
+            self.end_date('')
+            self.StaffWork('Custom')
+        }
+    }
 
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.PostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.PostShiftDet, {keyAttributes: 'id'}));   
@@ -1228,7 +1381,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
         self.InactiveStaffData = new PagingDataProviderView(new ArrayDataProvider(self.InactiveStaffDet, {keyAttributes: 'id'}));   
         self.PendingStaffData = new PagingDataProviderView(new ArrayDataProvider(self.PendingStaffDet, {keyAttributes: 'id'}));   
         self.CustomTotalStaffData = new PagingDataProviderView(new ArrayDataProvider(self.CustomTotalStaffDet, {keyAttributes: 'id'}));   
-              
+        self.StaffReminderData = new PagingDataProviderView(new ArrayDataProvider(self.StaffReminderDet, {keyAttributes: 'id'}));       
+        self.StaffWorkHoursData = new PagingDataProviderView(new ArrayDataProvider(self.StaffWorkHoursDet, {keyAttributes: 'id'}));       
+
 
         }
     }
