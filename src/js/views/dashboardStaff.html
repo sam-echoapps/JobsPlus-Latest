@@ -201,6 +201,9 @@
                     </span> -->
                   </div>
                 </div>
+                <div class="widget-data">
+                  <div class="weight-800 font-18">My Files</div>
+              </div> 
                   <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center" style="margin-left:8%;width:80%;">
                     <oj-table id='staffReminderTable' aria-label='All Table' data='[[StaffReminderData]]' display='list'
                     selection-mode='{"row": "single"}'  columns='[
@@ -248,9 +251,9 @@
                   <div class="icon border-radius-100 font-24 text-blue"><i class="fa fa-users" aria-hidden="true"></i></div>
               </div> --> 
               <div class="widget-data">
-                  <div class="weight-800 font-18">Staff Hours</div>
+                  <div class="weight-800 font-18">My Hours</div>
               </div> 
-              <oj-bind-if test="[[StaffWork() != 'Custom' ]]">
+           <!--    <oj-bind-if test="[[StaffWork() != 'Custom' ]]">
               <span class="export-button1" on-click="[[downloadData]]">
                 Export &nbsp;
                 <i class="fas fa-download"></i>
@@ -261,7 +264,7 @@
                   Export &nbsp;
                   <i class="fas fa-download"></i>
                 </span>
-                </oj-bind-if>
+                </oj-bind-if> -->
               <div class="menu-icon">
                   <oj-menu-button
                   chroming="borderless"
@@ -316,14 +319,12 @@
                 { "headerClassName" : "table-header-style",
                 "headerText": "SL.No", "field": "no", "id": "no", "maxWidth" : "8rem" },
                 { "headerClassName" : "table-header-style oj-table-col-width",
-                "headerText": "Staff Name", "field": "staff_name", "id": "staff_name" },
-                { "headerClassName" : "table-header-style oj-table-col-width",
-                "headerText": "Job Role", "field": "job_role", "id": "job_role"},
+                "headerText": "Client Name", "field": "client_name", "id": "client_name" },
                 { "headerClassName" : "table-header-style",
                 "headerText": "Total Hours", "field": "total_hours", "id": "total_hours" }
                 ]' class="demo-table-container oj-table-align">
                     <oj-paging-control
-                    class="oj-pagination-align"
+                    class="oj-pagination-align1"
                     id="paging"
                     data="[[StaffWorkHoursData]]"
                     page-size="5"

@@ -44,6 +44,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.currentDate = ko.observable();
             self.StaffWork= ko.observable('');
             self.StaffWorkHoursDet = ko.observableArray();
+            self.StaffWorkFlag = ko.observable('0');
 
 
             self.menuItems = [
@@ -1304,8 +1305,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
        /*Chart Properties*/
 
        $.ajax({
-           url: BaseURL + "/jpDashboardTotalStaffWorkHoursGet",
-           type: 'GET',
+           url: BaseURL + "/jpStaffDashboardTotalStaffWorkHoursGet",
+           type: 'POST',
+           data: JSON.stringify({
+                staffId : sessionStorage.getItem("userId")
+            }),
            dataType: 'json',
            timeout: sessionStorage.getItem("timeInetrval"),
            context: self,
@@ -1321,19 +1325,19 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                $("#customLoaderViewPopup").hide();
                 var dataStaffHours = JSON.parse(dataStaffWork[0]);
                 console.log(dataStaffHours)
-                var csvContent = '';
-                var headers = ['SL.No', 'Staff Name', 'Job Role','Total hours'];
-                csvContent += headers.join(',') + '\n';
+                // var csvContent = '';
+                // var headers = ['SL.No', 'Staff Name', 'Job Role','Total hours'];
+                // csvContent += headers.join(',') + '\n';
                 for (var i = 0; i < dataStaffHours.length; i++) {
-                    self.StaffWorkHoursDet.push({'no': i+1, 'staff_name': dataStaffHours[i][0] + " " + dataStaffHours[i][1], 'job_role': dataStaffHours[i][2], 'total_hours': dataStaffHours[i][3]  });
-                    var rowData = [i+1, dataStaffHours[i][0] + " " + dataStaffHours[i][1], dataStaffHours[i][2], dataStaffHours[i][3]];
-                    csvContent += rowData.join(',') + '\n';
+                    self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHours[i][0], 'total_hours': dataStaffHours[i][1]  });
+                    // var rowData = [i+1, dataStaffHours[i][0] + " " + dataStaffHours[i][1], dataStaffHours[i][2], dataStaffHours[i][3]];
+                    // csvContent += rowData.join(',') + '\n';
             }
-            var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            var today = new Date();
-            var fileName = 'Staff_Work_Total_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
-            self.blob(blob);
-            self.fileName(fileName);
+            // var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            // var today = new Date();
+            // var fileName = 'Staff_Work_Total_' + today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + '.csv';
+            // self.blob(blob);
+            // self.fileName(fileName);
        }
        })
    }
@@ -1366,6 +1370,228 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
             self.StaffWork('Custom')
         }
     }
+
+    function getThisWeekStaffWorkInfo() {
+        $("#workView").hide();
+    // $("#loaderView").show();
+    
+    /*Chart Properties*/
+
+    $.ajax({
+        url: BaseURL + "/jpStaffDashboardThisWeekStaffWorkHoursGet",
+        type: 'POST',
+        data: JSON.stringify({
+            staffId : sessionStorage.getItem("userId")
+        }),
+        dataType: 'json',
+        timeout: sessionStorage.getItem("timeInetrval"),
+        context: self,
+        error: function (xhr, textStatus, errorThrown) {
+            if(textStatus == 'timeout' || textStatus == 'error'){
+                document.querySelector('#TimeoutSup').open();
+            }
+        },
+        success: function (dataStaffWork) {
+            $("#workView").show();
+            $("#loaderView").hide();
+            console.log(dataStaffWork)
+            $("#customLoaderViewPopup").hide();
+                var dataStaffHours = JSON.parse(dataStaffWork[0]);
+                console.log(dataStaffHours)
+                for (var i = 0; i < dataStaffHours.length; i++) {
+                    self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHours[i][0], 'total_hours': dataStaffHours[i][1]  });
+            }
+    }
+    })
+}     
+
+function getThisMonthStaffWorkInfo() {
+    $("#workView").hide();
+// $("#loaderView").show();
+
+/*Chart Properties*/
+
+$.ajax({
+    url: BaseURL + "/jpStaffDashboardThisMonthStaffWorkHoursGet",
+    type: 'POST',
+    data: JSON.stringify({
+        staffId : sessionStorage.getItem("userId")
+    }),
+    dataType: 'json',
+    timeout: sessionStorage.getItem("timeInetrval"),
+    context: self,
+    error: function (xhr, textStatus, errorThrown) {
+        if(textStatus == 'timeout' || textStatus == 'error'){
+            document.querySelector('#TimeoutSup').open();
+        }
+    },
+    success: function (dataStaffWork) {
+        $("#workView").show();
+        $("#loaderView").hide();
+        console.log(dataStaffWork)
+        $("#customLoaderViewPopup").hide();
+            var dataStaffHours = JSON.parse(dataStaffWork[0]);
+            console.log(dataStaffHours)
+            for (var i = 0; i < dataStaffHours.length; i++) {
+                self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHours[i][0], 'total_hours': dataStaffHours[i][1]  });
+            }
+}
+})
+}
+
+        function getLastWeekStaffWorkInfo() {
+            $("#workView").hide();
+        // $("#loaderView").show();
+        
+        /*Chart Properties*/
+
+        $.ajax({
+            url: BaseURL + "/jpStaffDashboardLastWeekStaffWorkHoursGet",
+            type: 'POST',
+            data: JSON.stringify({
+                staffId : sessionStorage.getItem("userId")
+            }),
+            dataType: 'json',
+            timeout: sessionStorage.getItem("timeInetrval"),
+            context: self,
+            error: function (xhr, textStatus, errorThrown) {
+                if(textStatus == 'timeout' || textStatus == 'error'){
+                    document.querySelector('#TimeoutSup').open();
+                }
+            },
+            success: function (dataStaffWork) {
+                $("#workView").show();
+                $("#loaderView").hide();
+                console.log(dataStaffWork)
+                $("#customLoaderViewPopup").hide();
+                    var dataStaffHours = JSON.parse(dataStaffWork[0]);
+                    console.log(dataStaffHours)
+                    for (var i = 0; i < dataStaffHours.length; i++) {
+                        self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHours[i][0], 'total_hours': dataStaffHours[i][1]  });
+                    }
+        }
+        })
+    }
+
+
+    function getLastMonthStaffWorkInfo() {
+        $("#workView").hide();
+    // $("#loaderView").show();
+    
+    /*Chart Properties*/
+
+    $.ajax({
+        url: BaseURL + "/jpStaffDashboardLastMonthStaffWorkHoursGet",
+        type: 'POST',
+        data: JSON.stringify({
+            staffId : sessionStorage.getItem("userId")
+        }),
+        dataType: 'json',
+        timeout: sessionStorage.getItem("timeInetrval"),
+        context: self,
+        error: function (xhr, textStatus, errorThrown) {
+            if(textStatus == 'timeout' || textStatus == 'error'){
+                document.querySelector('#TimeoutSup').open();
+            }
+        },
+        success: function (dataStaffWork) {
+            $("#workView").show();
+            $("#loaderView").hide();
+            console.log(dataStaffWork)
+            $("#customLoaderViewPopup").hide();
+                var dataStaffHours = JSON.parse(dataStaffWork[0]);
+                console.log(dataStaffHours)
+                for (var i = 0; i < dataStaffHours.length; i++) {
+                    self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHours[i][0], 'total_hours': dataStaffHours[i][1]  });
+            }
+    }
+    })
+}
+
+self.getStaffWorkFilterInfo = function (event,data) {
+    self.StaffWorkFlag('1');
+    console.log(self.CustomTotalStaffDet())
+    var validSec = self._checkValidationGroup("dateFilterStaffWorkHour");
+    if (validSec) {
+        $("#customLoaderViewPopup").show();
+    $.ajax({
+        url: BaseURL + "/jpStaffDashboardStaffWorkHoursGetFilter",
+        type: 'POST',
+        data: JSON.stringify({
+            staffId : sessionStorage.getItem("userId"),
+            start_date : self.start_date(),
+            end_date : self.end_date()
+        }),
+        dataType: 'json',
+        timeout: sessionStorage.getItem("timeInetrval"),
+        context: self,
+        error: function (xhr, textStatus, errorThrown) {
+            if(textStatus == 'timeout'){
+                document.querySelector('#loaderViewPopup').close();
+                document.querySelector('#Timeout').open();
+            }
+        },
+        success: function (dataStaffWorkFilter) {
+            $("#workView").show();
+            $("#loaderView").hide();
+            console.log(dataStaffWorkFilter)
+            $("#customLoaderViewPopup").hide();
+                var dataStaffHoursFilter = JSON.parse(dataStaffWorkFilter[0]);
+                console.log(dataStaffHoursFilter)
+                for (var i = 0; i < dataStaffHoursFilter.length; i++) {
+                    self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHoursFilter[i][0], 'total_hours': dataStaffHoursFilter[i][1]  });
+            }
+        }
+    })  
+    }
+}; 
+
+self.getStaffWorkFilterInfoClear = function (event,data) {
+   //alert(self.flag())
+   console.log(self.CustomTotalStaffDet())
+   var validSec = self._checkValidationGroup("dateFilterStaffWorkHour");
+   if(validSec == false){
+    self.StaffWorkHoursDet([])
+   }
+   if (validSec) {
+    self.StaffWorkHoursDet([])
+    $("#customLoaderViewPopup").show();
+   $.ajax({
+       url: BaseURL + "/jpStaffDashboardStaffWorkHoursGetFilter",
+       type: 'POST',
+       data: JSON.stringify({
+           staffId : sessionStorage.getItem("userId"),
+           start_date : self.start_date(),
+           end_date : self.end_date()
+       }),
+       dataType: 'json',
+       timeout: sessionStorage.getItem("timeInetrval"),
+       context: self,
+       error: function (xhr, textStatus, errorThrown) {
+           if(textStatus == 'timeout'){
+               document.querySelector('#loaderViewPopup').close();
+               document.querySelector('#Timeout').open();
+           }
+       },
+       success: function (dataStaffWorkFilter) {
+           self.StaffWorkHoursDet([])
+           $("#workView").show();
+            $("#loaderView").hide();
+            console.log(dataStaffWorkFilter)
+            $("#customLoaderViewPopup").hide();
+                var dataStaffHoursFilter = JSON.parse(dataStaffWorkFilter[0]);
+                console.log(dataStaffHoursFilter)
+                for (var i = 0; i < dataStaffHoursFilter.length; i++) {
+                    self.StaffWorkHoursDet.push({'no': i+1, 'client_name': dataStaffHoursFilter[i][0], 'total_hours': dataStaffHoursFilter[i][1]  });
+            }
+       }
+   })  
+   }
+}; 
+
+
+        
+
 
         //self.dataProvider = new ArrayDataProvider(this.StaffDet, { keyAttributes: "id"});
         self.PostShiftData = new PagingDataProviderView(new ArrayDataProvider(self.PostShiftDet, {keyAttributes: 'id'}));   
