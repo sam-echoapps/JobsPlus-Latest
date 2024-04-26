@@ -123,6 +123,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     for (var i = 0; i < result[0].length; i++) {
                         self.ClientDet.push({'value' : result[0][i][0], 'label' : result[0][i][1]});
                     }
+                    self.ClientDet.unshift({ value: '0', label: 'All' });
                    //console.log(self.ClientDet())
                    var data = JSON.parse(result[1]);
                     console.log(data)
@@ -166,9 +167,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             
             self.filterPostedShift = function (event,data) {
                 self.ShiftPostDet([]);
+                self.ConfirmedShiftPostDet([]);
+                self.CompletedShiftPostDet([]);
+                self.IncompletedShiftPostDet([]);
                 var filterSec = self._checkValidationGroup("filterSec");
                 if (filterSec) {
                     self.ShiftPostDet([]);
+                    self.ConfirmedShiftPostDet([]);
+                    self.CompletedShiftPostDet([]);
+                    self.IncompletedShiftPostDet([]);
                  $.ajax({
                    url: BaseURL + "/jpGetPostShiftDetails",
                    type: 'POST',
@@ -184,14 +191,43 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                        }
                    },
                    success: function (result) {
-                    var data = JSON.parse(result);
+
+                    var data = JSON.parse(result[0]);
                     console.log(data)
-                    if(data[0].length !=0){ 
-                        for (var i = 0; i < data[0].length; i++) {
+                    if(data.length !=0){ 
+                        for (var i = 0; i < data.length; i++) {
                             self.ShiftPostDet.push({'id': data[i][0],'shift_name': data[i][1], 'department_name' : data[i][2], 'job_role' : data[i][3], 'shift_date' : data[i][4], 'start_time': data[i][5], 'end_time' : data[i][6], 'required_staff' : data[i][7], 'requested_by' : data[i][8], 'gender' : data[i][9], 'staff_extra_pay' : data[i][10], 'client_extra_pay' : data[i][11], 'comments' : data[i][12], 'client_name' : data[i][13], 'shift_id' : data[i][14], 'shift_status' : data[i][15], 'booking_status' : data[i][16], 'client_id' : data[i][17]  });
                         }
+
+                    var data1 = JSON.parse(result[1]);
+                    console.log(data1)
+                    if(data1.length !=0){ 
+                        for (var i = 0; i < data1.length; i++) {
+                            self.ConfirmedShiftPostDet.push({'id': data1[i][0],'shift_name': data1[i][1], 'department_name' : data1[i][2], 'job_role' : data1[i][3], 'shift_date' : data1[i][4], 'start_time': data1[i][5], 'end_time' : data1[i][6], 'required_staff' : data1[i][7], 'requested_by' : data1[i][8], 'gender' : data1[i][9], 'staff_extra_pay' : data1[i][10], 'client_extra_pay' : data1[i][11], 'comments' : data1[i][12], 'client_name' : data1[i][13], 'shift_id' : data1[i][14], 'shift_status' : data1[i][15], 'booking_status' : data1[i][16], 'client_id' : data1[i][17]  });
+                        }
+                    }
+
+                    var data2 = JSON.parse(result[2]);
+                    console.log(data2)
+                    if(data2.length !=0){ 
+                        for (var i = 0; i < data2.length; i++) {
+                            self.CompletedShiftPostDet.push({'id': data2[i][0],'shift_name': data2[i][1], 'department_name' : data2[i][2], 'job_role' : data2[i][3], 'shift_date' : data2[i][4], 'start_time': data2[i][5], 'end_time' : data2[i][6], 'required_staff' : data2[i][7], 'requested_by' : data2[i][8], 'gender' : data2[i][9], 'staff_extra_pay' : data2[i][10], 'client_extra_pay' : data2[i][11], 'comments' : data2[i][12], 'client_name' : data2[i][13], 'shift_id' : data2[i][14], 'shift_status' : data2[i][15], 'booking_status' : data2[i][16], 'client_id' : data2[i][17]  });
+                        }
+                    }
+
+                    var data3 = JSON.parse(result[3]);
+                    console.log(data3)
+                    if(data3.length !=0){ 
+                        for (var i = 0; i < data3.length; i++) {
+                            self.IncompletedShiftPostDet.push({'id': data3[i][0],'shift_name': data3[i][1], 'department_name' : data3[i][2], 'job_role' : data3[i][3], 'shift_date' : data3[i][4], 'start_time': data3[i][5], 'end_time' : data3[i][6], 'required_staff' : data3[i][7], 'requested_by' : data3[i][8], 'gender' : data3[i][9], 'staff_extra_pay' : data3[i][10], 'client_extra_pay' : data3[i][11], 'comments' : data3[i][12], 'client_name' : data3[i][13], 'shift_id' : data3[i][14], 'shift_status' : data3[i][15], 'booking_status' : data3[i][16], 'client_id' : data3[i][17]  });
+                        }
+                    }
+
                 }
                     self.ShiftPostDet.valueHasMutated();
+                    self.ConfirmedShiftPostDet.valueHasMutated();
+                    self.CompletedShiftPostDet.valueHasMutated();
+                    self.IncompletedShiftPostDet.valueHasMutated();
                     return self;                    
                 }
                }) 

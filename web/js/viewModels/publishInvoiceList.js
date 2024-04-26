@@ -14,6 +14,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.PublishInvoiceDet = ko.observableArray([]);
             self.clientNameCap = ko.observable(); 
             self.selectorSelectedItems = new ojknockout_keyset_1.ObservableKeySet();
+            self.current_invoice_amount = ko.observable();
+            self.due_amount = ko.observable();  
+            self.outstanding_amount = ko.observable(); 
 
 
             self.connected = function () {
@@ -38,6 +41,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             };
             
             function getPublishInvoice(){
+                var sum=0;
                 document.getElementById('loaderView').style.display='block';
                 self.PublishInvoiceDet([]);
                 $.ajax({
@@ -73,7 +77,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                                 ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
                             console.log(formattedLocalDate);
                             self.PublishInvoiceDet.push({'id': data[i][0],'serial_number': "INV"+(8000+data[i][0]),'start_date': data[i][1], 'end_date': data[i][2], 'grand_total': data[i][3], 'invoice_date': data[i][4], 'payment_due_date': data[i][5], 'client_pay_status': data[i][6], 'updated_at': formattedLocalDate});
+                            sum += parseFloat(data[i][3]);                            
+                            self.current_invoice_amount(data[0][3])
                     }
+                    self.outstanding_amount(sum)
+                    self.due_amount(parseFloat(self.outstanding_amount()-self.current_invoice_amount()).toFixed(2))
                     }
                 })
                 

@@ -147,7 +147,6 @@ class="oj-flex">
   
         </div>
         
-          </div>
       
       </oj-list-item-layout>
     </li>
@@ -155,7 +154,41 @@ class="oj-flex">
   </template>
 </oj-list-view>
 
+<div class="oj-panel oj-xl-margin-4x" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
+    <div style="font-size:large;color:rgb(11, 111, 165);margin: 10px;padding: 10px;">
+      Amount Details
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-sm-2">
+       &nbsp; &nbsp; &nbsp;Current Invoice Amount
+      </div>
+      <div class="col-md-3 col-sm-3 ">
+        <oj-bind-text value="{{current_invoice_amount}}"></oj-bind-text>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 col-sm-2">
+     &nbsp; &nbsp; &nbsp;Due Amount
+    </div>
+    <div class="col-md-3 col-sm-3 ">
+      <oj-bind-text value="{{due_amount}}"></oj-bind-text>
+    </div>
 </div>
+  <div class="row">
+    <div class="col-md-2 col-sm-2">
+     &nbsp; &nbsp; &nbsp;Outstanding Amount
+    </div>
+    <div class="col-md-3 col-sm-3 ">
+      <oj-bind-text value="{{outstanding_amount}}"></oj-bind-text>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 
 <div class="centered-container" id="loaderView" style="display:none">
   <div class="loader"></div>
