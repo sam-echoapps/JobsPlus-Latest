@@ -64,6 +64,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         var data = JSON.parse(result[0]);
                         console.log(data)
                         self.clientNameCap(result[1][0][0].toUpperCase())
+                        if(data.length!=0){
                         for (var i = 0; i < data.length; i++) {
                             var utcDateString = data[i][7] + " UTC";
                             var utcDateObject = new Date(utcDateString);
@@ -82,7 +83,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     }
                     self.outstanding_amount(sum)
                     self.due_amount(parseFloat(self.outstanding_amount()-self.current_invoice_amount()).toFixed(2))
+                    }else{
+                        document.getElementById('amountSection').style.display='none';
                     }
+                }
                 })
                 
                

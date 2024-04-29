@@ -198,7 +198,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         for (var i = 0; i < data.length; i++) {
                             self.ShiftPostDet.push({'id': data[i][0],'shift_name': data[i][1], 'department_name' : data[i][2], 'job_role' : data[i][3], 'shift_date' : data[i][4], 'start_time': data[i][5], 'end_time' : data[i][6], 'required_staff' : data[i][7], 'requested_by' : data[i][8], 'gender' : data[i][9], 'staff_extra_pay' : data[i][10], 'client_extra_pay' : data[i][11], 'comments' : data[i][12], 'client_name' : data[i][13], 'shift_id' : data[i][14], 'shift_status' : data[i][15], 'booking_status' : data[i][16], 'client_id' : data[i][17]  });
                         }
-
+                    }
                     var data1 = JSON.parse(result[1]);
                     console.log(data1)
                     if(data1.length !=0){ 
@@ -223,7 +223,6 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         }
                     }
 
-                }
                     self.ShiftPostDet.valueHasMutated();
                     self.ConfirmedShiftPostDet.valueHasMutated();
                     self.CompletedShiftPostDet.valueHasMutated();

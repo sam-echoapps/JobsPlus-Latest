@@ -276,6 +276,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
                 //alert(sessionStorage.getItem('profile_status'))
             var records = {
                 "childPath" : [
+                    { "path" : "overallStaff", "label" : "Overall Staff", "status" : sessionStorage.getItem("profile_status")},
                     { "path" : "viewStaff", "label" : "Profile Info", "status" : sessionStorage.getItem("profile_status")},
                     { "path" : "application", "label" : "Application", "status" : sessionStorage.getItem("application_status")},
                     { "path" : "addReference", "label" : "References", "status" : sessionStorage.getItem("reference_status")},
@@ -319,7 +320,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
             self.args = args;
             // Create a child router with one default path
             self.router = self.args.parentRouter.createChildRouter([
-                { path: '', redirect: 'viewStaff' },
+                { path: '', redirect: 'overallStaff' },
+                { path: 'overallStaff'},
                 { path: 'viewStaff'},
                 { path: 'application'},
                 { path: 'addReference'},
