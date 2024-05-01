@@ -22,6 +22,25 @@ class="oj-flex">
 </div>
 </div>
 
+<div class="oj-flex">
+<div class="oj-md-5 oj-sm-12">
+</div>
+<div class="oj-md-6 oj-sm-12">
+    <oj-buttonset-one id="setMultipleButtons" value="{{selectTab}}" aria-label="Choose only one format">
+      <oj-bind-for-each data="[[formatValues]]">
+        <template>
+          <oj-option value="[[$current.data.id]]">
+            <span>
+              <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+            </span>
+          </oj-option>
+        </template>
+      </oj-bind-for-each>
+    </oj-buttonset-one>
+  </div>
+</div>
+
+<oj-bind-if test="[[selectTab() === 'invoices']]">
 <oj-list-view id="listviewtwo" aria-label="multicolumn with list item layout" data="[[dataProvider]]"
   class="oj-sm-padding-2x-vertical" selection-mode="multiple" selected="{{selectorSelectedItems}}">
   <template slot="itemTemplate" data-oj-as="item">
@@ -153,37 +172,70 @@ class="oj-flex">
   </div>
   </template>
 </oj-list-view>
+</oj-bind-if>
 
+
+<oj-bind-if test="[[selectTab() === 'receipt']]">
 <div class="oj-panel oj-xl-margin-4x" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;" id="amountSection">
     <div style="font-size:large;color:rgb(11, 111, 165);margin: 10px;padding: 10px;">
       Amount Details
     </div>
     <div class="row">
-      <div class="col-md-2 col-sm-2">
-       &nbsp; &nbsp; &nbsp;Current Invoice Amount
+      <div class="col-md-2 col-sm-3">
+      Current Invoice Amount &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;:
       </div>
-      <div class="col-md-3 col-sm-3 ">
+      <div class="col-md-2 col-sm-3 ">
         <oj-bind-text value="{{current_invoice_amount}}"></oj-bind-text>
       </div>
   </div>
   <div class="row">
-    <div class="col-md-2 col-sm-2">
-     &nbsp; &nbsp; &nbsp;Due Amount
+    <div class="col-md-2 col-sm-3">
+    Due Amount  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;:
     </div>
-    <div class="col-md-3 col-sm-3 ">
+    <div class="col-md-2 col-sm-3 ">
       <oj-bind-text value="{{due_amount}}"></oj-bind-text>
     </div>
 </div>
   <div class="row">
-    <div class="col-md-2 col-sm-2">
-     &nbsp; &nbsp; &nbsp;Outstanding Amount
+    <div class="col-md-2 col-sm-3">
+    Outstanding Amount &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;:
     </div>
-    <div class="col-md-3 col-sm-3 ">
+    <div class="col-md-2 col-sm-3 ">
       <oj-bind-text value="{{outstanding_amount}}"></oj-bind-text>
     </div>
 </div>
 
 </div>
+
+
+<div id="receivedAmountSec" style="margin: 10px;padding: 10px;">
+  <div class="oj-panel">
+    <div style="font-size:large;color:rgb(11, 111, 165);margin: 10px;padding: 10px;">
+     Amount Received
+    </div>
+    <div class="row" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
+      <div class="col-md-3">
+        <oj-select-many id="select" label-hint="Select Invoices" label-edge="inside"
+        options="[[InvoiceList]]" value="{{invoice}}">
+      </oj-select-many>      
+    </div>
+      <div class="col-md-1"></div>
+        </br></br>
+      <div class="col-md-3">
+        <oj-input-text required label-hint="Received Amount" value="{{received_amount}}">
+        </oj-input-text></br></br>
+    </div>
+    <div class="col-md-1"></div>
+        </br></br>
+      <div class="col-md-3">
+      </br>
+        <oj-button id="confirmBtn" chroming='callToAction' on-oj-action=""> Update
+        </oj-button>
+    </div>
+  </div>
+  </div>
+  </div>
+</oj-bind-if>
 
 </div>
 

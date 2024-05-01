@@ -251,7 +251,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
 
             self.AllocatedStaffPopup = function (event) {
                 //self.TotalStaffDet([]);
-                getAllocatedStaffList();
+                //getAllocatedStaffList();
                 let popup = document.getElementById("AllocatedStaffPopup");
                 popup.open();
             }
@@ -368,10 +368,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 var target = event.target;
                 var itemValue = target.value;
                 console.log(itemValue)
-                getAllocatedStaffList();
+                //getAllocatedStaffList();
                 let popup = document.getElementById("AllocatedStaffPopup");
                 popup.open();
-                self.AllocatedStaffDet([]);
+                //self.AllocatedStaffDet([]);
             }
 
             self.confirmedShiftPopup = function (event) {

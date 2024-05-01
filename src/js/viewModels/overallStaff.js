@@ -271,7 +271,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
 
             self.AllocatedStaffPopup = function (event) {
                 //self.TotalStaffDet([]);
-                getAllocatedStaffList();
+                //getAllocatedStaffList();
                 let popup = document.getElementById("AllocatedStaffPopup");
                 popup.open();
             }
@@ -340,7 +340,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     url: BaseURL  + "/jpPostShiftDashboardGet",
                     type: 'POST',
                     data: JSON.stringify({
-                        clientId : sessionStorage.getItem("clientId")
+                        clientId : null
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -388,10 +388,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 var target = event.target;
                 var itemValue = target.value;
                 console.log(itemValue)
-                getAllocatedStaffList();
+                //getAllocatedStaffList();
                 let popup = document.getElementById("AllocatedStaffPopup");
                 popup.open();
-                self.AllocatedStaffDet([]);
+                //self.AllocatedStaffDet([]);
             }
 
             self.confirmedShiftPopup = function (event) {
@@ -412,7 +412,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                     url: BaseURL  + "/jpConfirmedShiftDashboardGet",
                     type: 'POST',
                     data: JSON.stringify({
-                        clientId : sessionStorage.getItem("clientId")
+                        clientId : null
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -950,7 +950,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
                 url: BaseURL  + "/jpCompletedShiftDashboardGet",
                 type: 'POST',
                 data: JSON.stringify({
-                    clientId : sessionStorage.getItem("clientId")
+                    clientId : null
                 }),
                 dataType: 'json',
                 timeout: sessionStorage.getItem("timeInetrval"),

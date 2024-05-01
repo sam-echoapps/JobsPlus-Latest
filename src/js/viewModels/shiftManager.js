@@ -12,6 +12,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
             self.groupValid = ko.observable();
             self.ClientDet = ko.observableArray([]);   
+            self.ClientNameDet = ko.observableArray([]);   
             self.client_name = ko.observable();
             self.client_name_filter = ko.observable();
             self.CancelBehaviorOpt = ko.observable('icon');
@@ -90,6 +91,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 console.log("Formatted Time:", formattedTime);
 
                 self.ClientDet([]);
+                self.ClientNameDet([]);
                 self.ShiftPostDet([]);
                 $.ajax({
                     url: BaseURL  + "/jpClientNamesGet",
@@ -122,6 +124,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.currentDate(currentYear+'-'+currentMonth+'-'+currentDay)
                     for (var i = 0; i < result[0].length; i++) {
                         self.ClientDet.push({'value' : result[0][i][0], 'label' : result[0][i][1]});
+                        self.ClientNameDet.push({'value' : result[0][i][0], 'label' : result[0][i][1]});
                     }
                     self.ClientDet.unshift({ value: '0', label: 'All' });
                    //console.log(self.ClientDet())
@@ -156,6 +159,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             }
                     self.ShiftPostDet.valueHasMutated();  
                     self.ClientDet.valueHasMutated();
+                    self.ClientNameDet.valueHasMutated();
                     self.ConfirmedShiftPostDet.valueHasMutated();  
                     self.CompletedShiftPostDet.valueHasMutated();
                     self.IncompletedShiftPostDet.valueHasMutated();
@@ -164,6 +168,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 })
             }
             self.ClientDetDP = new ArrayDataProvider(self.ClientDet, {keyAttributes: 'value'});
+            self.ClientNameDetDP = new ArrayDataProvider(self.ClientNameDet, {keyAttributes: 'value'});
+
             
             self.filterPostedShift = function (event,data) {
                 self.ShiftPostDet([]);

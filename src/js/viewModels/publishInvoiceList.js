@@ -1,5 +1,5 @@
 define(['ojs/ojcore',"knockout","jquery","appController","ojs/ojconverterutils-i18n", "ojs/ojarraydataprovider",'ojs/ojknockout-keyset', "ojs/ojresponsiveutils", "ojs/ojresponsiveknockoututils", "ojs/ojknockout", "ojs/ojlistitemlayout", "ojs/ojtrain",
-        "ojs/ojlistview","ojs/ojradioset","ojs/ojlabelvalue","ojs/ojlabel" ,"ojs/ojselectcombobox","ojs/ojbutton" ,"ojs/ojprogress-bar", "ojs/ojdatetimepicker", 'ojs/ojtable', 'ojs/ojswitch', 'ojs/ojvalidationgroup','ojs/ojselector','ojs/ojtoolbar','ojs/ojfilepicker','ojs/ojcheckboxset', "ojs/ojavatar"], 
+        "ojs/ojlistview","ojs/ojradioset","ojs/ojlabelvalue","ojs/ojlabel" ,"ojs/ojselectcombobox","ojs/ojbutton" ,"ojs/ojprogress-bar", "ojs/ojdatetimepicker", 'ojs/ojtable', 'ojs/ojswitch', 'ojs/ojvalidationgroup','ojs/ojselector','ojs/ojtoolbar','ojs/ojfilepicker','ojs/ojcheckboxset', "ojs/ojavatar", "ojs/ojformlayout"], 
 function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_keyset_1,ResponsiveUtils, ResponsiveKnockoutUtils, AsyncRegExpValidator) {
  "use strict";
     class PublishInvoiceViewModel {
@@ -17,6 +17,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.current_invoice_amount = ko.observable();
             self.due_amount = ko.observable();  
             self.outstanding_amount = ko.observable(); 
+            self.InvoiceList = ko.observableArray([]);
+            self.invoice = ko.observable(); 
+            self.received_amount = ko.observable(); 
 
 
             self.connected = function () {
@@ -39,11 +42,18 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         return "oj-badge";
                 }
             };
+
+            this.formatValues = [
+                { id: "invoices", label: "Invoices" },
+                { id: "receipt", label: "Receipt" },
+            ]; 
+            self.selectTab = ko.observable('invoices');  
             
             function getPublishInvoice(){
                 var sum=0;
                 document.getElementById('loaderView').style.display='block';
                 self.PublishInvoiceDet([]);
+                self.InvoiceList([]);
                 $.ajax({
                     url: BaseURL  + "/jpGetPublishInvoiceList",
                     type: 'POST',
@@ -78,6 +88,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                                 ' ' + (localHours < 10 ? '0' : '') + localHours + ':' + (localMinutes < 10 ? '0' : '') + localMinutes + ':' + (localSeconds < 10 ? '0' : '') + localSeconds;
                             console.log(formattedLocalDate);
                             self.PublishInvoiceDet.push({'id': data[i][0],'serial_number': "INV"+(8000+data[i][0]),'start_date': data[i][1], 'end_date': data[i][2], 'grand_total': data[i][3], 'invoice_date': data[i][4], 'payment_due_date': data[i][5], 'client_pay_status': data[i][6], 'updated_at': formattedLocalDate});
+                            self.InvoiceList.push({'value' : data[i][0], 'label' : "INV"+(8000+data[i][0])});
                             sum += parseFloat(data[i][3]);                            
                             self.current_invoice_amount(data[0][3])
                     }
@@ -92,6 +103,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                
             }
             self.dataProvider = new ArrayDataProvider(this.PublishInvoiceDet, { keyAttributes: "id"});
+            self.dataProvider1 = new ArrayDataProvider(this.InvoiceList, { keyAttributes: "value"});
 
             self.viewPublishInvoice  = function (event,data) {
                 var clickedRowId = data.data.id

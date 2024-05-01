@@ -276,7 +276,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', "ojs/ojmodulerouter
                 //alert(sessionStorage.getItem('profile_status'))
             var records = {
                 "childPath" : [
-                    { "path" : "overallStaff", "label" : "Overall Staff", "status" : sessionStorage.getItem("profile_status")},
+                    { "path" : "overallStaff", "label" : "Overview", "status" : sessionStorage.getItem("profile_status")},
                     { "path" : "viewStaff", "label" : "Profile Info", "status" : sessionStorage.getItem("profile_status")},
                     { "path" : "application", "label" : "Application", "status" : sessionStorage.getItem("application_status")},
                     { "path" : "addReference", "label" : "References", "status" : sessionStorage.getItem("reference_status")},

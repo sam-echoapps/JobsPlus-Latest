@@ -7,9 +7,13 @@
     <div class="loader"></div>
 </div>  
 
-      <oj-button chroming="callToAction" class="oj-xl-margin-4x oj-sm-margin-4x-end" on-oj-action="[[profileView]]">
-        <span slot="startIcon" class="viewBtnStaff">&nbsp;&nbsp;Staff Profile View</span>
-      </oj-button>
+ <div class="oj-flex addClientAlign" >
+  <oj-button chroming="callToAction" class="oj-xl-margin-4x oj-sm-margin-4x-end" on-oj-action="[[profileView]]">
+    <span slot="startIcon" class="demo-icon-download">&nbsp;&nbsp;Download Staff Profile</span>
+  </oj-button>
+    </div>
+
+     
 
 <div class="container-fluid pt-10 mt-5 pb-5">
 
@@ -27,7 +31,7 @@
                         </div>
                         <div class="widget-data">
                             <div class="weight-800 font-18"><oj-bind-text value="[[allocatedShift]]"></oj-bind-text></div>
-                            <div class="weight-500">Allocated Shift</div>
+                            <div class="weight-500">Allocated Shifts</div>
                         </div> 
                         <div class="menu-icon">
                             <oj-menu-button
@@ -69,7 +73,7 @@
                         </div>
                         <div class="widget-data">
                             <div class="weight-800 font-18"><oj-bind-text value="[[totalShiftPost]]"></oj-bind-text></div>
-                            <div class="weight-500">Post Shift</div>
+                            <div class="weight-500">Post Shifts</div>
                         </div>
                         <div class="menu-icon">
                             <oj-menu-button
@@ -111,7 +115,7 @@
                         </div>
                         <div class="widget-data">
                             <div class="weight-800 font-18"><oj-bind-text value="[[confirmedShiftPost]]"></oj-bind-text></div>
-                            <div class="weight-500">Confirmed Shift</div>
+                            <div class="weight-500">Confirmed Shifts</div>
                         </div>
                         <div class="menu-icon">
                             <oj-menu-button
@@ -153,7 +157,7 @@
                         </div>
                         <div class="widget-data">
                             <div class="weight-800 font-18"><oj-bind-text value="[[completedShiftPost]]"></oj-bind-text></div>
-                            <div class="weight-500">Completed Shift</div>
+                            <div class="weight-500">Completed Shifts</div>
                         </div>
                         <div class="menu-icon">
                             <oj-menu-button
@@ -206,7 +210,7 @@
                   </div>
                 </div>
                 <div class="widget-data">
-                  <div class="weight-800 font-18">Reminder Files</div>
+                  <div class="weight-800 font-18">Documents to be renewed</div>
               </div> 
               <br>
                   <div class="oj-flex oj-sm-justify-content-space-around oj-sm-align-items-center" style="margin-left:8%;width:80%;">

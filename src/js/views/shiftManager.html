@@ -729,12 +729,12 @@ class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x 
       aria-labelledby="grouplabelid" disbaled>
       <oj-bind-if test="[[actionVal() == 'Add']]">
         <oj-select-single required label-hint="Select Client Name" 
-      label-edge="inside" data="[[ClientDetDP]]" value="{{client_name}}" on-value-changed="[[clientJobRole]]"> 
+      label-edge="inside" data="[[ClientNameDetDP]]" value="{{client_name}}" on-value-changed="[[clientJobRole]]"> 
       </oj-select-single>
     </oj-bind-if>
     <oj-bind-if test="[[actionVal() == 'Update']]">
       <oj-select-single required label-hint="Client Name" 
-    label-edge="inside" data="[[ClientDetDP]]" value="{{client_name}}" on-value-changed="[[clientJobRole]]" disabled> 
+    label-edge="inside" data="[[ClientNameDetDP]]" value="{{client_name}}" on-value-changed="[[clientJobRole]]" disabled> 
     </oj-select-single>
     </oj-bind-if>
       <oj-input-time required id="startTime" value="{{startTime}}" label-hint="Shift Start Time"></oj-input-time></br></br> 
