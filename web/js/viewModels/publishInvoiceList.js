@@ -147,6 +147,38 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     })          
                
             }
+
+
+            self.invoiceAmountReceived = function (event,data) {
+                $.ajax({
+                    url: BaseURL + "/jpInvoiceAmountReceived",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        clientId : sessionStorage.getItem("clientId"),
+                        invoice_id : resultString,
+                        received_amount : self.received_amount(),
+                        balance_amount : self.outstanding_amount() - self.received_amount(),
+                    }),
+                    dataType: 'json',
+                    timeout: sessionStorage.getItem("timeInetrval"),
+                    context: self,
+                    error: function (xhr, textStatus, errorThrown) {
+                        if(textStatus == 'timeout'){
+                            document.querySelector('#openInvoiceSaveProgress').close();
+                            document.querySelector('#Timeout').open();
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        // document.querySelector('#openInvoiceSaveProgress').close();
+                        // var lastUpdatedId = data[0][0]
+                        // sessionStorage.setItem("invoiceId",data[0][0])
+                        // //getInvoiceDetails(lastUpdatedId)
+                        // location.reload();
+                    }
+                })
+            }
+                
             
             
         }
