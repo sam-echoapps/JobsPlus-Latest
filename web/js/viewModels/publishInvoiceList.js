@@ -74,6 +74,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         var data = JSON.parse(result[0]);
                         console.log(data)
                         self.clientNameCap(result[1][0][0].toUpperCase())
+                        let received=result[2][0]
+                        if(received==undefined){
+                            received=0;
+                        }
                         if(data.length!=0){
                         for (var i = 0; i < data.length; i++) {
                             var utcDateString = data[i][7] + " UTC";
@@ -92,7 +96,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             sum += parseFloat(data[i][3]);                            
                             self.current_invoice_amount(data[0][3])
                     }
-                    self.outstanding_amount(sum)
+                    self.outstanding_amount(sum-received)
                     self.due_amount(parseFloat(self.outstanding_amount()-self.current_invoice_amount()).toFixed(2))
                     }else{
                         document.getElementById('amountSection').style.display='none';
@@ -150,14 +154,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
 
             self.invoiceAmountReceived = function (event,data) {
-                $.ajax({
+                    $.ajax({
                     url: BaseURL + "/jpInvoiceAmountReceived",
                     type: 'POST',
                     data: JSON.stringify({
                         clientId : sessionStorage.getItem("clientId"),
-                        invoice_id : resultString,
+                        invoice_id : self.invoice(),
                         received_amount : self.received_amount(),
-                        balance_amount : self.outstanding_amount() - self.received_amount(),
+                        balance_amount : self.due_amount() - self.received_amount(),
+                        created_by : sessionStorage.getItem("userName"),
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
@@ -174,7 +179,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         // var lastUpdatedId = data[0][0]
                         // sessionStorage.setItem("invoiceId",data[0][0])
                         // //getInvoiceDetails(lastUpdatedId)
-                        // location.reload();
+                        location.reload();
                     }
                 })
             }

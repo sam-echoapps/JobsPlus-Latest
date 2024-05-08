@@ -73,6 +73,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.adjustAmount = ko.observable();
             self.adjustmentReason = ko.observable(); 
             self.timeError = ko.observable(''); 
+            self.oldBalance = ko.observable(); 
+            self.totalPay = ko.observable(); 
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -115,6 +117,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[1])
                     console.log(result[3])
                     console.log(result[5])
+                    if(result[7][0]==undefined){
+                        self.oldBalance(0)
+                    }else{
+                        self.oldBalance(result[7][0])
+                    }
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;
@@ -563,7 +570,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.grandTotal(grandTotal.toFixed(2))
                 }
 
-
+                self.totalPay((parseFloat(self.grandTotal())+parseFloat(self.oldBalance())).toFixed(2))
                  self.TimesheetDet.valueHasMutated();
                  return self; 
                 }
