@@ -207,15 +207,91 @@ class="oj-flex">
 
 </div>
 
+<div class="oj-panel oj-xl-margin-4x" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;" id="billSection">
+  <div style="font-size:large;color:rgb(11, 111, 165);margin: 10px;padding: 10px;">
+    Bill Details
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 col-sm-3">
+    Previous Total Amount   &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;:
+    </div>
+    <div class="col-md-2 col-sm-3 ">
+      <oj-bind-text value="{{previousTotal}}"></oj-bind-text>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 col-sm-3">
+    Received Date &nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;:
+    </div>
+    <div class="col-md-2 col-sm-3 ">
+      <oj-bind-text value="{{received_date}}"></oj-bind-text>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-2 col-sm-3">
+    Updated By &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;:
+    </div>
+    <div class="col-md-2 col-sm-3 ">
+      <oj-bind-text value="{{updated_by}}"></oj-bind-text>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 col-sm-3">
+    Paid Invoices &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; :
+    </div>
+    <div class="col-md-2 col-sm-3 ">
+      <oj-bind-text value="{{paid_invoices}}"></oj-bind-text>
+    </div>
+  </div>
+  
+
+<div class="row">
+  <div class="col-md-2 col-sm-3">
+  Received Amount &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;:
+  </div>
+  <div class="col-md-2 col-sm-3 ">
+    <oj-bind-text value="{{paid_amount}}"></oj-bind-text>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2 col-sm-3">
+  Balance Amount &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;:
+  </div>
+  <div class="col-md-2 col-sm-3 ">
+    <oj-bind-text value="{{outstanding_amount}}"></oj-bind-text>
+  </div>
+</div>
+</div>
+
 
 <div id="receivedAmountSec" style="margin: 10px;padding: 10px;">
   <div class="oj-panel">
     <div style="font-size:large;color:rgb(11, 111, 165);margin: 10px;padding: 10px;">
      Amount Received
     </div>
+    <div class="row">
+      <div class="col-md-12 col-sm-6">
+          <oj-label-value label-edge="start" label-width="45%">
+<!--               <oj-label slot="label" id="grpradiosetlabel"><b>Amount Type</b></oj-label>
+ -->              <oj-radioset slot="value" id="grpradioSetId" labelled-by="radiosetlabel" value="{{groupDecision}}"
+                  class="oj-choice-direction-row">
+                  <oj-option id="groupInvoice" value="invoice">Invoice</oj-option>
+                  <oj-option id="groupDue" value="due">Due Amount</oj-option>
+              </oj-radioset>
+          </oj-label-value>
+      </div>
+  </div>
+  <oj-bind-if test="[[groupDecision() === 'invoice']]">
+    <oj-validation-group id="receivedSec" role="group" valid="{{groupValid}}"
+    aria-labelledby="grouplabelid" disbaled>
     <div class="row" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
       <div class="col-md-3">
-        <oj-select-many id="select" label-hint="Select Invoices" label-edge="inside"
+        <oj-select-many required id="select" label-hint="Select Invoices" label-edge="inside"
         options="[[InvoiceList]]" value="{{invoice}}">
       </oj-select-many>      
     </div>
@@ -225,6 +301,7 @@ class="oj-flex">
         <oj-input-text required label-hint="Received Amount" value="{{received_amount}}">
         </oj-input-text></br></br>
     </div>
+  </oj-validation-group>
     <div class="col-md-1"></div>
         </br></br>
       <div class="col-md-3">
@@ -233,8 +310,30 @@ class="oj-flex">
         </oj-button>
     </div>
   </div>
+</oj-bind-if>
+<oj-bind-if test="[[groupDecision() === 'due']]">
+  <oj-validation-group id="receivedSec" role="group" valid="{{groupValid}}"
+  aria-labelledby="grouplabelid" disbaled>
+  <div class="row" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
+    <div class="col-md-1"></div>
+      </br></br>
+    <div class="col-md-3">
+      <oj-input-text required label-hint="Received Amount" value="{{received_amount}}">
+      </oj-input-text></br></br>
   </div>
+</oj-validation-group>
+  <div class="col-md-1"></div>
+      </br></br>
+    <div class="col-md-3">
+    </br>
+      <oj-button id="confirmBtn" chroming='callToAction'  on-oj-action="[[invoiceAmountReceived]]"> Update
+      </oj-button>
   </div>
+</div>
+</div>
+</oj-bind-if>
+</div>
+
 </oj-bind-if>
 
 </div>

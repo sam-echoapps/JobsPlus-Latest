@@ -20,6 +20,13 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.InvoiceList = ko.observableArray([]);
             self.invoice = ko.observable(); 
             self.received_amount = ko.observable(); 
+            self.paid_amount = ko.observable(); 
+            self.received_date = ko.observable(); 
+            self.updated_by = ko.observable(); 
+            self.paid_invoices = ko.observable(); 
+            self.previousTotal = ko.observable(); 
+            self.groupValid = ko.observable();
+            self.groupDecision = ko.observable('invoice');
 
 
             self.connected = function () {
@@ -51,6 +58,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             
             function getPublishInvoice(){
                 var sum=0;
+                let received=0;
+                let oldBalance=0;
                 document.getElementById('loaderView').style.display='block';
                 self.PublishInvoiceDet([]);
                 self.InvoiceList([]);
@@ -74,10 +83,33 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         var data = JSON.parse(result[0]);
                         console.log(data)
                         self.clientNameCap(result[1][0][0].toUpperCase())
-                        let received=result[2][0]
-                        if(received==undefined){
-                            received=0;
-                        }
+                        console.log(result[2])
+                        var resultVal = JSON.parse(result[2]);
+                        console.log(resultVal)
+                        if(resultVal.length!=0){
+                            received=resultVal[0][0]
+                            oldBalance=resultVal[0][1]
+                            if(resultVal[0][2]!=0){
+                                var inputString = resultVal[0][2];
+                                var values = inputString.split(',');
+                                var resultString = [];
+                                
+                                for (var i = 0; i < values.length; i++) {
+                                    var fixedValue = parseInt(values[i]);
+                                    var uniqueIdentifier = "INV" + (8000 + fixedValue);
+                                    resultString.push(uniqueIdentifier);
+                                }               
+                            self.paid_invoices(resultString.join(','))
+                            }else{
+                                self.paid_invoices('N/A')
+                            }
+                            self.updated_by(resultVal[0][3])
+                            self.received_date(resultVal[0][4])
+                        }else{
+                            self.received_date('N/A')
+                            self.updated_by('N/A')
+                            self.paid_invoices('N/A')
+                        }   
                         if(data.length!=0){
                         for (var i = 0; i < data.length; i++) {
                             var utcDateString = data[i][7] + " UTC";
@@ -96,10 +128,20 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             sum += parseFloat(data[i][3]);                            
                             self.current_invoice_amount(data[0][3])
                     }
-                    self.outstanding_amount(sum-received)
-                    self.due_amount(parseFloat(self.outstanding_amount()-self.current_invoice_amount()).toFixed(2))
+                    self.paid_amount(received)
+                    if(oldBalance==0){
+                        self.outstanding_amount(sum-received)
+                        self.previousTotal(parseFloat(sum))
+                    }else{
+                    self.outstanding_amount(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount()))
+                    self.previousTotal(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount())+parseFloat(received))
+                    }
+                    self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
                     }else{
                         document.getElementById('amountSection').style.display='none';
+                    }
+                    if(self.previousTotal() == undefined){
+                        self.previousTotal(self.outstanding_amount())
                     }
                 }
                 })
@@ -154,6 +196,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
 
             self.invoiceAmountReceived = function (event,data) {
+                var validSec1 = self._checkValidationGroup("receivedSec");
+                if(self.groupDecision()=='due'){
+                    self.invoice('0')
+                }
+                if (validSec1) {
                     $.ajax({
                     url: BaseURL + "/jpInvoiceAmountReceived",
                     type: 'POST',
@@ -183,6 +230,22 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     }
                 })
             }
+            }
+
+            self._checkValidationGroup = (value) => {
+                ////console.log(value)
+                var tracker = document.getElementById(value);
+                ////console.log(tracker.valid)
+                if (tracker.valid === "valid") {
+                    return true;
+                }
+                else {
+
+                    tracker.showMessages();
+                    tracker.focusOn("@firstInvalidShown");
+                    return false;
+                }
+            };
                 
             
             
