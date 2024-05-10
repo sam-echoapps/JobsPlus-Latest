@@ -1926,5 +1926,26 @@ color:white;
   width: 12rem;
 }
 
+.receipt {
+  font-family: Arial, sans-serif;
+  width: 300px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.receipt-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.receipt-label {
+  flex: 0 0 auto;
+  margin-right: 10px;
+}
+
+
 }
 

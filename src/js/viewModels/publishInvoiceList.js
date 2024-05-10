@@ -136,12 +136,24 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.outstanding_amount(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount()))
                     self.previousTotal(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount())+parseFloat(received))
                     }
-                    self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
                     }else{
                         document.getElementById('amountSection').style.display='none';
                     }
                     if(self.previousTotal() == undefined){
                         self.previousTotal(self.outstanding_amount())
+                    }
+                    if(self.due_amount()<received){
+                        self.outstanding_amount(self.current_invoice_amount()-received)
+                        self.due_amount(self.current_invoice_amount()-received)
+                    }else if(self.due_amount()==received){
+                        self.due_amount(0);
+                        self.outstanding_amount(self.current_invoice_amount())
+                    }
+                    else if(self.due_amount() ==undefined ){
+                        //self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+                        //self.due_amount(self.current_invoice_amount()-received)
+                        self.due_amount(0)
+                        self.outstanding_amount(self.outstanding_amount()-received)
                     }
                 }
                 })
@@ -200,6 +212,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 if(self.groupDecision()=='due'){
                     self.invoice('0')
                 }
+                var balanceAmount = self.due_amount() - self.received_amount();
                 if (validSec1) {
                     $.ajax({
                     url: BaseURL + "/jpInvoiceAmountReceived",
@@ -208,7 +221,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         clientId : sessionStorage.getItem("clientId"),
                         invoice_id : self.invoice(),
                         received_amount : self.received_amount(),
-                        balance_amount : self.due_amount() - self.received_amount(),
+                        balance_amount : balanceAmount,
                         created_by : sessionStorage.getItem("userName"),
                     }),
                     dataType: 'json',
@@ -246,6 +259,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     return false;
                 }
             };
+
+            self.downloadReceipt = function (event,data) {
+                document.title = self.received_date()
+                var printContents = document.getElementById('receipt').innerHTML;
+                document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
+                window.print(); 
+                location.reload()
+            }
                 
             
             

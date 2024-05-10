@@ -209,7 +209,7 @@ class="oj-flex">
 
 <div class="oj-panel oj-xl-margin-4x" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;" id="billSection">
   <div style="font-size:large;color:rgb(11, 111, 165);margin: 10px;padding: 10px;">
-    Bill Details
+    Receipt Details
   </div>
 
   <div class="row">
@@ -266,7 +266,57 @@ class="oj-flex">
     <oj-bind-text value="{{outstanding_amount}}"></oj-bind-text>
   </div>
 </div>
+
+<div id="invoice-status-btn">
+  <div class="oj-flex oj-panel align-invoice-btn">
+    <oj-button  id="downloadBtn" style="background-color:#5470ff;" class="oj-xl-margin-4x mb-3" on-oj-action="[[downloadReceipt]]"><span style="color:white" slot="startIcon" class="demo-icon-download"> Download Receipt</span>
+    </oj-button>
+      </div>
+    </div>
+    
 </div>
+
+<div id="receipt" style="display: none;">
+  <div class="logo-print"> </div>
+ <h2 style="color:#0654b2; text-transform:uppercase; font-weight:bold; text-align:center; margin-top:25px; text-decoration:underline; text-underline-offset:8px; font-family:Verdana, Geneva, sans-serif;">INVOICE</h2>
+ <div style="margin: 0 auto; width: 90%;"></br></br></br>
+ <div style="font-family:Verdana, Geneva, sans-serif;color:rgb(1, 13, 20)">
+  <b><oj-bind-text value="[[clientNameCap]]"></oj-bind-text></b>
+</div>
+</br></br>
+<div class="receipt">
+  <div class="receipt-item">
+      <div class="receipt-label">Previous Total Amount: <oj-bind-text value="{{previousTotal}}"></oj-bind-text></div>
+  </div>
+  <div class="receipt-item">
+      <div class="receipt-label">Received Date: <oj-bind-text value="{{received_date}}"></oj-bind-text></div>
+  </div>
+  <div class="receipt-item">
+      <div class="receipt-label">Updated By: <oj-bind-text value="{{updated_by}}"></oj-bind-text></div>
+  </div>
+  <div class="receipt-item">
+      <div class="receipt-label">Paid Invoices: <oj-bind-text value="{{paid_invoices}}"></oj-bind-text></div>
+  </div>
+  <div class="receipt-item">
+      <div class="receipt-label">Received Amount: <oj-bind-text value="{{paid_amount}}"></oj-bind-text></div>
+  </div>
+  <div class="receipt-item">
+      <div class="receipt-label">Balance Amount: <oj-bind-text value="{{outstanding_amount}}"></oj-bind-text></div>
+  </div>
+</div>
+
+<hr></br></br>
+<center><div>
+  Jobs Plus UK Ltd, Company No. Not updated.</br>
+  Address : Walnut Tree Close, Guildford, GU1 4TX.</br>
+  Sales & Support – +44785213205</br>
+  admin@jobsplusuk.com</br>
+</div>
+</center>
+</div>
+
+
+ </div>
 
 
 <div id="receivedAmountSec" style="margin: 10px;padding: 10px;">
