@@ -27,8 +27,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.previousTotal = ko.observable(); 
             self.groupValid = ko.observable();
             self.groupDecision = ko.observable('invoice');
-
-
+            self.oldBalance = ko.observable();
+            self.totalAmount = ko.observable();
+           
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
                     self.router.go({path : 'signin'});
@@ -59,7 +60,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             function getPublishInvoice(){
                 var sum=0;
                 let received=0;
-                let oldBalance=0;
+                let oldBalance='Nil';
+                let previousTotal='Nil';
                 document.getElementById('loaderView').style.display='block';
                 self.PublishInvoiceDet([]);
                 self.InvoiceList([]);
@@ -89,6 +91,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         if(resultVal.length!=0){
                             received=resultVal[0][0]
                             oldBalance=resultVal[0][1]
+                            previousTotal=resultVal[0][5]
+                            self.totalAmount(resultVal[0][6])
+
                             if(resultVal[0][2]!=0){
                                 var inputString = resultVal[0][2];
                                 var values = inputString.split(',');
@@ -109,6 +114,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             self.received_date('N/A')
                             self.updated_by('N/A')
                             self.paid_invoices('N/A')
+                            self.totalAmount(0)
                         }   
                         if(data.length!=0){
                         for (var i = 0; i < data.length; i++) {
@@ -129,32 +135,92 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             self.current_invoice_amount(data[0][3])
                     }
                     self.paid_amount(received)
-                    if(oldBalance==0){
+                    // if(self.totalAmount()==0){
+                        
+                    // }
+                    if(oldBalance=='Nil'){
+                        //alert('a')
                         self.outstanding_amount(sum-received)
                         self.previousTotal(parseFloat(sum))
-                    }else{
+                        self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+                    }else if(oldBalance>0){
+                        //alert('b')
+
                     self.outstanding_amount(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount()))
-                    self.previousTotal(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount())+parseFloat(received))
+                    self.previousTotal(previousTotal)
+                    self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+
+                    }else if(oldBalance<0){
+                        //alert('c')
+                        if(self.due_amount() == undefined){
+                            self.due_amount(0)
+                        }
+                        //alert(self.due_amount())
+                        if (self.due_amount() == 0 && self.totalAmount< self.current_invoice_amount()) {
+                            //alert("jhj")
+                            // let newValue = self.totalAmount()+oldBalance;
+                            // alert(newValue)
+                            self.previousTotal(previousTotal)
+                            self.outstanding_amount(parseFloat(oldBalance)+parseFloat(self.totalAmount()))
+                        }else{
+                            //alert("ttt")
+
+                        self.due_amount(0);
+                        self.outstanding_amount(self.totalAmount())
+                        self.previousTotal(previousTotal)
+                        //self.outstanding_amount(parseFloat(self.previousTotal()-parseFloat(received)))
+                        }
                     }
+                else if(oldBalance==0){
+                    //alert('d')
+                    self.due_amount(0);
+                    self.outstanding_amount(self.current_invoice_amount())
+                    self.previousTotal(previousTotal)
+                }
+               
+                    // else if(oldBalance == self.received_amount()){
+                    //     alert("h")
+                    //     self.due_amount(oldBalance-self.received_amount())
+                    //     // self.outstanding_amount(parseFloat(self.current_invoice_amount())+parseFloat(received))
+                    //     self.outstanding_amount(parseFloat(self.current_invoice_amount()))
+                    //     //self.previousTotal(parseFloat(self.outstanding_amount())+parseFloat(received))
+                    // }
+                    
+                    //self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+                    
                     }else{
                         document.getElementById('amountSection').style.display='none';
                     }
-                    if(self.previousTotal() == undefined){
-                        self.previousTotal(self.outstanding_amount())
-                    }
-                    if(self.due_amount()<received){
-                        self.outstanding_amount(self.current_invoice_amount()-received)
-                        self.due_amount(self.current_invoice_amount()-received)
-                    }else if(self.due_amount()==received){
-                        self.due_amount(0);
-                        self.outstanding_amount(self.current_invoice_amount())
-                    }
-                    else if(self.due_amount() ==undefined ){
-                        //self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
-                        //self.due_amount(self.current_invoice_amount()-received)
-                        self.due_amount(0)
-                        self.outstanding_amount(self.outstanding_amount()-received)
-                    }
+                    // if (self.due_amount() == 0) {
+                    //         self.due_amount(0);
+                    // }else{
+                    //     self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+                    // }
+                    // if(self.previousTotal() == undefined){
+                    //     self.previousTotal(self.outstanding_amount())
+                    // }
+                    // if (self.due_amount() < 0) {
+                    //     alert('4');
+                    //     alert(self.previousTotal())
+                    //     self.due_amount(0);
+                    //    self.outstanding_amount(self.previousTotal() - received);
+                    // } else if (self.due_amount() == received) {
+                    //     alert('2');
+                    //     self.due_amount(0);
+                    //     //self.outstanding_amount(self.current_invoice_amount());
+                    // } else if (self.due_amount() > received && received != 0) {
+                    //     alert('3');
+                    //     alert(self.due_amount())
+                    //     //self.due_amount(self.due_amount() - received);
+                    //     //self.outstanding_amount(self.outstanding_amount() - received);
+                    //    self.outstanding_amount(self.due_amount());
+                    // } else if (self.due_amount() == 0) {
+                    //     alert('1');
+                    //     self.due_amount(0);
+                    //     //self.outstanding_amount(self.current_invoice_amount() - received);
+                    // }
+                    // self.oldBalance(oldBalance)
+                    
                 }
                 })
                 
@@ -209,10 +275,33 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
 
             self.invoiceAmountReceived = function (event,data) {
                 var validSec1 = self._checkValidationGroup("receivedSec");
+                var previousBalance;
+                var balanceAmount;
                 if(self.groupDecision()=='due'){
                     self.invoice('0')
                 }
-                var balanceAmount = self.due_amount() - self.received_amount();
+                if(self.due_amount()!=0){
+                    balanceAmount =  (parseFloat(self.due_amount()-parseFloat(self.received_amount())));
+                    previousBalance = (parseFloat(self.current_invoice_amount()+parseFloat(self.oldBalance())));
+                }else{
+                    //alert("k")
+                    balanceAmount = (parseFloat(self.due_amount()-parseFloat(self.received_amount()))); 
+                    previousBalance = (parseFloat(self.totalAmount())-parseFloat(self.received_amount()));
+                }
+                // alert(previousBalance)
+                // alert(self.outstanding_amount())
+
+                // if(self.due_amount()==0 && self.oldBalance()>0){
+                //     alert("1111")
+                //   previousBalance = self.current_invoice_amount() - self.oldBalance();
+                // }else if(self.due_amount()==0 && self.oldBalance()<=0){
+                //     alert("2222")
+                //     previousBalance = (parseFloat(self.current_invoice_amount()+parseFloat(self.oldBalance())));
+                //   }else{
+                //     alert("3333")
+                //     previousBalance = self.previousTotal()
+                // }
+                // alert(previousBalance)
                 if (validSec1) {
                     $.ajax({
                     url: BaseURL + "/jpInvoiceAmountReceived",
@@ -223,6 +312,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         received_amount : self.received_amount(),
                         balance_amount : balanceAmount,
                         created_by : sessionStorage.getItem("userName"),
+                        previousTotal : self.outstanding_amount(),
+                        totalAmount : previousBalance,
                     }),
                     dataType: 'json',
                     timeout: sessionStorage.getItem("timeInetrval"),
