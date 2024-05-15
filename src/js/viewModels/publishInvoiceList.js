@@ -14,22 +14,24 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.PublishInvoiceDet = ko.observableArray([]);
             self.clientNameCap = ko.observable(); 
             self.selectorSelectedItems = new ojknockout_keyset_1.ObservableKeySet();
-            self.current_invoice_amount = ko.observable();
-            self.due_amount = ko.observable();  
-            self.outstanding_amount = ko.observable(); 
+            self.current_invoice_amount = ko.observable(0);
+            self.due_amount = ko.observable(0);  
+            self.outstanding_amount = ko.observable(0); 
             self.InvoiceList = ko.observableArray([]);
             self.invoice = ko.observable(); 
             self.received_amount = ko.observable(); 
-            self.paid_amount = ko.observable(); 
+            self.paid_amount = ko.observable(0); 
             self.received_date = ko.observable(); 
             self.updated_by = ko.observable(); 
             self.paid_invoices = ko.observable(); 
-            self.previousTotal = ko.observable(); 
+            self.previousTotal = ko.observable(0); 
             self.groupValid = ko.observable();
             self.groupDecision = ko.observable('invoice');
             self.oldBalance = ko.observable();
             self.totalAmount = ko.observable();
-           
+            self.advance_amount = ko.observable();
+            self.value = ko.observable('No');
+
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
                     self.router.go({path : 'signin'});
@@ -135,28 +137,42 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                             self.current_invoice_amount(data[0][3])
                     }
                     self.paid_amount(received)
-                    // if(self.totalAmount()==0){
-                        
-                    // }
+                    if(self.totalAmount()<0){
+                        //alert(received)
+                        self.value('Yes');
+                        self.outstanding_amount(0)
+                        // self.advance_amount((parseFloat(received)-parseFloat(previousTotal)))
+                        self.advance_amount(-(parseFloat(self.totalAmount())))
+                    }else{
                     if(oldBalance=='Nil'){
                         //alert('a')
                         self.outstanding_amount(sum-received)
                         self.previousTotal(parseFloat(sum))
                         self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
-                    }else if(oldBalance>0){
-                        //alert('b')
+                    }
+                    // else if(oldBalance>0){
+                    //     alert('b')
 
-                    self.outstanding_amount(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount()))
+                    // self.outstanding_amount(parseFloat(oldBalance)+parseFloat(self.current_invoice_amount()))
+                    // self.previousTotal(previousTotal)
+                    // self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+
+                    // }
+                    else if(oldBalance>0){
+                        // alert('b')
+                        // alert(oldBalance)
+                    self.outstanding_amount(self.totalAmount())
                     self.previousTotal(previousTotal)
-                    self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
+                    self.due_amount(oldBalance)
 
                     }else if(oldBalance<0){
-                        //alert('c')
+                       // alert('c')
+                        //alert(self.due_amount())
                         if(self.due_amount() == undefined){
                             self.due_amount(0)
                         }
                         //alert(self.due_amount())
-                        if (self.due_amount() == 0 && self.totalAmount< self.current_invoice_amount()) {
+                        if (self.due_amount() == 0 && self.totalAmount()< self.current_invoice_amount()) {
                             //alert("jhj")
                             // let newValue = self.totalAmount()+oldBalance;
                             // alert(newValue)
@@ -177,6 +193,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.outstanding_amount(self.current_invoice_amount())
                     self.previousTotal(previousTotal)
                 }
+            }
                
                     // else if(oldBalance == self.received_amount()){
                     //     alert("h")
@@ -189,6 +206,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     //self.due_amount(self.outstanding_amount()-self.current_invoice_amount())
                     
                     }else{
+                        if(self.totalAmount()<0){
+                            //alert("hgg")
+                            self.value('Yes');
+                            self.outstanding_amount(0)
+                            self.advance_amount(-(parseFloat(self.totalAmount())+parseFloat(self.current_invoice_amount())))
+                        }else{
+                            //alert("hj")
+                        }
+
                         document.getElementById('amountSection').style.display='none';
                     }
                     // if (self.due_amount() == 0) {
@@ -277,17 +303,31 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 var validSec1 = self._checkValidationGroup("receivedSec");
                 var previousBalance;
                 var balanceAmount;
+                
+                if(self.totalAmount()==0){
+                    self.totalAmount(self.outstanding_amount())
+                }
                 if(self.groupDecision()=='due'){
                     self.invoice('0')
                 }
-                if(self.due_amount()!=0){
+                if(self.due_amount()==self.received_amount()){
+                    //alert('a')
                     balanceAmount =  (parseFloat(self.due_amount()-parseFloat(self.received_amount())));
                     previousBalance = (parseFloat(self.current_invoice_amount()+parseFloat(self.oldBalance())));
-                }else{
-                    //alert("k")
-                    balanceAmount = (parseFloat(self.due_amount()-parseFloat(self.received_amount()))); 
-                    previousBalance = (parseFloat(self.totalAmount())-parseFloat(self.received_amount()));
+                }else if(self.due_amount()<self.received_amount()){
+                    //alert('b')
+                    // balanceAmount =  (parseFloat(self.due_amount()-parseFloat(self.received_amount())));
+                    // previousBalance = (parseFloat(self.current_invoice_amount()+parseFloat(self.oldBalance())))
+                    balanceAmount = (parseFloat(self.outstanding_amount())-(parseFloat(self.received_amount()))); 
+                    previousBalance = (parseFloat(self.totalAmount())-parseFloat(self.received_amount()));;
+                }else if(self.due_amount()>self.received_amount()){
+                    //alert('c')
+                    // balanceAmount = (parseFloat(self.due_amount()-parseFloat(self.received_amount()))); 
+                    // previousBalance = (parseFloat(self.totalAmount())-parseFloat(self.received_amount()));
+                    balanceAmount =  (parseFloat(self.due_amount()-parseFloat(self.received_amount())));
+                    previousBalance = (parseFloat(self.outstanding_amount()-parseFloat(self.received_amount())));
                 }
+                // alert(balanceAmount)
                 // alert(previousBalance)
                 // alert(self.outstanding_amount())
 

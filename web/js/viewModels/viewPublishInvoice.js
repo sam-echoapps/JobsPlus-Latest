@@ -75,6 +75,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.timeError = ko.observable(''); 
             self.oldBalance = ko.observable(); 
             self.totalPay = ko.observable(); 
+            self.check = ko.observable('True'); 
+            self.received = ko.observable(); 
+            self.advancePay = ko.observable(); 
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -117,11 +120,8 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[1])
                     console.log(result[3])
                     console.log(result[5])
-                    if(result[7][0]==undefined){
-                        self.oldBalance(0)
-                    }else{
-                        self.oldBalance(result[7][0])
-                    }
+                    console.log(result[7])
+                    
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;
@@ -569,8 +569,26 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                 }else{
                     self.grandTotal(grandTotal.toFixed(2))
                 }
-
+               if(result[7].length!=0){
+                if(result[7][0][0]==undefined || result[7][0][0]==0){
+                    self.oldBalance(0)
+                }else if(result[7][0][0]<0){
+                    // alert(result[7][0][0])
+                    // alert(result[7][0][1])
+                    // alert(self.grandTotal())
+                    self.oldBalance((parseFloat(self.grandTotal())-parseFloat(result[7][0][1])))
+                    self.received(-(parseFloat(result[7][0][0])))
+                    self.check('False')
+                    self.totalPay(0)
+                    self.advancePay(-(parseFloat(self.grandTotal())+parseFloat(result[7][0][1])))
+                }else{
+                    self.oldBalance(result[7][0][1])
+                    self.totalPay((parseFloat(self.grandTotal())+parseFloat(self.oldBalance())).toFixed(2))
+                }
+            }else{
+                self.oldBalance(0)
                 self.totalPay((parseFloat(self.grandTotal())+parseFloat(self.oldBalance())).toFixed(2))
+            }
                  self.TimesheetDet.valueHasMutated();
                  return self; 
                 }

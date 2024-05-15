@@ -267,6 +267,17 @@ class="oj-flex">
   </div>
 </div>
 
+<oj-bind-if test="[[value() === 'Yes']]">
+<div class="row">
+  <div class="col-md-2 col-sm-3">
+  Advance Amount &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;:
+  </div>
+  <div class="col-md-2 col-sm-3 ">
+    <oj-bind-text value="{{advance_amount}}"></oj-bind-text>
+  </div>
+</div>
+</oj-bind-if>
+
 <div id="invoice-status-btn">
   <div class="oj-flex oj-panel align-invoice-btn">
     <oj-button  id="downloadBtn" style="background-color:#5470ff;" class="oj-xl-margin-4x mb-3" on-oj-action="[[downloadReceipt]]"><span style="color:white" slot="startIcon" class="demo-icon-download"> Download Receipt</span>
@@ -303,6 +314,11 @@ class="oj-flex">
   <div class="receipt-item">
       <div class="receipt-label">Balance Amount: <oj-bind-text value="{{outstanding_amount}}"></oj-bind-text></div>
   </div>
+  <oj-bind-if test="[[value() === 'Yes']]">
+    <div class="receipt-item">
+      <div class="receipt-label">Advance Amount: <oj-bind-text value="{{advance_amount}}"></oj-bind-text></div>
+  </div>
+    </oj-bind-if>
 </div>
 
 <hr></br></br>

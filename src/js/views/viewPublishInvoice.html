@@ -473,8 +473,16 @@
 <div class="oj-panel" style="margin-top: 10px;margin-bottom: 10px;padding: 10px;">
   <h4 style="display: flex; justify-content: flex-end">Invoice Amount : <oj-bind-text value="[[grandTotal() + '(£)']]"></oj-bind-text>
   </h4>
+  <oj-bind-if test="[[check() === 'True']]">
   <h4 style="display: flex; justify-content: flex-end">Old Balance : <oj-bind-text value="[[oldBalance() + '(£)']]"></oj-bind-text>
   </h4>
+  </oj-bind-if>
+  <oj-bind-if test="[[check() === 'False']]">
+    <h4 style="display: flex; justify-content: flex-end">Received Amount : <oj-bind-text value="[[received() + '(£)']]"></oj-bind-text>
+    </h4>
+    <h4 style="display: flex; justify-content: flex-end">Advance Amount : <oj-bind-text value="[[advancePay() + '(£)']]"></oj-bind-text>
+    </h4>
+    </oj-bind-if>
   <h3 style="display: flex; justify-content: flex-end">Total Amount: <oj-bind-text value="[[totalPay() + '(£)']]"></oj-bind-text>
   </h3>
 </div>
@@ -563,8 +571,16 @@
         
         <div>
           <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Invoice Amount : <oj-bind-text value="[[grandTotal]]"></oj-bind-text></h5>
-          <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Balance Amount : <oj-bind-text value="[[oldBalance]]"></oj-bind-text></h5>
-          <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Total Amount : <oj-bind-text value="[[totalPay]]"></oj-bind-text></h5>
+          <oj-bind-if test="[[check() === 'True']]">
+            <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Balance Amount : <oj-bind-text value="[[oldBalance]]"></oj-bind-text></h5>
+
+            </oj-bind-if>
+            <oj-bind-if test="[[check() === 'False']]">
+              <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Received Amount : <oj-bind-text value="[[received]]"></oj-bind-text></h5>
+              <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Advance Amount : <oj-bind-text value="[[advancePay]]"></oj-bind-text></h5>
+
+              </oj-bind-if>          
+            <h5 style="font-family:Verdana, Geneva, sans-serif;color:#0654b2; font-weight:bold;">Total Amount : <oj-bind-text value="[[totalPay]]"></oj-bind-text></h5>
         </div></br></br>
         <hr></br></br>
         <center><div>
