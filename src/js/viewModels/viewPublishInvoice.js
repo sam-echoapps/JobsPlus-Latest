@@ -570,6 +570,19 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.grandTotal(grandTotal.toFixed(2))
                 }
                if(result[7].length!=0){
+                // if(result[7][0][1]>=0){
+                //     self.received((parseFloat(result[7][0][2])))
+                //     self.check('False')
+                //     self.totalPay(0)
+                //     self.advancePay(-(parseFloat(self.grandTotal())-parseFloat(result[7][0][2])))
+                // }else{
+                //     alert('h')
+                //     self.received((parseFloat(result[7][0][2])))
+                //     self.check('False')
+                //     self.totalPay(0)
+                //     self.advancePay((parseFloat(self.grandTotal())-parseFloat(result[7][0][2])))
+                // }
+                
                 if(result[7][0][0]==undefined || result[7][0][0]==0){
                     self.oldBalance(0)
                 }else if(result[7][0][0]<0){
@@ -580,11 +593,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     self.received(-(parseFloat(result[7][0][0])))
                     self.check('False')
                     self.totalPay(0)
-                    self.advancePay(-(parseFloat(self.grandTotal())+parseFloat(result[7][0][1])))
+                    //self.advancePay(-(parseFloat(self.grandTotal())+parseFloat(result[7][0][1])))
+                    self.advancePay(-(parseFloat(result[7][0][1])))
                 }else{
                     self.oldBalance(result[7][0][1])
-                    self.totalPay((parseFloat(self.grandTotal())+parseFloat(self.oldBalance())).toFixed(2))
+                    self.received(-(parseFloat(result[7][0][0])))
+                    //self.totalPay((parseFloat(self.grandTotal())+parseFloat(self.oldBalance())).toFixed(2))
+                    self.totalPay((parseFloat(self.oldBalance())).toFixed(2))
                 }
+           
             }else{
                 self.oldBalance(0)
                 self.totalPay((parseFloat(self.grandTotal())+parseFloat(self.oldBalance())).toFixed(2))
