@@ -285,10 +285,11 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.DesignationDet = ko.observableArray([]);
                 self.DepartmentDetList = ko.observableArray([]); 
                 self.departmentId = ko.observable();
+                self.groupValid = ko.observable();
 
                 self.getCompanyDetails = ()=>{
                     $.ajax({
-                        url: BaseURL+"/HRModuleGetCompanyInfo",
+                        url: BaseURL+"/jpGetCompanyInfo",
                         type: 'GET',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
@@ -357,8 +358,9 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 }
                 
                 self.formSubmit = ()=>{
-                    const formValid = self._checkValidationGroup("formValidation"); 
-                    if (formValid) {
+                    var validCompanySave1 = self._checkValidationGroup("companyInfoSec1"); 
+                    var validCompanySave2 = self._checkValidationGroup("companyInfoSec2"); 
+                    if (validCompanySave1 && validCompanySave2) {
                         if(self.emailError()=='' && self.phoneError()=='' && self.typeError()==''){
                             let popup = document.getElementById("popup1");
                             popup.open();
@@ -368,7 +370,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                             reader.onload = ()=>{
                             const fileContent = reader.result;
                             $.ajax({
-                                url: BaseURL+"/HRModuleAddCompany",
+                                url: BaseURL+"/jpAddCompany",
                                 type: 'POST',
                                 data: JSON.stringify({
                                     companyId : self.companyId(),

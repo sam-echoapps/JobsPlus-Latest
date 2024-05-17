@@ -1,19 +1,22 @@
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 <div id="sampleDemo"  class="demo-container sampleDemo">
-    <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
-      
-      <div id="moduleDemo">    
-        <div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #d1ecf1; display: flex;align-items: baseline;">
-          <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp; Here you can organize company profile.
-        </div> 
-
-          <div
+  <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+    
+    <div id="moduleDemo">  
+      <div class="demo-padding">
+          <div class="demo-controls">
+            <div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #d1ecf1;display: flex;align-items: baseline;">
+              <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp; Here you can organize company profile.
+            </div>    
+          </div>
+          <div id="company">     
+          <div style="display: flex;justify-content: center;"
           class="oj-panel oj-flex oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-5x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x">
           <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-12x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
-            <oj-validation-group id="staffUpdateSec1" role="group" valid="{{groupValid}}"
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
+            <oj-validation-group id="companyInfoSec1" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid" disbaled>
             <oj-input-text id="companyName" label-hint="Company Name" required="true" value="{{companyName}}"></oj-input-text>
             <oj-input-text id="businessType" label-hint="Business Type" required="true" value="{{businessType}}"></oj-input-text>
@@ -34,8 +37,8 @@
             </oj-validation-group>
           </div>
           <div
-            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-12x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
-            <oj-validation-group id="staffUpdateSec2" role="group" valid="{{groupValid}}"
+            class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-3x oj-xl-padding-3x oj-lg-margin-3x oj-lg-padding-7x oj-md-margin-3x oj-md-padding-4x oj-sm-margin-1x oj-sm-padding-1x oj-md-5 oj-sm-12">
+            <oj-validation-group id="companyInfoSec2" role="group" valid="{{groupValid}}"
             aria-labelledby="grouplabelid">
             <oj-input-text id="contactPerson" label-hint="Contact Person" required="true" autocomplete="off" value="{{contactPerson}}"></oj-input-text>
             <oj-input-text id="designation" label-hint="Designation" required="true" autocomplete="off" value="{{designation}}"></oj-input-text>
@@ -58,11 +61,52 @@
                     <div class="oj-text-color-danger"><oj-bind-text value='[[typeError]]'></oj-bind-text></div></br>                   </div>
             </div> 
           </oj-validation-group>
-        </div>
           </div>
         </div>
+        <div style="display: flex;justify-content: center;"
+          class="oj-panel  oj-sm-margin-2x-bottom oj-xl-margin-2x oj-xl-padding-2x oj-lg-margin-2x oj-lg-padding-2x oj-md-margin-2x oj-md-padding-2x oj-sm-margin-1x oj-sm-padding-1x">
+          <div class="oj-flex-bar">
+            <oj-button id="save" chroming="solid" on-oj-action="[[formSubmit]]"><i class="fas fa-save"></i> Submit</oj-button>
+          </div>
+        </div>
+        </div>
       </div>
+    </div>    
+  </div>
+</div>
 
+
+<oj-popup id="popup1" class="demo-popup" auto-dismiss="none" modality="modal" position.my.horizontal="center"
+position.my.vertical="center" position.at.horizontal="center" position.at.vertical="center" position.of="window" tail="none">
+<div class="demo-popup-body">
+    <div class="demo-popup-content oj-sm-padding-2x">
+        <oj-progress-circle id="progressCircle" value="-1"></oj-progress-circle>
+    </div>
+</div>
+</oj-popup>
+
+<oj-dialog id="popup2">
+<div slot="header" style="display: contents;">
+    <p id="dialogTitleId" class="oj-dialog-title">Successfully Saved</p>
+    <oj-button id="btnCancel" class="oj-button-sm" display="icons" on-oj-action="[[messageClose]]">
+        <span slot="startIcon" class="oj-ux-ico-close"></span>
+        Cancel
+    </oj-button>
+</div>
+<div slot="body">
+    <div class="demo-popup-content oj-sm-padding-2x oj-flex oj-sm-flex-direction-column oj-sm-justify-content-center">
+        <p style="font-weight: 500;text-align: left">Company details saved successfully</p>
+    </div>
+</div>
+</oj-dialog>
+
+<div class="centered-container" id="loaderView">
+  <div class="loader"></div>
+</div> 
+
+    
+      
+  
       
 
 
