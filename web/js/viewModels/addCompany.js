@@ -275,18 +275,20 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 });
                 self.tabData = [
                     { id: "company", label: "Company Info" },
-                    { id: "department", label: "Department" },
-                    { id: "designation", label: "Designation" },
+                    { id: "bank", label: "Bank Info" },
                 ];
                 self.selectedTab = ko.observable("company");  
-                self.departmentName = ko.observable();
-                self.DepartmentDet = ko.observableArray([]); 
-                self.designationId = ko.observable();
-                self.DesignationDet = ko.observableArray([]);
-                self.DepartmentDetList = ko.observableArray([]); 
-                self.departmentId = ko.observable();
                 self.groupValid = ko.observable();
 
+                self.company_account_no = ko.observable();
+                self.company_sort_code = ko.observable();
+                self.company_bank_name = ko.observable();
+                self.company_account_name = ko.observable();
+                self.accountError = ko.observable(); 
+                self.sortCodeError = ko.observable(); 
+                self.saveBankMsg = ko.observable();
+                self.staffActionBtn = ko.observable();
+                
                 self.getCompanyDetails = ()=>{
                     $.ajax({
                         url: BaseURL+"/jpGetCompanyInfo",
@@ -317,6 +319,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                                 self.companyLogoShow('data:image/jpeg;base64,'+data[1]);
                                 self.fileContent(self.companyLogoShow())
                             } 
+                            self.getBankDetails();
                         }
                     })
                 }
@@ -401,7 +404,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                         }
                         }else{
                             $.ajax({
-                                url: BaseURL+"/HRModuleAddCompany",
+                                url: BaseURL+"/jpAddCompany",
                                 type: 'POST',
                                 data: JSON.stringify({
                                     companyId : self.companyId(),
@@ -487,206 +490,142 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
               self.selectedTabAction = ko.computed(() => { 
                 if(self.selectedTab() == 'company'){
                     $("#company").show();
-                    $("#department").hide();
-                    $("#designationSec").hide();
-                }else if(self.selectedTab() == 'department'){
+                    $("#bank").hide();
+                }else if(self.selectedTab() == 'bank'){
                     $("#company").hide();
-                    getDepartment()
-                    $("#department").show();
-                    $("#designationSec").hide();
-                }else if(self.selectedTab() == 'designation'){
-                    $("#company").hide();
-                    $("#department").hide();
-                    self.getDepartmentList();
-                    getDesignation();
-                    $("#designationSec").show();
+                    $("#bank").show();
                 }
             });
 
-            function getDepartment(){
-                self.DepartmentDet([]);
-                document.getElementById('loaderView').style.display='block';
-                $.ajax({
-                    url: BaseURL+"/HRModuleGetDepartment",
-                    type: 'GET',
-                    timeout: sessionStorage.getItem("timeInetrval"),
-                    context: self,
-                    error: function (xhr, textStatus, errorThrown) {
-                        console.log(textStatus);
-                    },
-                    success: function (data) {
-                        console.log(data)
-                        document.getElementById('loaderView').style.display='none';
-                        document.getElementById('department').style.display='block';
-                        if(data[0].length !=0){ 
-                            for (var i = 0; i < data[0].length; i++) {
-                                self.DepartmentDet.push({'no': i+1,'id': data[0][i][0],'department': data[0][i][1]  });
-                            }
-                        }
-                    }
-                })
-            }
-
-            self.dataProvider = new ArrayDataProvider(this.DepartmentDet, { keyAttributes: "id"});
-
-            self.formSubmitDepartment = ()=>{
-                const formValid = self._checkValidationGroup("formValidationDepartment"); 
-                if (formValid) {
-                        let popup = document.getElementById("loaderPopup");
-                        popup.open();
-                        
-                        $.ajax({
-                            url: BaseURL+"/HRModuleAddDepartment",
-                            type: 'POST',
-                            data: JSON.stringify({
-                                department : self.departmentName(),
-                            }),
-                            dataType: 'json',
-                            timeout: sessionStorage.getItem("timeInetrval"),
-                            context: self,
-                            error: function (xhr, textStatus, errorThrown) {
-                                console.log(textStatus);
-                            },
-                            success: function (data) {
-                                let popup = document.getElementById("loaderPopup");
-                                popup.close();
-                                let popup1 = document.getElementById("popup3");
-                                popup1.open();
-                            }
-                        })
-                    }
-                }
-
-            self.messageCloseDepartment = ()=>{
-                let popup1 = document.getElementById("popup3");
-                popup1.close();
-                self.departmentName('')
-                getDepartment()
-            }
-
-            self.deleteDepartment = (event,data)=>{
-                var rowId = data.item.data.id
-                $.ajax({
-                    url: BaseURL+"/HRModuleDeleteDepartment",
-                    type: 'POST',
-                    data: JSON.stringify({
-                        departmentId : rowId
-                    }),
-                    dataType: 'json',
-                    timeout: sessionStorage.getItem("timeInetrval"),
-                    context: self,
-                    error: function (xhr, textStatus, errorThrown) {
-                        console.log(textStatus);
-                    },
-                    success: function (data) {
-                        getDepartment()
-                    }
-                })
-            }
-            
-            self.formSubmitDesignation = ()=>{
-                const formValid = self._checkValidationGroup("formValidationDesignation"); 
-                if (formValid) {
-                        let popup = document.getElementById("loaderPopup");
-                        popup.open();
-                        
-                        $.ajax({
-                            url: BaseURL+"/HRModuleAddDesignation",
-                            type: 'POST',
-                            data: JSON.stringify({
-                                department_id : self.departmentId(),
-                                designation : self.designationId(),
-                            }),
-                            dataType: 'json',
-                            timeout: sessionStorage.getItem("timeInetrval"),
-                            context: self,
-                            error: function (xhr, textStatus, errorThrown) {
-                                console.log(textStatus);
-                            },
-                            success: function (data) {
-                                let popup = document.getElementById("loaderPopup");
-                                popup.close();
-                                let popup1 = document.getElementById("popup4");
-                                popup1.open();
-                            }
-                        })
-                    }
-                }
-
-                function getDesignation(){
-                    self.DesignationDet([]);
-                    document.getElementById('loaderView').style.display='block';
-                    $.ajax({
-                        url: BaseURL+"/HRModuleGetDesignation",
-                        type: 'GET',
-                        timeout: sessionStorage.getItem("timeInetrval"),
-                        context: self,
-                        error: function (xhr, textStatus, errorThrown) {
-                            console.log(textStatus);
-                        },
-                        success: function (data) {
-                            console.log(data)
-                            document.getElementById('loaderView').style.display='none';
-                            document.getElementById('designation').style.display='block';
-                            if(data[0].length !=0){ 
-                                for (var i = 0; i < data[0].length; i++) {
-                                    self.DesignationDet.push({'no': i+1,'id': data[0][i][0],'designation': data[0][i][1],'department': data[0][i][2],'count': data[0][i][3]  });
-                                }
-                            }
-                        }
-                    })
-                }
-
-                self.dataProvider1 = new ArrayDataProvider(this.DesignationDet, { keyAttributes: "id"});
-
-                self.messageCloseDesignation = ()=>{
-                    let popup1 = document.getElementById("popup4");
-                    popup1.close();
-                    self.departmentId('')
-                    self.designationId('')
-                    getDesignation()
-                }
-              
-                self.deleteDesignation = (event,data)=>{
-                    var rowId = data.item.data.id
-                    $.ajax({
-                        url: BaseURL+"/HRModuleDeleteDesignation",
+            self.getBankDetails = ()=>{
+                    var BaseURL = sessionStorage.getItem("BaseURL")
+                     $.ajax({
+                        url: BaseURL + "/jpEditCompanyBankInfo",
                         type: 'POST',
                         data: JSON.stringify({
-                            designationId : rowId
+                            companyId : self.companyId(),
                         }),
                         dataType: 'json',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
                         error: function (xhr, textStatus, errorThrown) {
-                            console.log(textStatus);
+                            if(textStatus == 'timeout' || textStatus == 'error'){
+                                document.querySelector('#TimeoutSup').open();
+                            }
                         },
                         success: function (data) {
-                            getDesignation()
-                        }
-                    })
+                            console.log(data)
+                            if(data==''){
+                                self.staffActionBtn('Add')
+                            }else{
+                                self.staffActionBtn('Update')
+                                self.company_account_no(data[0][2]);
+                                self.company_bank_name(data[0][3]);
+                                self.company_sort_code(data[0][4]);
+                                self.company_account_name(data[0][5]);   
+                            }
+                    }
+                    }) 
                 }
 
-                self.getDepartmentList = ()=>{
-                    self.DepartmentDetList([]);
+                self.bankInfoSave = function (event,data) {
+                    var validReferenceSave1 = self._checkValidationGroup("bankAddSec1"); 
+                    var validReferenceSave2 = self._checkValidationGroup("bankAddSec2"); 
+                    //alert(self.DepName())
+                    var BaseURL = sessionStorage.getItem("BaseURL")
+                    if (validReferenceSave1 && validReferenceSave2) {
+                    document.querySelector('#openAddBankProgress').open();
+                    self.saveBankMsg('');
                     $.ajax({
-                        url: BaseURL+"/HRModuleGetDesignation",
-                        type: 'GET',
+                        //url: self.DepName() + "/jpStaffProfilePhoto",
+                        url: BaseURL + "/jpAddCompanyBankInfo",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            companyId : self.companyId(),
+                            company_account_no : self.company_account_no(),
+                            company_sort_code : self.company_sort_code(),
+                            company_bank_name : self.company_bank_name(),
+                            company_account_name : self.company_account_name(),
+                        }),
+                        dataType: 'json',
                         timeout: sessionStorage.getItem("timeInetrval"),
                         context: self,
                         error: function (xhr, textStatus, errorThrown) {
-                            console.log(textStatus);
+                            if(textStatus == 'timeout'){
+                                document.querySelector('#openAddBankProgress').close();
+                                document.querySelector('#Timeout').open();
+                            }
                         },
                         success: function (data) {
-                            if(data[1].length !=1){ 
-                                for (var i = 0; i < data[1].length; i++) {
-                                    self.DepartmentDetList.push({'value': data[1][i][0],'label': data[1][i][1]  });
-                                }
-                            }
+                            document.querySelector('#openAddBankProgress').close();
+                            document.querySelector('#openBankSaveResult').open();
+                            self.saveBankMsg(data[0]);
                         }
-                    })
+                    }) 
+                    }
                 }
-                self.departmentList = new ArrayDataProvider(this.DepartmentDetList, { keyAttributes: "value"});
+    
+                self.bankInfoUpdate = function (event,data) {
+                    var validBankSave1 = self._checkValidationGroup("bankAddSec1"); 
+                    var validBankSave2 = self._checkValidationGroup("bankAddSec2"); 
+                    //alert(self.DepName())
+                    var BaseURL = sessionStorage.getItem("BaseURL")
+                    if (validBankSave1 && validBankSave2) {
+                    document.querySelector('#openAddBankProgress').open();
+                    self.saveBankMsg('');
+                    $.ajax({
+                        //url: self.DepName() + "/jpStaffProfilePhoto",
+                        url: BaseURL + "/jpCompanyBankUpdate",
+                        type: 'POST',
+                        data: JSON.stringify({
+                            companyId : self.companyId(),
+                            company_account_no : self.company_account_no(),
+                            company_sort_code : self.company_sort_code(),
+                            company_bank_name : self.company_bank_name(),
+                            company_account_name : self.company_account_name(),
+                        }),
+                        dataType: 'json',
+                        timeout: sessionStorage.getItem("timeInetrval"),
+                        context: self,
+                        error: function (xhr, textStatus, errorThrown) {
+                            if(textStatus == 'timeout'){
+                                document.querySelector('#openAddBankProgress').close();
+                                document.querySelector('#Timeout').open();
+                            }
+                        },
+                        success: function (data) {
+                            document.querySelector('#openAddBankProgress').close();
+                            document.querySelector('#openBankSaveResult').open();
+                            self.saveBankMsg(data[0]);
+                        }
+                    }) 
+                    }
+                }
+
+                self.accountLengthCheck= function(event,data) {
+                    console.log(event.detail.value)
+                    var ASCIICode= event.detail.value
+                    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57) && ASCIICode.length==8){
+                        self.accountError('')
+                    }else{
+                        self.accountError("Invalid account number.");
+                    }
+                 }
+                 self.sortCodeLengthCheck= function(event,data) {
+                    console.log(event.detail.value)
+                    var ASCIICode= event.detail.value
+                    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57) && ASCIICode.length==6){
+                        self.sortCodeError('')
+                    }else{
+                        self.sortCodeError("Invalid sort code numbe.");
+                    }
+                 }
+
+                 self.DBErrorOKClose = function (event) {
+                    document.querySelector('#openBankSaveResult').close();
+                    location.reload()
+                };
+    
 
             }
         }

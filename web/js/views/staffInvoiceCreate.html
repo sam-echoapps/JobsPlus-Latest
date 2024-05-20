@@ -514,8 +514,15 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
   </div>
 </oj-dialog>
 
-<div id="invoice" style="display: none;">
+<div id="invoice" style="display:none;">
   <div class="logo-print"> </div>
+  <!-- <div style="display: block; margin: 0 auto; padding-right: 20px; width: 83px; height: 49px;">
+    <oj-avatar
+  role="img"
+  src="[[companyLogoShow]]"
+  :title="Company Logo">
+  </oj-avatar>    
+  </div>   -->
  <h2 style="color:#0654b2; text-transform:uppercase; font-weight:bold; text-align:center; margin-top:25px; text-decoration:underline; text-underline-offset:8px; font-family:Verdana, Geneva, sans-serif;">INVOICE</h2>
  <div style="margin: 0 auto; width: 90%;"></br></br></br>
  <div style="font-family:Verdana, Geneva, sans-serif;color:rgb(1, 13, 20)">
@@ -534,6 +541,13 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 <oj-bind-text value="[[city]]"></oj-bind-text><br>
 <oj-bind-text value="[[postcode]]"></oj-bind-text>
 </div><br><br>
+<div style="font-family:Verdana, Geneva, sans-serif;color:rgb(59, 60, 61)">
+  <b>Bank Details</oj-bind-text></b><br>
+  Account Name : <oj-bind-text value="[[accountName]]"></oj-bind-text><br>
+  Bank Name : <oj-bind-text value="[[bankName]]"></oj-bind-text><br>
+  Account Number : <oj-bind-text value="[[accountNumber]]"></oj-bind-text><br>
+  Sort Code : <oj-bind-text value="[[sortCode]]"></oj-bind-text>
+  </div><br><br>
 
  <!-- <oj-table id='invoiceTable' aria-label='All Table' data='[[dataProvider]]' display='grid'
  selection-mode='{"row": "single"}'  columns='[
@@ -599,10 +613,14 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 </div></br></br>
 <hr></br></br>
 <center><div>
-Jobs Plus UK Ltd, Company No. Not updated.</br>
+  <oj-bind-text value="[[companyName]]"></oj-bind-text>,<br>
+  <oj-bind-text value="[[companyAddress]]"></oj-bind-text>.<br>
+  Sales & Support - <oj-bind-text value="[[companyPhone]]"></oj-bind-text><br>
+  <oj-bind-text value="[[companyMail]]"></oj-bind-text><br>
+<!-- Jobs Plus UK Ltd, Company No. Not updated.</br>
 Address : Walnut Tree Close, Guildford, GU1 4TX.</br>
 Sales & Support – +44785213205</br>
-admin@jobsplusuk.com</br>
+admin@jobsplusuk.com</br> -->
 </div>
 </center>
 </div>
@@ -650,6 +668,7 @@ style="display:none;width:350px;min-width:240px;max-width:450px;">
 <div id="successView" style="display:none;">
   <div class="hint" style="border: 1px solid #80808036; margin: 10px;padding: 10px;background-color: #d1ecf1;display: flex;align-items: baseline;">
     <i class="bi bi-info-circle-fill" style="color: #002366;font-size: 20px;"></i> &nbsp;&nbsp;Successfully saved this invoice as draft.
+    &nbsp;<span class="oj-text-color-success"><a  on-click= "[[goTo]]" target="_blank"> Click here</a></span>
   </div>
 </div> 
 

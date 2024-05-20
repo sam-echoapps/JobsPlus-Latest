@@ -74,8 +74,15 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.downloadTitle = ko.observable(); 
             self.adjustmentReason = ko.observable(); 
             self.timeError = ko.observable(''); 
-
-
+            self.companyName = ko.observable(); 
+            self.companyAddress = ko.observable(); 
+            self.companyPhone = ko.observable(); 
+            self.companyMail = ko.observable(); 
+            self.accountName = ko.observable(); 
+            self.bankName = ko.observable(); 
+            self.accountNumber = ko.observable(); 
+            self.sortCode = ko.observable();
+            self.companyLogoShow = ko.observable('');
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -126,6 +133,20 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[0])
                     console.log(result[1])
                     console.log(result[3])
+                    console.log(result[9])
+                    console.log(result[10])
+                    console.log(result[11])
+                    if(result[11] != ''){
+                        self.companyLogoShow('data:image/jpeg;base64,'+result[11]);
+                    } 
+                    self.companyName(result[9][0][1])
+                    self.companyAddress(result[9][0][8])
+                    self.companyPhone(result[9][0][4])
+                    self.companyMail(result[9][0][5])
+                    self.accountName(result[10][0][5])
+                    self.bankName(result[10][0][3])
+                    self.accountNumber(result[10][0][2])
+                    self.sortCode(result[10][0][4])
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;
@@ -1188,6 +1209,9 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                
             }
 
+            self.goTo = function (event,data) {
+                self.router.go({path:'staffInvoiceClientList'})
+            }
         }
         
     }
