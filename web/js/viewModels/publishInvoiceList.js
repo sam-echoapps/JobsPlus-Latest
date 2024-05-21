@@ -31,7 +31,11 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.totalAmount = ko.observable();
             self.advance_amount = ko.observable();
             self.value = ko.observable('No');
-
+            self.companyName = ko.observable(); 
+            self.companyAddress = ko.observable(); 
+            self.companyPhone = ko.observable(); 
+            self.companyMail = ko.observable(); 
+            
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
                     self.router.go({path : 'signin'});
@@ -88,6 +92,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         console.log(data)
                         self.clientNameCap(result[1][0][0].toUpperCase())
                         console.log(result[2])
+                        
+                        if(result[3]!=''){
+                            self.companyName(result[3][0][1])
+                            self.companyAddress(result[3][0][8])
+                            self.companyPhone(result[3][0][4])
+                            self.companyMail(result[3][0][5])
+                        }
+                    
                         var resultVal = JSON.parse(result[2]);
                         console.log(resultVal)
                         if(resultVal.length!=0){

@@ -137,16 +137,27 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[10])
                     console.log(result[11])
                     if(result[11] != ''){
+                        var imageUrl = 'data:image/jpeg;base64,'+result[11];
+
+                        // Get the image element by its id
+                        var imgElement = document.getElementById("dynamicImage");
+                
+                        // Set the src attribute of the image element to the URL
+                        imgElement.src = imageUrl;
                         self.companyLogoShow('data:image/jpeg;base64,'+result[11]);
                     } 
-                    self.companyName(result[9][0][1])
-                    self.companyAddress(result[9][0][8])
-                    self.companyPhone(result[9][0][4])
-                    self.companyMail(result[9][0][5])
-                    self.accountName(result[10][0][5])
-                    self.bankName(result[10][0][3])
-                    self.accountNumber(result[10][0][2])
-                    self.sortCode(result[10][0][4])
+                    if(result[9]!=''){
+                        self.companyName(result[9][0][1])
+                        self.companyAddress(result[9][0][8])
+                        self.companyPhone(result[9][0][4])
+                        self.companyMail(result[9][0][5])
+                    }
+                    if(result[10]!=''){
+                        self.accountName(result[10][0][5])
+                        self.bankName(result[10][0][3])
+                        self.accountNumber(result[10][0][2])
+                        self.sortCode(result[10][0][4])
+                    }
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;

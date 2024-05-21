@@ -74,7 +74,14 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
             self.adjustAmount = ko.observable();
             self.adjustmentReason = ko.observable(); 
             self.timeError = ko.observable(''); 
-
+            self.companyName = ko.observable(); 
+            self.companyAddress = ko.observable(); 
+            self.companyPhone = ko.observable(); 
+            self.companyMail = ko.observable(); 
+            self.accountName = ko.observable(); 
+            self.bankName = ko.observable(); 
+            self.accountNumber = ko.observable(); 
+            self.sortCode = ko.observable();
 
             self.connected = function () {
                 if (sessionStorage.getItem("userName") == null) {
@@ -121,6 +128,30 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     console.log(result[1])
                     console.log(result[3])
                     console.log(result[5])
+                    console.log(result[7])
+                    console.log(result[8])
+                    console.log(result[9])
+                    if(result[9] != ''){
+                        var imageUrl = 'data:image/jpeg;base64,'+result[9];
+
+                        // Get the image element by its id
+                        var imgElement = document.getElementById("dynamicImage");
+                
+                        // Set the src attribute of the image element to the URL
+                        imgElement.src = imageUrl;
+                    } 
+                    if(result[7]!=''){
+                        self.companyName(result[7][0][1])
+                        self.companyAddress(result[7][0][8])
+                        self.companyPhone(result[7][0][4])
+                        self.companyMail(result[7][0][5])
+                    }
+                    if(result[8]!=''){
+                        self.accountName(result[8][0][5])
+                        self.bankName(result[8][0][3])
+                        self.accountNumber(result[8][0][2])
+                        self.sortCode(result[8][0][4])
+                    }
                     var data = JSON.parse(result[0]);
                     console.log(data)
                     var shiftType;
@@ -1048,6 +1079,10 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                     }
                     })          
                
+            }
+
+            self.goTo = function (event,data) {
+                self.router.go({path:'staffInvoiceClientList'})
             }
         }
         
