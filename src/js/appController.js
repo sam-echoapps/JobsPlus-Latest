@@ -63,6 +63,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'timeSheetStaff', detail : {label: 'Time Sheet',iconClass: 'oj-navigationlist-item-icon fa fa-clock'}},
           { path: 'help', detail : {label: 'Help',iconClass: 'oj-navigationlist-item-icon fa fa-question-circle'} },
           { path: 'dashboardStaff', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
+          { path: 'privacyPolicy', detail : {label :'Privacy policy',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
         ];  
       }else if(sessionStorage.getItem('userRole')=='Accounts'){
         var navData = [
@@ -142,6 +143,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           { path: 'dashboardClient', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'dashboardStaff', detail : {label: 'Dashboard',iconClass: 'oj-navigationlist-item-icon fa fa-home'} },
           { path: 'addCompany', detail : {label :'Add Company',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
+          { path: 'privacyPolicy', detail : {label :'Privacy policy',iconClass: 'oj-navigationlist-item-icon fa fa-id-card'} },
 /*           { path: 'postcode', detail : {label: 'Postcode',iconClass: 'oj-navigationlist-item-icon fa fa-calendar'} }
  */
         ];
