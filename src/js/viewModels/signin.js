@@ -20,6 +20,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 self.OnePlaceuserName = ko.observable();
                 self.OnePlacepassWord = ko.observable();
                 self.CancelBehaviorOpt = ko.observable('icon');
+                self.device = ko.observable();
                 self.signIn = function(data, event) {
                     var valid = self._checkValidationGroup("tracker");
                     if (valid){
@@ -40,8 +41,8 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                         }
                         var key = "."+generateString(8);
                         $.ajax({
-                            url: "/jobPlusLogin", 
-                            //url: "http://169.197.183.168:8090/jobPlusLogin",
+                            //url: "/jobPlusLogin", 
+                            url: "http://169.197.183.168:8090/jobPlusLogin",
                             type: 'POST',
                             data: JSON.stringify({
                                 user: self.OnePlaceuserName(),
@@ -59,8 +60,8 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                             },
                             success: function (data) {
                                 if (data[1]== 'Y') {
-                                    sessionStorage.setItem("BaseURL", "");
-                                    //sessionStorage.setItem("BaseURL", "http://169.197.183.168:8090");
+                                    //sessionStorage.setItem("BaseURL", "");
+                                    sessionStorage.setItem("BaseURL", "http://169.197.183.168:8090");
                                     sessionStorage.setItem("userId", data[2]);
                                     sessionStorage.setItem("userName", data[3]);
                                     sessionStorage.setItem("userRole", data[4]);
@@ -114,6 +115,24 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                     if(loginCheck){
                         app.onLoginSuccess();
                     }
+            //Checking device type
+                // const userAgent = navigator.userAgent;
+                // console.log(userAgent);
+                const userAgent = navigator.userAgent.toLowerCase();
+
+                if (/android|iphone|ipad|ipod/.test(userAgent)) {
+                    if (/chrome|safari|firefox|edge|opera/.test(userAgent)) {
+                       console.log('Accessed via mobile browser');
+                       self.device('Mobile')
+                    } else {
+                       console.log('Accessed via an app or unknown browser');
+                       self.device('App')
+                    }
+                } else {
+                   console.log('Accessed via desktop browser');
+                   self.device('Desktop')
+                }
+
                 };
             }
         }

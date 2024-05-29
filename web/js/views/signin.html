@@ -32,12 +32,14 @@
           </oj-dialog>
       </div>
   </div>
+  <oj-bind-if test="[[device() != 'App']]">
   <div class="create-accnt-link">
     <a href="?ojr=register" style="color: #fff;text-decoration: none;">New here? Create an account</a>
   </div>
   <div class="create-accnt-link">
     <a href="?ojr=appDownload" style="color: #fff;text-decoration: none;">Download our app</a>
   </div>
+  </oj-bind-if>
 </div>  
 
 <div class="copyright-area">

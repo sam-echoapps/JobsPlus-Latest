@@ -20,6 +20,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 self.OnePlaceuserName = ko.observable();
                 self.OnePlacepassWord = ko.observable();
                 self.CancelBehaviorOpt = ko.observable('icon');
+                self.device = ko.observable();
                 self.signIn = function(data, event) {
                     var valid = self._checkValidationGroup("tracker");
                     if (valid){
@@ -114,6 +115,24 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                     if(loginCheck){
                         app.onLoginSuccess();
                     }
+            //Checking device type
+                // const userAgent = navigator.userAgent;
+                // console.log(userAgent);
+                const userAgent = navigator.userAgent.toLowerCase();
+
+                if (/android|iphone|ipad|ipod/.test(userAgent)) {
+                    if (/chrome|safari|firefox|edge|opera/.test(userAgent)) {
+                       console.log('Accessed via mobile browser');
+                       self.device('Mobile')
+                    } else {
+                       console.log('Accessed via an app or unknown browser');
+                       self.device('App')
+                    }
+                } else {
+                   console.log('Accessed via desktop browser');
+                   self.device('Desktop')
+                }
+
                 };
             }
         }
