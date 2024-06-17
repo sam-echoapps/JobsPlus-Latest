@@ -24,6 +24,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 self.emailError = ko.observable('');
                 self.address = ko.observable('');
                 self.typeError = ko.observable('');
+                self.sizeError = ko.observable('');
                 self.file = ko.observable('');
                 self.secondaryText = ko.observable('Please Upload(Optional)')
                 self.countryCode = ko.observable();
@@ -364,7 +365,7 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                     var validCompanySave1 = self._checkValidationGroup("companyInfoSec1"); 
                     var validCompanySave2 = self._checkValidationGroup("companyInfoSec2"); 
                     if (validCompanySave1 && validCompanySave2) {
-                        if(self.emailError()=='' && self.phoneError()=='' && self.typeError()==''){
+                        if(self.emailError()=='' && self.phoneError()=='' && self.typeError()=='' && self.sizeError()==''){
                             let popup = document.getElementById("popup1");
                             popup.open();
                             const reader = new FileReader();
@@ -484,6 +485,13 @@ define(['ojs/ojcore',"knockout","jquery","appController", "ojs/ojarraydataprovid
                 }
                 else{
                     self.typeError('The image must be a file of type: jpeg, png, jpg')
+                }
+
+                var maxSize = 300 * 1024;
+                if (files.size > maxSize) {
+                    self.sizeError('The image size must be 300KB or less');
+                } else {
+                    self.sizeError('');
                 }
               }
 
