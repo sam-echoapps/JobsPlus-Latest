@@ -48,7 +48,7 @@
               <div class="oj-text-color-danger"><oj-bind-text value='[[phoneError]]'></oj-bind-text></div></br>
           </div>
           <div>
-              <oj-input-text id="email" label-hint="Email" required="true" value="{{email}}" on-value-changed="[[emailPatternValidator]]"></oj-input-text>
+              <oj-input-text id="email" label-hint="Email" required="true" value="{{email}}"></oj-input-text>
               <div class="oj-text-color-danger"><oj-bind-text value='[[emailError]]'></oj-bind-text></div></br>
           </div>
             </oj-validation-group>
@@ -71,7 +71,7 @@
                     </oj-avatar>      
                 </div>
                 <div class="oj-flex-item oj-sm-9 oj-sm-padding-2x-start oj-md-padding-3x-start">
-                    <oj-file-picker  id="companyLogo" class="demo-max-width" primary-text="Company Logo"
+                    <oj-file-picker accept='["image/*"]' id="companyLogo" class="demo-max-width" primary-text="Company Logo"
                     secondary-text="[[secondaryText]]" on-oj-select="[[uploadCompanyLogo]]">
                     </oj-file-picker>
                     <span class="hint-note">(Recommended: Upload an image with dimensions 250x250 pixels and a size of 300KB.)</span>
