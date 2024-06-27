@@ -41,8 +41,8 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                         }
                         var key = "."+generateString(8);
                         $.ajax({
-                            url: "/jobPlusLogin", 
-                            //url: "http://169.197.183.168:8090/jobPlusLogin",
+                            //url: "/jobPlusLogin", 
+                            url: "http://169.197.183.168:8090/jobPlusLogin",
                             type: 'POST',
                             data: JSON.stringify({
                                 user: self.OnePlaceuserName(),
@@ -60,8 +60,8 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                             },
                             success: function (data) {
                                 if (data[1]== 'Y') {
-                                    sessionStorage.setItem("BaseURL", "");
-                                    //sessionStorage.setItem("BaseURL", "http://169.197.183.168:8090");
+                                    //sessionStorage.setItem("BaseURL", "");
+                                    sessionStorage.setItem("BaseURL", "http://169.197.183.168:8090");
                                     sessionStorage.setItem("userId", data[2]);
                                     sessionStorage.setItem("userName", data[3]);
                                     sessionStorage.setItem("userRole", data[4]);

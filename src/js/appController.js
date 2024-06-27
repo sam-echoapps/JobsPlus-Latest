@@ -25,6 +25,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       
         self.username = ko.observable();
         self.fullname = ko.observable();
+        self.device = ko.observable();
 
         self.manner = ko.observable('polite');
         self.message = ko.observable();
@@ -184,6 +185,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           // {"name": "Preferred List","id": "clientPreferredList","icons": "fa-solid fa fa-star", "path":"clientPreferredList"},
         ]
       }else {
+        if (self.device() != "App") {
         self.navMenu = [
           {"name": "Dashboard","id": "dashboardAdmin","icons": "fa-solid fa fa-home", "path":"dashboardAdmin"},
           {"name": "Client Manager","id": "clientManager","icons": "fa-solid fa fa-user", "path":"addClient"},
@@ -207,6 +209,16 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
           },
           // {"name": "Download","id": "download","icons": "fa-solid fa fa-file-invoice", "path":"download"},
         ]
+      }
+      if (self.device() == "App") {
+        self.navMenu = [
+          {"name": "Dashboard","id": "dashboardAdmin","icons": "fa-solid fa fa-home", "path":"dashboardAdmin"},
+          {"name": "Staff Manager","id": "staffManager","icons": "fa-solid fa fa-user-check", "path":"staffManager"},
+          {"name": "Shift Manager","id": "shiftManager","icons": "fa-solid fa fa-clock", "path":"shiftManager"},
+          {"name": "Time Sheet","id": "staffTimesheetClientList","icons": "fa-solid fa fa-clock", "path":"staffTimesheetClientList"},
+          {"name": "Availbility Calender","id": "staffAvailabilityCalender","icons": "fa-solid fa fa-file-invoice", "path":"staffAvailabilityCalender"},
+        ]
+      }
       }
       self.dataProvider = new ArrayTreeDataProvider(self.navMenu, {
         keyAttributes: 'id'
@@ -279,6 +291,22 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
       self.username(sessionStorage.getItem("userName"));
       self.fullname(sessionStorage.getItem("fullName"));
       self.SignIn('Y');
+
+      const userAgent = navigator.userAgent.toLowerCase();
+      console.log(userAgent)
+        if (/android|iphone|ipad|ipod/.test(userAgent)) {
+          if (/chrome|safari|firefox|edge|opera/.test(userAgent)) {
+            console.log('Accessed via mobile browser');
+            self.device('Mobile')
+          } else {
+            console.log('Accessed via an app or unknown browser');
+            self.device('App')
+          }
+      } else {
+        console.log('Accessed via desktop browser');
+        self.device('Desktop')
+      }
+
     };
 
     ControllerViewModel.prototype.onLoginSuccess = function() {
