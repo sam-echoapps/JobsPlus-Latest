@@ -24,8 +24,10 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 self.signIn = function(data, event) {
                     var valid = self._checkValidationGroup("tracker");
                     if (valid){
-                        sessionStorage.setItem("timeInetrval",0);
+                        //sessionStorage.setItem("timeInetrval",0);
+                        sessionStorage.setItem("timeInetrval",1000 * 10);
                         document.querySelector('#signInProgress').open();
+                        //alert(sessionStorage.getItem("timeInetrval"))
                         self.SignIn('');
                         self.LoginErr([]);
 
@@ -50,8 +52,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                                 onepsuid :  key
                             }),
                             dataType: 'json',
-                            //timeout: sessionStorage.getItem("timeInetrval"),
-                            timeout: 1000 * 30,
+                            timeout: sessionStorage.getItem("timeInetrval"),
                             context: self,
                             error: function (xhr, textStatus, errorThrown) {
                                 if(textStatus == 'timeout' || textStatus == 'error'){
@@ -71,13 +72,15 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                                     var login = localStorage.getItem('login');
                                     self.SignIn('Y');
                                     if(login == "yes"){
+                                        console.log('Success')
                                         app.onLoginSuccess();
                                     }
                                     else{
+                                        console.log('Time')
                                         setTimeout(function(){
-                                            document.querySelector('#signInProgress').close();
+                                            //document.querySelector('#signInProgress').close();
                                             app.onLoginSuccess();
-                                        }, 1000);
+                                        }, 1000 * 10);
                                     }
                             
                                     localStorage.setItem('login', 'yes');
