@@ -328,6 +328,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'appUtils', 'ojs/oj
                 );
                 self.genderListDP = new ArrayDataProvider(self.genderList, {keyAttributes: 'value'});
                 self.gender = ko.observable();
+                $("#loaderViewSec").hide();
 
                 self.subpostShow = function (event,data) {
                     if(self.mainPost()=='Care Assistant'){

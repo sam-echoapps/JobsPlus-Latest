@@ -121,7 +121,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider, PagingDataPr
 
 
             var routerLength = context.parentRouter._routes.length;
-            if(routerLength!=17){
+            if(routerLength!=18){
                 location.reload();
             }      
 

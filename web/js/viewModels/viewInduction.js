@@ -46,6 +46,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         }
                     },
                     success: function (result) {
+                        $("#loaderView").hide();
                         var data = JSON.parse(result);
                         console.log(data)
 

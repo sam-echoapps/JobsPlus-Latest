@@ -62,7 +62,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         }
                     },
                     success: function (data) {
-
+                        $("#loaderView").hide();
                         console.log(data)
                         var photo;
                          for (var i = 0; i < data[0].length; i++) {

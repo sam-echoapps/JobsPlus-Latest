@@ -7,6 +7,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
         class signin {
             constructor() {
                 var self = this;
+                $("#loaderViewSec").hide();
 
                 self.transitionCompleted = function() {
                     appUtils.setFocusAfterModuleLoad('signInBtn');
@@ -21,6 +22,7 @@ define(['ojs/ojcore', 'knockout', 'appController', 'appUtils',
                 self.OnePlacepassWord = ko.observable();
                 self.CancelBehaviorOpt = ko.observable('icon');
                 self.device = ko.observable();
+                
                 self.signIn = function(data, event) {
                     var valid = self._checkValidationGroup("tracker");
                     if (valid){

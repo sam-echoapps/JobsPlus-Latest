@@ -7,7 +7,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'appUtils', 'ojs/oj
         class privacyPolicy {
             constructor() {
                 var self = this;
-                
+                $("#loaderViewSec").hide();
+
                 
                
             

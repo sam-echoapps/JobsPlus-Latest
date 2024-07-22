@@ -34,6 +34,7 @@ function (oj,ko,$, app, ojconverterutils_i18n_1, ArrayDataProvider,  ojknockout_
                         }
                     },
                     success: function (data) {
+                        $("#loaderView").hide();
                         console.log(data)
                         //alert(data[2][1][1])
                         for (var i = 0; i < data[0].length; i++) {

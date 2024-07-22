@@ -288,6 +288,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
     
 
     ControllerViewModel.prototype.onAppSuccess = function() {
+      $("#loaderViewSec").hide();
       self.username(sessionStorage.getItem("userName"));
       self.fullname(sessionStorage.getItem("fullName"));
       self.SignIn('Y');
@@ -310,6 +311,7 @@ define([ 'ojs/ojoffcanvas' , 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojre
     };
 
     ControllerViewModel.prototype.onLoginSuccess = function() {
+      $("#loaderViewSec").hide();
       if(sessionStorage.getItem("userRole")=="staff"){
         
         router.go({path : 'dashboardStaff'});
